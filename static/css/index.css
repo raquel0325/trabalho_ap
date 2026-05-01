@@ -1,0 +1,286 @@
+:root {
+    --azulzao: #05186c;
+    --azulzinho: #99E2F2;
+    --azul: #488BA8;
+}
+/* BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    margin: 0;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background: var(--azul);
+
+}
+/*================================LOGO*/
+.logo{
+    margin-top: 0;
+    width: 60%;
+}
+/* ============================================================================================== */
+
+/*                                   LADO ESQUERDO - logo                                         */
+
+/* ============================================================================================== */
+.conteinerInf {
+    width: 35%;
+    margin: 1rem 1rem 1rem 5rem;
+    padding: 2rem;
+    border-radius: 1.25rem;
+    border: 1px solid #FFF;
+    background: linear-gradient(135deg, #05186cbf 0%, #000000aa 100%);
+    text-align: center;
+    overflow: hidden;
+}
+
+.conteudo-inf {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.image-inf {
+    width: 100%;
+    max-height: 23rem;
+    object-fit: cover;
+    border-radius: 1rem;
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+.conteinerInf h1 {
+    font-size: 1.8rem;
+    color: var(--azulzinho);
+}
+
+.conteinerInf p {
+    font-size: 0.9rem;
+    color: #FFF;
+}
+
+.marca {
+    font-size: 0.8rem;
+    color: var(--azulzinho);
+    font-weight: bold;
+}
+
+/* ============================================================================================== */
+
+/*                                   LADO DIREITO - ACESSO                                        */
+
+/* ============================================================================================== */
+
+
+.containerAcesso {
+    flex: 1;
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+/* ============================================================================================== */
+
+/*                                      BOTAO LOGIN/CADASTRO                                      */
+
+/* ============================================================================================== */
+
+.btn-main-group {
+    display: flex;
+    background: #b9f0f9;
+    border-radius: 50px;
+    padding: 4px;
+    margin-bottom: 40px;
+    width: fit-content;
+    align-self: center;
+}
+
+.btn-main {
+    background: transparent;
+    border: none;
+    color: #666;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 25px;
+    padding: 10px 35px;
+    transition: all 0.3s ease;
+}
+
+.btn-main.ativo {
+    background: var(--azulzao);
+    color: var(--azulzinho);
+}
+
+.btn-main:hover:not(.ativo) {
+    background: #abc0eb;
+    color: #333;
+}
+
+/* ============================================================================================== */
+
+/*                                            FORMULARIOS                                         */
+
+/* ============================================================================================== */
+
+.form-container {
+    display: none;
+}
+
+.form-container.active {
+    display: block;
+}
+/* ============================================================================================== */
+
+/*                                                INPUTS                                          */
+
+/* ============================================================================================== */
+
+input {
+    width: 25rem;
+    padding: 1rem;
+    margin: 5px 0;
+    border-radius: 1rem;
+    border: 1px solid #ccc;
+}
+
+input:focus {
+    border: 3px solid var(--azulzao);
+    outline: none;
+}
+
+/* ============================================================================================== */
+
+/*                                      BOTAO ENTRAR/CAD                                          */
+
+/* ============================================================================================== */
+
+.btn-entrar {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid var(--azulzao);
+    border-radius: 25px;
+    background: var(--azulzao);
+    cursor: pointer;
+    font-weight: bold;
+    color: #ccc;
+}
+/* ============================================================================================== */
+
+/*                                           OPCOES DE LOGIN                                      */
+
+/* ============================================================================================== */
+
+.opcoes-login {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.ou {
+    color: #666;
+    font-size: 12px;
+    margin: 15px 0;
+}
+
+.btn-google,
+.btn-linkedin {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    background: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-google:hover,
+.btn-linkedin:hover {
+    color: #FFF;
+    background: var(--azulzao);
+}
+
+.esqueci-senha {
+    display: block;
+    margin-top: 15px;
+    font-size: 12px;
+    color: var(--azulzao);
+    text-decoration: none;
+}
+
+/* ============================================================================================== */
+
+/*                                   CAD FUNCIONARIO/EMPRESA                                      */
+
+/* ============================================================================================== */
+.btn-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.toggle-btn {
+  flex: 1; 
+  padding: 12px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  border-bottom: 2px solid #E5E7EB;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.toggle-btn:hover{
+    color: white;
+    border-bottom: 2px solid var(--azulzao);
+}
+
+
+
+/* ============================================================================================== */
+
+/*                                               ALERTAS                                          */
+
+/* ============================================================================================== */
+
+.hidden {
+    display: none !important;
+}
+
+#container-alertas {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 9999;
+}
+
+.alerta {
+    padding: 15px 25px;
+    background-color: #ff4d4d;
+    color: white;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    animation: deslizar 0.5s ease-out;
+}
+
+@keyframes deslizar {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

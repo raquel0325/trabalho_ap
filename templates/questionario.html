@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dados Complementares</title>
+    <link rel="stylesheet" href="../static/css/questionario.css" />
+    <script src="../static/script/questionario.js" defer></script>
+  </head>
+  <body>
+    <div class="header">
+      <p>Dados Complementares</p>
+      <img
+        src="https://web.archive.org/web/20091025005617im_/http://geocities.com/RodeoDrive/9200/ANIBAR.GIF"
+        alt="Barra animada"
+        class="gif-header"
+      />
+    </div>
+
+    <div class="form">
+      <form action="/salvar_questionario" method="POST" id="questionarioForm">
+        <input type="hidden" name="id_func" value="{{ id_func }}" />
+
+        <div class="container">
+          <!-- =========================================================================================== -->
+          <!-- SEÇÃO 1: LOCALIDADE -->
+          <!-- =========================================================================================== -->
+          <div class="secao-active" id="secao" data-secao="0">
+            <div class="secao-header">
+              <h2> Localidade</h2>
+              <div class="secao-subtitle">Onde você está localizado?</div>
+            </div>
+
+            <div class="secao-divider"></div>
+
+            <div class="secao-content">
+              <div class="campo-row">
+                <div class="campo">
+                  <label>Cidade <span class="obrigatorio">*</span></label>
+                  <input
+                    type="text"
+                    name="cidade"
+                    required
+                    placeholder="Ex: São Paulo"
+                  />
+                  <datalist id="lista-cidades">
+                    {% for c in cidades %}
+                    <option value="{{ c[0] }}">
+                      {% endfor %}
+                    </option>
+                  </datalist>
+                </div>
+                <div class="campo">
+                  <label>Estado <span class="obrigatorio">*</span></label>
+                  <select name="estado" required>
+                    <option value="">Selecione...</option>
+                    <option value="AC">Acre</option>
+                    <option value="AL">Alagoas</option>
+                    <option value="AP">Amapá</option>
+                    <option value="AM">Amazonas</option>
+                    <option value="BA">Bahia</option>
+                    <option value="CE">Ceará</option>
+                    <option value="DF">Distrito Federal</option>
+                    <option value="ES">Espírito Santo</option>
+                    <option value="GO">Goiás</option>
+                    <option value="MA">Maranhão</option>
+                    <option value="MT">Mato Grosso</option>
+                    <option value="MS">Mato Grosso do Sul</option>
+                    <option value="MG">Minas Gerais</option>
+                    <option value="PA">Pará</option>
+                    <option value="PB">Paraíba</option>
+                    <option value="PR">Paraná</option>
+                    <option value="PE">Pernambuco</option>
+                    <option value="PI">Piauí</option>
+                    <option value="RJ">Rio de Janeiro</option>
+                    <option value="RN">Rio Grande do Norte</option>
+                    <option value="RS">Rio Grande do Sul</option>
+                    <option value="RO">Rondônia</option>
+                    <option value="RR">Roraima</option>
+                    <option value="SC">Santa Catarina</option>
+                    <option value="SP">São Paulo</option>
+                    <option value="SE">Sergipe</option>
+                    <option value="TO">Tocantins</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Fim seção 1 -->
+
+          <!-- =========================================================================================== -->
+          <!-- SEÇÃO 2: FORMAÇÃO ACADÊMICA -->
+          <!-- =========================================================================================== -->
+          <div class="secao-formacao" id="secao" data-secao="1">
+            <div class="secao-header">
+              <h2> Formação Acadêmica</h2>
+              <div class="secao-subtitle">Conte-nos sobre sua educação</div>
+            </div>
+
+            <div class="secao-divider"></div>
+
+            <div class="secao-content">
+              <div class="campo">
+                <label
+                  >Nível de Formação <span class="obrigatorio">*</span></label
+                >
+                <select name="formacao" required>
+                  <option value="">Selecione...</option>
+                  <option value="Ensino Médio">Ensino Médio Completo</option>
+                  <option value="Ensino Médio Profissionalizante">
+                    Ensino Médio Profissionalizante completo
+                  </option>
+                  <option value="Graduação Cursando">
+                    Graduação (Cursando)
+                  </option>
+                  <option value="Graduação Completa">Graduação Completa</option>
+                  <option value="Pós-graduação">Pós-graduação</option>
+                  <option value="Mestrado">Mestrado</option>
+                  <option value="Doutorado">Doutorado</option>
+                </select>
+              </div>
+
+              <div class="campo">
+                <label>Curso/Área de estudo</label>
+                <input
+                  type="text"
+                  name="curso"
+                  placeholder="Ex: Ciência da Computação, Administração..."/>
+                  <datalist id="lista-cursos">
+                    {% for c in cursos %}
+                    <option value="{{ c[0] }}">
+                    {% endfor %}
+                  </datalist>
+              </div>
+
+              <div class="campo">
+                <label>Instituição de ensino</label>
+                <input
+                  type="text"
+                  name="instituicao"
+                  placeholder="Ex: USP, Unicamp, PUC..."
+                />
+                <datalist id="lista-instituicoes">
+                    {% for inst in instituicoes %}
+                    <option value="{{ inst[0] }}">
+                    {% endfor %}
+                </datalist>
+              </div>
+
+              <div class="campo">
+                <label>Ano de conclusão</label>
+                <input
+                  type="number"
+                  name="ano_conclusao"
+                  min="1950"
+                  max="2030"
+                  placeholder="Ex: 2024"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Fim seção 2 -->
+
+          <!-- =========================================================================================== -->
+          <!-- SEÇÃO 3: EXPERIÊNCIA RECENTE -->
+          <!-- =========================================================================================== -->
+          <div class="secao-experiencia" id="secao" data-secao="2">
+            <div class="secao-header">
+              <h2> Experiência Mais Recente</h2>
+              <div class="secao-subtitle">
+                Conte sobre sua última experiência profissional
+              </div>
+            </div>
+
+            <div class="secao-divider"></div>
+
+            <div class="secao-content">
+              <div class="campo-row">
+                <div class="campo">
+                  <label>Último cargo <span class="obrigatorio">*</span></label>
+                  <input
+                    type="text"
+                    name="ultimo_cargo"
+                    required
+                    placeholder="Ex: sem experiencia, Desenvolvedor Pleno..."/>
+                    <datalist id="lista-ultimo_cargo">
+                      {% for c in ultimo_cargos %}
+                      <option value="{{ c[0] }}">
+                        {% endfor %}
+                      </option>
+                    </datalist>
+                </div>
+
+                <div class="campo">
+                  <label
+                    >Empresa/empregador
+                    <span class="obrigatorio">*</span></label
+                  >
+                  <input
+                    type="text"
+                    name="ultima_empresa"
+                    required
+                    placeholder="Ex: sem experiencia, Google, Microsoft..."/>
+                    <datalist id="lista-ultima_empresa">
+                      {% for c in ultima_empresas %}
+                      <option value="{{ c[0] }}">
+                        {% endfor %}
+                      </option>
+                    </datalist>
+                </div>
+              </div>
+
+              <div class="campo">
+                <label
+                  >Tempo de experiência na área
+                  <span class="obrigatorio">*</span></label
+                >
+                <select name="tempo_experiencia" required>
+                  <option value="">Selecione...</option>
+                  <option value="0-1 ano">Sem experiência</option>
+                  <option value="0-1 ano">Menos de 1 ano</option>
+                  <option value="1-3 anos">1 a 3 anos</option>
+                  <option value="3-5 anos">3 a 5 anos</option>
+                  <option value="5-10 anos">5 a 10 anos</option>
+                  <option value="10+ anos">Mais de 10 anos</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- Fim seção 3 -->
+
+          <!-- =========================================================================================== -->
+          <!-- SEÇÃO 4: COMPETÊNCIAS -->
+          <!-- =========================================================================================== -->
+
+          <div class="secao-competencias" id="secao" data-secao="3">
+            <div class="secao-header">
+              <h2> Competências</h2>
+              <div class="secao-subtitle">
+                Selecione suas principais habilidades
+              </div>
+            </div>
+
+            <div class="secao-divider"></div>
+
+            <div class="secao-content">
+
+
+              <!-- LISTA DE COMPETÊNCIAS  -->
+              <div id="lista-competencias" class="competencias-lista">
+                {% for c in competencias %}
+                <div class="competencia-item">
+                  <input
+                    type="checkbox"
+                    name="competencias"
+                    value="{{ c[0] }}"
+                    id="comp_{{ c[0] }}"
+                  />
+                  <label for="comp_{{ c[0] }}">{{ c[1] }}</label>
+                </div>
+                {% endfor %}
+              </div>  
+
+              <!-- ADICIONAR NOVA COMPETÊNCIA -->
+
+              <div class="nova-competencia">
+                <input
+                  type="text"
+                  id="input_nova_comp"
+                  placeholder="Adicionar nova competência (ex: Photoshop, Inglês...)"
+                />
+                <button type="button" onclick="adicionarCompetencia()">
+                  + Add
+                </button>
+              </div>
+
+              <!-- LISTA DE NOVAS COMPETÊNCIAS ADICIONADAS -->
+              <div
+                id="novas-competencias-lista"
+                class="competencias-lista"
+                style="margin-top: 15px; display: none">
+                <!--  novas competências -->
+              </div>
+
+              <small style="color: #666"
+                >Digite para pesquisar ou adicione novas competências</small
+              >
+            </div>
+          </div>
+          <!-- Fim seção 4 -->
+
+          <!-- ============================================ -->
+          <!-- BOTÃO DE ENVIO -->
+          <!-- ============================================ -->
+          <div class="container-btn">
+            <div class="btn" id="divSubmit">
+              <button type="submit" class="btn-submit">Finalizar Perfil</button>
+            </div>
+          </div>
+        </div>
+        <!-- Fim container -->
+      </form>
+    </div>
+    <!-- Fim form -->
+  </body>
+</html>

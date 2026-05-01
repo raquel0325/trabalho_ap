@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vagas Conecta - Cadastro e Login</title>
+    <link rel="stylesheet" href="../static/css/index.css">
+    <script src="../static/script/index.js" defer></script>
+</head>
+<body>
+
+    <!-- ==================== ALERTAS / MENSAGENS FLASH ==================== -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="container-alertas">
+                {% for category, message in messages %}
+                    <div class="alerta {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- ==================== LADO ESQUERDO - LOGO/INFO ==================== -->
+    <div class="conteinerInf">
+        <div class="conteudo-inf">
+            <img src="../static/imagem/image1.jpg" alt="Vagas Conecta" class="image-inf">
+            <img src="../static/imagem/logo.png" alt="Logo Vagas Conecta" class="logo">
+            <p>Conecte-se à sua próxima grande oportunidade no Conecta.</p>
+        </div>
+    </div>
+
+    <!-- ==================== LADO DIREITO - ACESSO ==================== -->
+    <div class="containerAcesso">
+
+        <!-- Botões Login/Cadastro -->
+        <div id="escolhaInicial" class="btn-main-group">
+            <button class="btn-main ativo" onclick="mudar('login')">Fazer Login</button>
+            <button class="btn-main" onclick="mudar('cadastro')">Criar Conta</button>
+        </div>
+
+        <!-- ==================== SEÇÃO LOGIN ==================== -->
+        <div id="secaoLogin" class="containerLogin">
+            <h2>Faça seu login:</h2>
+
+            <form action="/login" method="POST">
+                <input type="email" name="email" placeholder="E-mail" required><br>
+                <input type="password" name="senha" placeholder="Senha" required><br>
+                <button type="submit" class="btn-entrar">Entrar</button>
+            </form>
+
+            <div class="opcoes-login">
+                <p class="ou">ou</p>
+
+                <button type="button" class="btn-google" onclick="window.location.href='/google-login'">
+                    <img src="../static/imagem/google-icon.png" alt="G" style="width: 18px; vertical-align: middle; margin-right: 8px;">
+                    Entrar com Google
+                </button>
+
+                <button type="button" class="btn-linkedin" disabled title="Em breve">
+                    <img src="../static/imagem/linkedin-icon.png" alt="in" style="width: 18px; vertical-align: middle; margin-right: 8px;">
+                    Entrar com LinkedIn
+                </button>
+
+                <a href="#" class="esqueci-senha">Esqueci minha senha</a>
+            </div>
+        </div>
+
+        <!-- ==================== SEÇÃO CADASTRO ==================== -->
+        <div id="secaoCadastro" class="conteinerCadastro hidden">
+            <h2>Selecione o tipo de cadastro:</h2>
+
+            <div class="btn-group">
+                <button class="toggle-btn ativo" onclick="formCad('formFuncionario')"> Funcionário</button>
+                <button class="toggle-btn" onclick="formCad('formEmpresa')">Empresa</button>
+            </div>
+
+            
+            <div id="formFuncionario" class="form-container active">
+                <form action="/cadastro/funcionario" method="POST">
+                    <input type="text" name="nome" placeholder="Nome completo" required><br>
+                    <input type="email" name="email" placeholder="E-mail" required><br>
+                    <input type="password" name="senha" placeholder="Senha (mínimo 6 caracteres)" required minlength="6"><br>
+                    <input type="text" name="cpf" placeholder="CPF (apenas números)" required><br>
+                    <input type="tel" name="telefone" placeholder="Telefone"><br>
+                    <button type="submit" class="btn-entrar">Cadastrar</button>
+                </form>
+            </div>
+
+            <div id="formEmpresa" class="form-container">
+                <form action="/cadastro/empresa" method="POST">
+                    <input type="text" name="nome" placeholder="Nome da Empresa" required><br>
+                    <input type="text" name="cnpj" placeholder="CNPJ (apenas números)" required><br>
+                    <input type="text" name="endereco" placeholder="Endereço"><br>
+                    <input type="email" name="email" placeholder="E-mail Corporativo"><br>
+                    <input type="password" name="senha" placeholder="Senha (mínimo 6 caracteres)" required minlength="6"><br>
+                    <input type="tel" name="telefone" placeholder="Telefone"><br>
+                    <button type="submit" class="btn-entrar">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
