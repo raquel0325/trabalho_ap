@@ -35,11 +35,6 @@
 
 
 
-
-
-
-
-
         function mudar(tipo) {
     const btnLogin = document.querySelector('.btn-main:first-child');
     const btnCadastro = document.querySelector('.btn-main:last-child');
