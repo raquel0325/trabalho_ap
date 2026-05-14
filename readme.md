@@ -88,7 +88,7 @@ vagas-conecta/
 │   │   ├── questionario.css
 │   │   └── vagas.css
 │   ├── imagem/
-│   │   ├── google-icon.png
+│   │   ├── google-icon.png 
 │   │   ├── linkedin-icon.png
 │   │   ├── image1.jpg
 │   │   └── logo.png
