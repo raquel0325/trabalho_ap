@@ -1,0 +1,140 @@
+{% extends "menu.html" %}
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="container">
+    <div>criar vagas</div>
+    <!-- Formulário de criação de vaga -->
+    <div>
+        <form action="{{ url_for('vagas.empresa_criar_vaga') }}" method="POST">
+
+            <div class="container">
+                <!-- secao 1-->
+                <div class='secao1'>
+                    <div class="secao-active" id="secao" data-secao="0">
+                        <!-- SECAO DE TITULO DA VAGA. CARGO OFERECIDO -->
+                        <div class="secao-header">
+                            <h2>Cargo</h2>
+                        </div>
+                    </div>
+                    <div class='dividir'></div>
+
+                    <div class="secao-content"> <!-- SECAO DE TITULO DA VAGA. CARGO OFERECIDO -->
+                        <div class="campo-row">
+                            <div class='campo'>
+                                <label>Cargo <span class="obrigatorio">*</span></label>
+                                <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Cargo "
+                                    required>
+                                <datalist id="lista-titulos">
+                                    {% for c in titulos %}
+                                    <option value="{{ c[0] }}">
+                                        {% endfor %}
+                                </datalist>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- secao 2-->
+                <div class="secao2">
+                    <div class="secao-active" id="secao" data-secao="1">
+                        <!-- SECAO DE descricao DA VAGA. CARGO OFERECIDO -->
+                        <div class="secao-header">
+                            <h2>Descrição</h2>
+                        </div>
+                    </div>
+                    <div class='dividir'></div>
+
+                    <div class="secao-content"> <!-- SECAO DE descricao DA VAGA. CARGO OFERECIDO -->
+                        <div class="campo-row">
+                            <div class='campo'>
+                                <label>Descrição <span class="obrigatorio">*</span></label>
+                                <textarea name="descricao" id="descricao" class="form-control" placeholder="Descrição"
+                                    required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- secao 3-->
+                    <div class="secao3">
+                        <div class="secao-active" id="secao" data-secao="2">
+                            <!-- SECAO DE salario DA VAGA. CARGO OFERECIDO -->
+                            <div class="secao-header">
+                                <h2>Salário</h2>
+                            </div>
+                        </div>
+                        <div class='dividir'></div>
+                        <div class="secao-content"> <!-- SECAO DE salario DA VAGA. CARGO OFERECIDO -->
+                            <div class="campo-row">
+                                <div class='campo'>
+                                    <label>Salário <span class="obrigatorio">*</span></label>
+                                    <input type="number" name="salario" id="salario" class="form-control"
+                                        placeholder="Salário" required>
+                                </div>
+                            </div>
+                            <!-- secao 4-->
+                            <div class="secao4">
+                                <div class="secao-active" id="secao" data-secao="3">
+                                    <!-- SECAO DE competencias DA VAGA. CARGO OFERECIDO -->
+                                    <div class="secao-header">
+                                        <h2>Competências</h2>
+                                    </div>
+                                </div>
+                                <div class='dividir'></div>
+                                <div class="adicionarcompetencia">
+                                    <input type="text" action=" " placeholder="Adicionar nova competência">
+                                    <button type="button" id="btn-adicionar">Adicionar</button>
+                                    
+                                </div>
+                                <div class="secao-content"> 
+                                    <div class="campo-row">
+                                        <div id="lista-competencias" class="competencias-lista">
+                                            {% for c in competencias %}
+                                            <div class="competencia-item">
+                                                <input type="checkbox" name="competencias" value="{{ c[0] }}"
+                                                    id="comp_{{ c[0] }}">
+                                                <label for="comp_{{ c[0] }}">{{ c[1] }}</label>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- secao 5-->
+                            <div class="secao5">
+                                <div class="secao-active" id="secao" data-secao="4">
+                                    <!-- SECAO DE regime DA VAGA. CARGO OFERECIDO -->
+                                    <div class="secao-header">
+                                        <h2>Regime</h2>
+                                    </div>
+                                    <div class='dividir'></div>
+                                    <div class="secao-content"> <!-- SECAO DE regime DA VAGA. CARGO OFERECIDO -->
+                                        <div class="campo-row">
+                                            <div class='campo'>
+                                                <label>Regime <span class="obrigatorio">*</span></label>
+                                                <select name="regime" id="regime" required>
+                                                    <option value="">Selecione...</option>
+                                                    <option value="CLT">CLT</option>
+                                                    <option value="PJ">PJ</option>
+                                                    <option value="Temporário">Temporário</option>
+                                                    <option value="Estágio">Estágio</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container-btn">
+                                        <div class="btn">
+                                            <button type="submit" class="btn-submit">Criar Vaga</button>
+                                        </div>
+                                    </div>
+                                </div><!-- fim container -->
+                            </div>
+        </form>
+
+    </div>
+    {% endblock %}

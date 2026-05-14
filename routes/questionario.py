@@ -7,7 +7,7 @@ bp_questionario = Blueprint('questionario', __name__)
 @bp_questionario.route('/questionario/<int:id_func>')
 def questionario_pag(id_func):
     """Página do questionário complementar"""
-    # Verifica se o usuário está logado e é o dono
+    # Verifica se o usuário está logado 
     if 'usuario_id' not in session or session['usuario_id'] != id_func:
         flash("Acesso não autorizado!", "erro")
         return redirect('/')

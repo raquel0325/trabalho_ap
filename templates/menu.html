@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Conectar-CE{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home/homef.css') }}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        <!-- Header/Menu Principal -->
+        <div class="header">
+            <div class="logo">Conecta</div>
+            <div class="user-info">
+                <span>Olá, {{ session.usuario_nome }}</span>
+                <a href="/home" class="btn-back">Home</a>
+                <a href="/vagas" class="btn-back">Vagas</a>
+                <a href="/logout" class="btn-logout">Sair</a>
+            </div>
+        </div>
+
+        <!-- Conteúdo principal que muda em cada página -->
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

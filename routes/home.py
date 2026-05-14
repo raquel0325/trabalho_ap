@@ -12,11 +12,13 @@ def home_pag():
     nome = session.get('usuario_nome')
     
     if tipo == 'funcionario':
-        return render_template('home_func.html', nome=nome, tipo=tipo)
+        from models.model_vagas import Vaga
+        vagas = Vaga.listar_todas(busca=None, salario_min=None, empresa=None)
+        return render_template('home/home_func.html', nome=nome, tipo=tipo)
     elif tipo == 'empresa':
-        return render_template('home_emp.html', nome=nome, tipo=tipo)
+        return render_template('home/home_emp.html', nome=nome, tipo=tipo)
     elif tipo == 'google':
-        return render_template('home_func.html', nome=nome, tipo='google')
+        return render_template('home/home_func.html', nome=nome, tipo='google')
     
     return redirect('/')
 

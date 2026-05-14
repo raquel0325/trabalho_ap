@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Conecta</title>
+    <link rel="stylesheet" href="../static/css/vaga/vaga_detalhe.css">
+</head>
+<body>
+    {% extends "menu.html" %}
+{% block content %}
+        <div class="vaga-detalhe">
+            <div class="vaga-header-detalhe">
+                <h2>{{ vaga.titulo }}</h2>
+            {% if session.get('tipo') == 'funcionario' %}
+                <div class="match-percentual">
+                    <div class="match-circle" >
+                        <span>{{ match_percent }}%</span>
+                    </div>
+                    <p>Compatibilidade com seu perfil</p>
+                </div>
+            {% endif %}
+            </div>
+
+            <div class="info-section">
+                <div class="empresa-info">
+                    <strong>🏢 Empresa:</strong> {{ vaga.empresa_nome }}
+                </div>
+
+                <div class="salario-info">
+                    <strong>💰 Salário:</strong> 
+                    {% if vaga.salario %}
+                        R$ {{ "%.2f"|format(vaga.salario) }}
+                    {% else %}
+                        A combinar
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="descricao-info">
+                <strong>📋 Descrição da Vaga:</strong>
+                <p>{{ vaga.descricao }}</p>
+            </div>
+
+            <div class="competencias-info">
+                <strong>🎯 Competências Necessárias:</strong>
+                <div class="competencias-lista-detalhe">
+                    {% for comp in vaga.competencias %}
+                        <span class="competencia-tag">{{ comp.nome }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="acoes-detalhe">
+                {% if ja_candidatou %}
+                    <div class="alert-success">
+                        ✅ Parabéns! Você já se candidatou a esta vaga. A empresa entrará em contato em breve.
+                    </div>
+                    <a href="{{ url_for('vagas.listar_vagas') }}" class="btn-voltar">← Voltar para Vagas</a>
+                {% else %}
+                {% if session.get('tipo') == 'funcionario' %}
+                    <form action="{{ url_for('vagas.candidatar_vaga', id_vaga=vaga.id_vaga) }}" method="POST">
+                        <button type="submit" class="btn-candidatar-grande"> Candidatar-se a esta Vaga</button>
+                    </form>
+                {% endif %}
+                    <a href="{{ url_for('vagas.listar_vagas') }}" class="btn-voltar">← Voltar para Vagas</a>
+                
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
+</body>
+</html>

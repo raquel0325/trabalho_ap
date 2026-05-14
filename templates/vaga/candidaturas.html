@@ -1,0 +1,68 @@
+{# templates/minhas_candidaturas.html #}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Candidaturas - Conecta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/candidaturas.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Minhas Candidaturas</h1>
+            <div class="user-info">
+                <span>👋 Olá, {{ session.usuario_nome }}</span>
+                <a href="/home" class="btn-back">🏠 Home</a>
+                <a href="/logout" class="btn-logout">🚪 Sair</a>
+            </div>
+        </div>
+
+        <div class="nav-links">
+            <a href="{{ url_for('vagas.listar_vagas') }}" class="btn-link">📋 Todas Vagas</a>
+            <a href="{{ url_for('vagas.vagas_recomendadas') }}" class="btn-link">⭐ Recomendadas</a>
+            <a href="{{ url_for('vagas.minhas_candidaturas') }}" class="btn-link active">📝 Minhas Candidaturas</a>
+        </div>
+
+        <div class="candidaturas-container">
+            {% if candidaturas %}
+                {% for candidatura in candidaturas %}
+                    <div class="candidatura-card">
+                        <div class="candidatura-header">
+                            <h3>{{ candidatura.titulo }}</h3>
+                            <span class="data">📅 {{ candidatura.data_candidatura[:10] }}</span>
+                        </div>
+                        
+                        <div class="empresa">🏢 {{ candidatura.empresa_nome }}</div>
+                        
+                        <p class="descricao">
+                            {{ candidatura.descricao[:180] }}{% if candidatura.descricao|length > 180 %}...{% endif %}
+                        </p>
+                        
+                        <div class="info">
+                            <div class="salario">
+                                {% if candidatura.salario %}
+                                    💰 R$ {{ "%.2f"|format(candidatura.salario) }}
+                                {% else %}
+                                    💰 Salário a combinar
+                                {% endif %}
+                            </div>
+                            <div class="status em-analise">⏳ Em análise</div>
+                        </div>
+                        
+                        <div class="acoes">
+                            <a href="{{ url_for('vagas.detalhe_vaga', id_vaga=candidatura.id_vaga) }}" class="btn-ver">👁️ Ver Vaga</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="sem-candidaturas">
+                    <p>😕 Você ainda não se candidatou a nenhuma vaga.</p>
+                    <p>Explore as vagas disponíveis e encontre a oportunidade ideal para você!</p>
+                    <a href="{{ url_for('vagas.listar_vagas') }}" class="btn-ver-vagas">🔍 Explorar Vagas</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todas as Vagas - Conecta</title>
+    <link rel="stylesheet" href="../static/css/vaga/vagas_list.css">
+</head>
+<body>
+{% extends "menu.html" %}
+{% block content %}
+
+        <!-- Filtros -->
+        <div class="filtros">
+            <form method="GET" action="{{ url_for('vagas.listar_vagas') }}">
+                <input type="text" name="busca" placeholder="🔍 Buscar vaga por título ou descrição..." value="{{ busca or '' }}">
+                <input type="number" name="salario_min" placeholder=" Salário mínimo" value="{{ salario_min or '' }}" step="1000">
+                <input type="text" name="empresa" placeholder="🏢 Nome da empresa" value="{{ empresa or '' }}">
+                <button type="submit" class="btn-filtrar">🔎 Filtrar</button>
+            </form>
+        </div>
+
+        <!-- Links de Navegação -->
+        <div class="nav-links">
+            <a href="{{ url_for('vagas.listar_vagas') }}" class="btn-link {% if request.endpoint == 'vagas.listar_vagas' %}active{% endif %}"> Todas Vagas</a>
+            {% if session.get('tipo') == 'empresa' %}
+            <a href="{{ url_for('vagas.empresa_criar_vaga') }}" class="btn-link">+ Criar Vaga</a>
+            {% endif %}
+        </div>
+
+        <!-- Lista de Vagas -->
+        <div class="vagas-container">
+            {% if vagas %}
+                {% for vaga in vagas %}
+                    <div class="vaga-card">
+                        <div class="vaga-header">
+                            <h2>{{ vaga.titulo }}</h2>
+                            {%if session.get('tipo') == 'funcionario' %}
+                            {% set match = vaga.get('match_percent', 0) %}
+                            <div class="match-badge 
+                                {% if match >= 70 %}high
+                                {% elif match >= 40 %}medium
+                                {% else %}low{% endif %}">
+                                {{ match }}% Compatível
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="empresa">{{ vaga.empresa_nome }}</div>
+                        
+                        <p class="descricao">
+                            {{ vaga.descricao[:250] }}{% if vaga.descricao|length > 250 %}...{% endif %}
+                        </p>
+                        
+                        <div class="info">
+                            <div class="salario">
+                                {% if vaga.salario %}
+                                    R$ {{ "%.2f"|format(vaga.salario) }}
+                                {% else %}
+                                    Salário a combinar
+                                {% endif %}
+                            </div>
+                            <div class="competencias">
+                                Competências: {{ vaga.competencias or 'Não especificadas' }}
+                            </div>
+                        </div>
+                        
+                        <div class="acoes">
+                            <a href="{{ url_for('vagas.detalhe_vaga', id_vaga=vaga.id_vaga) }}" class="btn-ver">👁️ Ver Detalhes</a>
+                            {% if vaga.get('candidatou') %}
+                                <span class="badge-candidatado">✅ Candidatura Enviada</span>
+                            {% else %}
+                            {% if session.get('tipo') == 'funcionario' %}
+                                <form action="{{ url_for('vagas.candidatar_vaga', id_vaga=vaga.id_vaga) }}" method="POST" style="display: inline;">
+                                    <button type="submit" class="btn-candidatar">📝 Candidatar-se</button>
+                                </form>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="sem-vagas">
+                    <p>😕 Nenhuma vaga encontrada com os filtros selecionados.</p>
+                    <p>Tente ajustar sua busca ou verifique outras oportunidades!</p>
+                    <a href="{{ url_for('vagas.listar_vagas') }}" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background: #05186c; color: white; text-decoration: none; border-radius: 8px;">Limpar Filtros</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+</body>
+</html>

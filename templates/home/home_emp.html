@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conectar-CE</title>
+    <link rel="stylesheet" href="/static/css/home/homef.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header/Menu Principal -->
+        <div class="header">
+            <div class="logo">Conecta</div>
+            <div class="user-info">
+                <span>Olá, {{ session.usuario_nome }}</span>
+                <a href="/home" class="btn-back">Home</a>
+                <a href="/vagas" class="btn-back">Vagas</a>
+                <a href="/logout" class="btn-logout">Sair</a>
+            </div>
+        </div>
+
+
+    <h1>Bem-vindo, {{ session.usuario_nome }}!</h1>
+
+</body>
+</html>

@@ -10,7 +10,6 @@ class Empresa:
         if not nome or len(nome) < 2:
             raise ValueError("Nome da empresa deve ter pelo menos 2 caracteres")
         
-        # Remove caracteres não numéricos do CNPJ
         if len(cnpj) != 14:
             raise ValueError("CNPJ deve ter 14 dígitos")
         
