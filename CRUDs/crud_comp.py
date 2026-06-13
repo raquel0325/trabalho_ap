@@ -27,7 +27,11 @@ class CompetenciaCRUD:
         try:
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM competencias WHERE nome = ?", (nome,))
-            return cursor.fetchone()
+            resultado = cursor.fetchone()
+            if resultado:
+            
+                return dict(resultado)
+            return None
         finally:
             conn.close()
     

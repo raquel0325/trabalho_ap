@@ -1,0 +1,310 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #488BA8 0%, #2c5a6e 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    background: linear-gradient(135deg, #05186c 0%, #000000 100%);
+    color: #99E2F2;
+    padding: 20px 30px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.header h1 {
+    font-size: 28px;
+}
+
+.user-info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.user-info span {
+    font-weight: 500;
+}
+
+.btn-back, .btn-logout {
+    color: #99E2F2;
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.btn-back:hover, .btn-logout:hover {
+    background: rgba(153, 226, 242, 0.2);
+    transform: translateY(-2px);
+}
+
+.filtros {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.filtros form {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.filtros input {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.filtros input:focus {
+    outline: none;
+    border-color: #05186c;
+}
+
+.btn-filtrar {
+    background: #05186c;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-filtrar:hover {
+    background: #0a28a0;
+    transform: translateY(-2px);
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.btn-link {
+    padding: 10px 25px;
+    background: white;
+    color: #05186c;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-link.active {
+    background: #05186c;
+    color: #99E2F2;
+}
+
+.btn-link:hover {
+    background: #05186c;
+    color: #99E2F2;
+    transform: translateY(-2px);
+}
+
+.vagas-container {
+    display: grid;
+    gap: 20px;
+}
+
+.vaga-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.vaga-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.vaga-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: #05186c;
+}
+
+.vaga-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.vaga-header h2 {
+    color: #05186c;
+    font-size: 22px;
+}
+
+.match-badge {
+    padding: 6px 15px;
+    border-radius: 25px;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.match-badge.high {
+    background: #4CAF50;
+}
+
+.match-badge.medium {
+    background: #FF9800;
+}
+
+.match-badge.low {
+    background: #9E9E9E;
+}
+
+.empresa {
+    color: #666;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.descricao {
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.info {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.salario {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.competencias {
+    color: #666;
+}
+
+.acoes {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.btn-ver {
+    background: #05186c;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-block;
+}
+
+.btn-ver:hover {
+    background: #0a28a0;
+    transform: translateY(-2px);
+}
+
+.btn-candidatar {
+    background: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-candidatar:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+
+.badge-candidatado {
+    background: #e8f5e9;
+    color: #4CAF50;
+    padding: 8px 15px;
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.sem-vagas {
+    text-align: center;
+    padding: 80px 20px;
+    background: white;
+    border-radius: 15px;
+}
+
+.sem-vagas p {
+    margin-bottom: 20px;
+    color: #666;
+    font-size: 18px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .filtros form {
+        flex-direction: column;
+    }
+
+    .vaga-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .info {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

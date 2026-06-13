@@ -1,13 +1,8 @@
 {% extends "menu.html" %}
 {% block content %}
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+
+
 
 <div class="container">
     <div>criar vagas</div>
@@ -77,6 +72,27 @@
                                         placeholder="Salário" required>
                                 </div>
                             </div>
+                            <!-- Corrigir o campo de endereço -->
+                            <div class="secao-endereco">
+                                <div class="secao-active" id="secao" data-secao="5">
+                                    <div class="secao-header">
+                                        <h2>Endereço</h2>
+                                    </div>
+                                    <div class='dividir'></div>
+                                    <div class="secao-content">
+                                        <div class="campo-row">
+                                            <div class='campo'>
+                                                <label>Cidade <span class="obrigatorio">*</span></label>
+                                                <!-- CORREÇÃO: name="cidade" (não "cidace") -->
+                                                <input type="text" name="cidade" id="cidade" class="form-control"
+                                                    placeholder="Cidade" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <!-- secao 4-->
                             <div class="secao4">
                                 <div class="secao-active" id="secao" data-secao="3">
@@ -87,11 +103,11 @@
                                 </div>
                                 <div class='dividir'></div>
                                 <div class="adicionarcompetencia">
-                                    <input type="text" action=" " placeholder="Adicionar nova competência">
-                                    <button type="button" id="btn-adicionar">Adicionar</button>
-                                    
+                                    <input type="text" id="input_nova_comp" placeholder="Adicionar nova competência">
+                                    <button type="button" id="btn-adicionar"
+                                        onclick="adicionarCompetencia()">Adicionar</button>
                                 </div>
-                                <div class="secao-content"> 
+                                <div class="secao-content">
                                     <div class="campo-row">
                                         <div id="lista-competencias" class="competencias-lista">
                                             {% for c in competencias %}
@@ -127,14 +143,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="container-btn">
-                                        <div class="btn">
-                                            <button type="submit" class="btn-submit">Criar Vaga</button>
-                                        </div>
+
+                                </div>
+                                <div class="container-btn">
+                                    <div class="btn">
+                                        <button type="submit" class="btn-submit">Criar Vaga</button>
                                     </div>
-                                </div><!-- fim container -->
-                            </div>
+                                </div>
+                            </div><!-- fim container -->
+                        </div>
         </form>
 
     </div>
+    <script src="../../static/script/comp.js"></script>
     {% endblock %}

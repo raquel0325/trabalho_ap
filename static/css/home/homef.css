@@ -41,16 +41,12 @@ body {
     margin-left: auto;
 }
 
-.user-info span {
-    font-weight: 500;
-}
-
 .btn-back, .btn-logout {
     color: #99E2F2;
     text-decoration: none;
     padding: 8px 18px;
     border-radius: 8px;
-    transition: all 0.3s;
+    transition: 0.3s;
     font-weight: 500;
 }
 
@@ -59,48 +55,379 @@ body {
     transform: translateY(-2px);
 }
 
-.continf {
-    max-width: 1000px;
-    margin: 0 auto;
+@media (max-width: 768px) {
+    .container { padding: 15px; }
+    .header { flex-direction: column; gap: 15px; text-align: center; }
+    .user-info { margin-left: 0; justify-content: center; }
 }
 
-.vagas, .conteudo {
+/* DASHBOARD */
+.dashboard-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
     background: white;
     border-radius: 15px;
-    padding: 40px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 20px 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.vagas h2, .conteudo h2 {
-    color: #05186c;
+.perfil-resumo {
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #99E2F2;
     margin-bottom: 20px;
-    font-size: 24px;
 }
 
-.vagas p, .conteudo p {
+.perfil-resumo .avatar { font-size: 50px; margin-bottom: 10px; }
+.perfil-resumo h3 { color: #05186c; font-size: 16px; margin-bottom: 5px; }
+.perfil-resumo p { color: #888; font-size: 11px; }
+
+.menu-lateral { display: flex; flex-direction: column; gap: 5px; }
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
     color: #555;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.menu-item:hover { background: #e8f0fe; color: #05186c; }
+.menu-item.active { background: #05186c; color: #99E2F2; }
+
+/* CONTEÚDO CENTRAL */
+.conteudo-central { flex: 1; min-width: 0; }
+
+.info-usuario, .recomendacoes-section {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.info-usuario h2, .recomendacoes-section h2 {
+    color: #05186c;
+    font-size: 18px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #99E2F2;
+}
+
+.campos-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.campos-info .campo { display: flex; flex-direction: column; gap: 3px; }
+.campos-info .campo label { color: #05186c; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+.campos-info .campo span { color: #555; font-size: 14px; }
+
+/* RECOMENDAÇÕES */
+.recomendacoes-lista { display: flex; flex-direction: column; gap: 10px; }
+
+.recomendacao-card {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 12px;
+    border-left: 3px solid #05186c;
+    transition: 0.3s;
+}
+
+.recomendacao-card:hover { transform: translateX(3px); background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+.recomendacao-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.recomendacao-titulo { color: #05186c; font-size: 14px; font-weight: 600; }
+
+.match-badge {
+    background: #e8f0fe;
+    color: #05186c;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.recomendacao-empresa { color: #888; font-size: 11px; margin-bottom: 8px; }
+.btn-ver-recomendacao { color: #05186c; font-size: 11px; text-decoration: none; font-weight: 600; }
+.btn-ver-recomendacao:hover { text-decoration: underline; }
+
+/* VAGAS SALVAS */
+.vagas-salvas-container {
+    background: white;
+    border: 2px solid #05186c;
+    border-radius: 15px;
+    padding: 15px;
+    width: 280px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.vagas-salvas-container h2.titulo-direita {
+    color: #05186c;
     font-size: 16px;
-    line-height: 1.6;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #99E2F2;
+    text-align: right;
 }
 
-.hidden {
-    display: none;
+.candidaturas-scroll { max-height: 400px; overflow-y: auto; }
+.candidaturas-scroll::-webkit-scrollbar { width: 4px; }
+.candidaturas-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+.candidaturas-scroll::-webkit-scrollbar-thumb { background: #05186c; border-radius: 10px; }
+
+.candidaturas-lista { display: flex; flex-direction: column; gap: 8px; }
+.candidatura-wrapper { display: flex; align-items: center; gap: 6px; }
+.candidatura-link { text-decoration: none; flex: 1; }
+
+.candidatura-card {
+    background: #f9f9f9;
+    border-radius: 6px;
+    padding: 8px 10px;
+    transition: 0.3s;
+    border: 1px solid #e0e0e0;
+    position: relative;
+    overflow: hidden;
 }
 
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
+.candidatura-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: #05186c;
+}
 
-    .header {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-    
-    .user-info {
-        margin-left: 0;
-        justify-content: center;
-    }
+.candidatura-card:hover { transform: translateX(-2px); background: white; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+
+.candidatura-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; gap: 6px; }
+.candidatura-header .cargo { color: #05186c; font-size: 11px; font-weight: 600; }
+.candidatura-header .data { color: #666; font-size: 9px; }
+.candidatura-card .empresa { color: #888; font-size: 9px; }
+
+.btn-deletar {
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 5px;
+    color: #999;
+}
+
+.btn-deletar:hover { color: #e74c3c; background: #fde8e7; }
+
+/* BOTÕES DE EDIÇÃO */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #99E2F2;
+}
+
+.btn-editar {
+    background: #05186c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: 0.3s;
+}
+
+.btn-editar:hover { background: #0a28a0; transform: scale(1.05); }
+
+.botoes-edicao { display: flex; gap: 10px; margin-top: 20px; }
+
+.btn-salvar {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-cancelar {
+    background: #999;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-salvar:hover { background: #45a049; }
+.btn-cancelar:hover { background: #777; }
+
+#edit-mode input, #edit-mode select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+#edit-mode input:focus, #edit-mode select:focus { border-color: #05186c; outline: none; }
+
+/* EDITAR COMPETÊNCIAS */
+.competencias-edit-container { max-height: 400px; overflow-y: auto; padding-right: 10px; }
+
+.competencias-edit-container .instrucao {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 15px;
+    padding: 8px 12px;
+    background: #e8f0fe;
+    border-radius: 8px;
+}
+
+.competencias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.competencia-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 1px solid #e0e0e0;
+}
+
+.competencia-checkbox:hover { background: #e8f0fe; border-color: #05186c; }
+.competencia-checkbox input { width: 18px; height: 18px; cursor: pointer; accent-color: #05186c; }
+.competencia-checkbox span { color: #333; font-size: 13px; }
+
+.nova-competencia-area {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 15px;
+    margin-top: 10px;
+}
+
+.nova-competencia-area label { display: block; color: #05186c; font-weight: 600; font-size: 13px; margin-bottom: 8px; }
+
+.input-group { display: flex; gap: 10px; }
+.input-group input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; }
+.input-group input:focus { border-color: #05186c; outline: none; }
+
+.btn-add-comp {
+    background: #05186c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-add-comp:hover { background: #0a28a0; transform: translateY(-1px); }
+
+.novas-competencias-lista { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
+.nova-competencia-tag {
+    background: #05186c;
+    color: #99E2F2;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nova-competencia-tag .remove-tag {
+    background: none;
+    border: none;
+    color: #99E2F2;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+}
+
+.nova-competencia-tag .remove-tag:hover { color: #ff6b6b; }
+
+/* PESSOAS */
+.pessoas-container { display: flex; flex-direction: column; gap: 12px; max-height: 500px; overflow-y: auto; }
+
+.pessoa-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 15px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    transition: 0.3s;
+}
+
+.pessoa-card:hover { transform: translateX(3px); background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+.pessoa-avatar {
+    font-size: 35px;
+    background: #e8f0fe;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pessoa-info { flex: 1; }
+.pessoa-info h3 { color: #05186c; font-size: 15px; margin-bottom: 3px; }
+.pessoa-email { color: #888; font-size: 11px; }
+
+.pessoa-acoes { display: flex; flex-direction: column; gap: 6px; }
+
+.btn-seguir, .btn-seguindo, .btn-recomendar {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-seguir { background: #05186c; color: white; }
+.btn-seguir:hover { background: #0a28a0; transform: scale(1.02); }
+
+.btn-seguindo { background: #4CAF50; color: white; }
+.btn-seguindo:hover { background: #45a049; transform: scale(1.02); }
+
+.btn-recomendar { background: #FF9800; color: white; }
+.btn-recomendar:hover { background: #e68900; }
+
+/* RESPONSIVIDADE */
+@media (max-width: 900px) {
+    .dashboard-container { flex-direction: column; }
+    .sidebar { width: 100%; }
+    .vagas-salvas-container { width: 100%; }
+    .campos-info { grid-template-columns: 1fr; }
 }

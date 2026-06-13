@@ -21,6 +21,9 @@ app.register_blueprint(bp_questionario)
 from routes.vagas import bp_vagas
 app.register_blueprint(bp_vagas)
 
+from routes.route_seguir import bp_seguir
+app.register_blueprint(bp_seguir)
+
 from routes.google_auth import bp_google, init_oauth
 init_oauth(app)
 app.register_blueprint(bp_google)

@@ -258,21 +258,7 @@ input:focus {
     display: none !important;
 }
 
-#container-alertas {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 9999;
-}
 
-.alerta {
-    padding: 15px 25px;
-    background-color: #ff4d4d;
-    color: white;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    animation: deslizar 0.5s ease-out;
-}
 
 @keyframes deslizar {
     from {

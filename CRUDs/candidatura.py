@@ -87,22 +87,28 @@ class MatchCRUD:
         conn = get_connection()
         try:
             cursor = conn.cursor()
-            
+        
+        # Calcula match por competências (70% do peso)
             cursor.execute('SELECT COUNT(*) as total FROM vaga_competencias WHERE id_vaga = ?', (id_vaga,))
             total_vaga = cursor.fetchone()['total']
-            
+        
             if total_vaga == 0:
                 return 0
-            
+        
             cursor.execute('''
                 SELECT COUNT(*) as match 
                 FROM funcionario_competencias 
                 WHERE id_funcionario = ? 
                 AND id_competencia IN (SELECT id_competencia FROM vaga_competencias WHERE id_vaga = ?)
             ''', (id_funcionario, id_vaga))
+        
+            match_comp = cursor.fetchone()['match']
+            percent_comp = (match_comp / total_vaga) * 100  # 
             
-            match = cursor.fetchone()['match']
-            return round((match / total_vaga) * 100)
+            
+            
+            return round(percent_comp)
+            
         finally:
             conn.close()
     
@@ -131,3 +137,18 @@ class MatchCRUD:
             return resultado[:limite]
         finally:
             conn.close()
+
+
+
+
+@staticmethod
+def deletar(id_candidatura):
+    """Deleta uma candidatura"""
+    conn = get_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM candidaturas WHERE id_candidatura = ?', (id_candidatura,))
+        conn.commit()
+        return cursor.rowcount > 0
+    finally:
+        conn.close()

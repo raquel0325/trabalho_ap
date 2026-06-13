@@ -41,3 +41,34 @@ class QuestionarioCRUD:
             return cursor.fetchone()
         finally:
             conn.close()
+#======================================================================================================================================
+    @staticmethod
+    def atualizar(id_funcionario, cidade=None, estado=None, formacao=None, curso=None, 
+                instituicao=None, ultimo_cargo=None, ultima_empresa=None, 
+                tempo_experiencia=None, ano_conclusao=None):
+        """Atualiza os dados do questionário de um funcionário"""
+        conn = get_connection()
+        try:
+            cursor = conn.cursor()
+            cursor.execute('''
+                UPDATE respostas_questionario 
+                SET cidade = ?, estado = ?, formacao = ?, curso = ?, 
+                    instituicao = ?, ultimo_cargo = ?, ultima_empresa = ?, 
+                    tempo_experiencia = ?, ano_conclusao = ?, data_preenchimento = CURRENT_TIMESTAMP
+                WHERE id_funcionario = ?
+            ''', (
+                cidade,
+                estado,
+                formacao,
+                curso,
+                instituicao,
+                ultimo_cargo,
+                ultima_empresa,
+                tempo_experiencia,
+                ano_conclusao,
+                id_funcionario
+            ))
+            conn.commit()
+            return cursor.rowcount > 0
+        finally:
+            conn.close()

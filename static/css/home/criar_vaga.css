@@ -1,0 +1,19 @@
+.sugestoes-lista {
+    display: none;
+    background: white;
+    border: 2px solid #05186c;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+}
+.sugestao-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+.sugestao-item:hover {
+    background: #e8f0fe;
+}

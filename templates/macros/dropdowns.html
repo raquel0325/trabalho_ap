@@ -1,0 +1,61 @@
+{# templates/macros/dropdowns.html #}
+
+{# Macro para dropdown de estados brasileiros #}
+{% macro select_estado(selected_value) %}
+<select name="estado" class="form-select">
+    <option value="">Selecione...</option>
+    <option value="AC" {{ 'selected' if selected_value == 'AC' }}>Acre</option>
+    <option value="AL" {{ 'selected' if selected_value == 'AL' }}>Alagoas</option>
+    <option value="AP" {{ 'selected' if selected_value == 'AP' }}>Amapá</option>
+    <option value="AM" {{ 'selected' if selected_value == 'AM' }}>Amazonas</option>
+    <option value="BA" {{ 'selected' if selected_value == 'BA' }}>Bahia</option>
+    <option value="CE" {{ 'selected' if selected_value == 'CE' }}>Ceará</option>
+    <option value="DF" {{ 'selected' if selected_value == 'DF' }}>Distrito Federal</option>
+    <option value="ES" {{ 'selected' if selected_value == 'ES' }}>Espírito Santo</option>
+    <option value="GO" {{ 'selected' if selected_value == 'GO' }}>Goiás</option>
+    <option value="MA" {{ 'selected' if selected_value == 'MA' }}>Maranhão</option>
+    <option value="MT" {{ 'selected' if selected_value == 'MT' }}>Mato Grosso</option>
+    <option value="MS" {{ 'selected' if selected_value == 'MS' }}>Mato Grosso do Sul</option>
+    <option value="MG" {{ 'selected' if selected_value == 'MG' }}>Minas Gerais</option>
+    <option value="PA" {{ 'selected' if selected_value == 'PA' }}>Pará</option>
+    <option value="PB" {{ 'selected' if selected_value == 'PB' }}>Paraíba</option>
+    <option value="PR" {{ 'selected' if selected_value == 'PR' }}>Paraná</option>
+    <option value="PE" {{ 'selected' if selected_value == 'PE' }}>Pernambuco</option>
+    <option value="PI" {{ 'selected' if selected_value == 'PI' }}>Piauí</option>
+    <option value="RJ" {{ 'selected' if selected_value == 'RJ' }}>Rio de Janeiro</option>
+    <option value="RN" {{ 'selected' if selected_value == 'RN' }}>Rio Grande do Norte</option>
+    <option value="RS" {{ 'selected' if selected_value == 'RS' }}>Rio Grande do Sul</option>
+    <option value="RO" {{ 'selected' if selected_value == 'RO' }}>Rondônia</option>
+    <option value="RR" {{ 'selected' if selected_value == 'RR' }}>Roraima</option>
+    <option value="SC" {{ 'selected' if selected_value == 'SC' }}>Santa Catarina</option>
+    <option value="SP" {{ 'selected' if selected_value == 'SP' }}>São Paulo</option>
+    <option value="SE" {{ 'selected' if selected_value == 'SE' }}>Sergipe</option>
+    <option value="TO" {{ 'selected' if selected_value == 'TO' }}>Tocantins</option>
+</select>
+{% endmacro %}
+
+{# Macro para dropdown de formação acadêmica #}
+{% macro select_formacao(selected_value) %}
+<select name="formacao" class="form-select">
+    <option value="">Selecione...</option>
+    <option value="Ensino Médio" {{ 'selected' if selected_value == 'Ensino Médio' }}>Ensino Médio Completo</option>
+    <option value="Ensino Médio Profissionalizante" {{ 'selected' if selected_value == 'Ensino Médio Profissionalizante' }}>Ensino Médio Profissionalizante</option>
+    <option value="Graduação Cursando" {{ 'selected' if selected_value == 'Graduação Cursando' }}>Graduação (Cursando)</option>
+    <option value="Graduação Completa" {{ 'selected' if selected_value == 'Graduação Completa' }}>Graduação Completa</option>
+    <option value="Pós-graduação" {{ 'selected' if selected_value == 'Pós-graduação' }}>Pós-graduação</option>
+    <option value="Mestrado" {{ 'selected' if selected_value == 'Mestrado' }}>Mestrado</option>
+    <option value="Doutorado" {{ 'selected' if selected_value == 'Doutorado' }}>Doutorado</option>
+</select>
+{% endmacro %}
+
+{# Macro para dropdown de tempo de experiência #}
+{% macro select_experiencia(selected_value) %}
+<select name="tempo_experiencia" class="form-select">
+    <option value="">Selecione...</option>
+    <option value="0-1 ano" {{ 'selected' if selected_value == '0-1 ano' }}>Menos de 1 ano</option>
+    <option value="1-3 anos" {{ 'selected' if selected_value == '1-3 anos' }}>1 a 3 anos</option>
+    <option value="3-5 anos" {{ 'selected' if selected_value == '3-5 anos' }}>3 a 5 anos</option>
+    <option value="5-10 anos" {{ 'selected' if selected_value == '5-10 anos' }}>5 a 10 anos</option>
+    <option value="10+ anos" {{ 'selected' if selected_value == '10+ anos' }}>Mais de 10 anos</option>
+</select>
+{% endmacro %}

@@ -41,8 +41,8 @@ def init_db():
     cursor.execute('''CREATE TABLE IF NOT EXISTS funcionario_competencias (
         id_funcionario INTEGER,
         id_competencia INTEGER,
-        FOREIGN KEY (id_funcionario) REFERENCES funcionarios (id_funcionario),
-        FOREIGN KEY (id_competencia) REFERENCES competencias (id_competencia)
+        FOREIGN KEY (id_funcionario) REFERENCES funcionarios (id_funcionario) ON DELETE CASCADE,
+        FOREIGN KEY (id_competencia) REFERENCES competencias (id_competencia) ON DELETE CASCADE
     )''')
     
     # Tabela questionario
@@ -53,16 +53,16 @@ def init_db():
         estado TEXT,
         formacao TEXT, 
         curso TEXT,
-        instituicao TEXT,
+        instituicao TEXT, 
         ano_conclusao INTEGER,
         ultimo_cargo TEXT,
         ultima_empresa TEXT,
         tempo_experiencia TEXT, 
         data_preenchimento TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (id_funcionario) REFERENCES funcionarios (id_funcionario)
+        FOREIGN KEY (id_funcionario) REFERENCES funcionarios (id_funcionario) ON DELETE CASCADE
     )''')
 
-    # Tabela vagas (sem id_competencia)
+
     cursor.execute('''CREATE TABLE IF NOT EXISTS vagas (
         id_vaga INTEGER PRIMARY KEY AUTOINCREMENT,
         titulo TEXT,
@@ -72,14 +72,14 @@ def init_db():
         regime TEXT,
         status TEXT DEFAULT 'ativa',
         data_publicacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        id_empresa INTEGER,
+        id_empresa INTEGER ,
         FOREIGN KEY (id_empresa) REFERENCES empresas (id_empresa)
     )''')
     
     # Tabela vaga_competencias
     cursor.execute('''CREATE TABLE IF NOT EXISTS vaga_competencias (
         id_vaga INTEGER,
-        id_competencia INTEGER,
+        id_competencia INTEGER ,
         PRIMARY KEY (id_vaga, id_competencia),
         FOREIGN KEY (id_vaga) REFERENCES vagas (id_vaga) ON DELETE CASCADE,
         FOREIGN KEY (id_competencia) REFERENCES competencias (id_competencia) ON DELETE CASCADE
@@ -95,6 +95,17 @@ def init_db():
         FOREIGN KEY (id_vaga) REFERENCES vagas (id_vaga) ON DELETE CASCADE,
         UNIQUE(id_funcionario, id_vaga)
     )''')
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS seguidores (
+    id_seguidor INTEGER PRIMARY KEY AUTOINCREMENT,
+    seguidor_id INTEGER,
+    seguido_id INTEGER,
+    data_seguimento TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (seguidor_id) REFERENCES funcionarios (id_funcionario) ON DELETE CASCADE,
+    FOREIGN KEY (seguido_id) REFERENCES funcionarios (id_funcionario) ON DELETE CASCADE,
+    UNIQUE(seguidor_id, seguido_id)
+)
+    ''')
     
     conn.commit()
     conn.close()

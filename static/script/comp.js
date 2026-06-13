@@ -30,9 +30,9 @@ function adicionarCompetencia() {
     const novoItem = document.createElement('div');
     novoItem.className = 'competencia-item';
     
-    // CORREÇÃO: mudar o name para 'novas_competencias' se preferir
+    // CORREÇÃO: usar o mesmo nome que o Python espera!
     novoItem.innerHTML = `
-        <input type="checkbox" name="novas_competencias" value="${nomeComp.replace(/"/g, '&quot;')}" id="${novoId}" checked>
+        <input type="checkbox" name="competencias_novas_marcadas" value="${nomeComp.replace(/["']/g, '&quot;')}" id="${novoId}" checked>
         <label for="${novoId}"> ${nomeComp}</label>
     `;
     
@@ -40,3 +40,16 @@ function adicionarCompetencia() {
     input.value = "";
     input.focus();
 }
+
+// Garantir que o elemento existe antes de usar
+document.addEventListener('DOMContentLoaded', function() {
+    const inputComp = document.getElementById('input_nova_comp');
+    if (inputComp) {
+        inputComp.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                adicionarCompetencia();
+            }
+        });
+    }
+});

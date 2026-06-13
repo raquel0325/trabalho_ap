@@ -3,33 +3,27 @@ import os
 import sqlite3
 from database.connect import get_connection
 
-
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 class FuncionarioCRUD:
     
     @staticmethod
-    def inserir(nome, email, senha, telefone, cpf): #inserir novo funcionario
+    def inserir(nome, email, senha, telefone, cpf):
         conn = get_connection()
-
         try:
-
             cursor = conn.cursor()
             cursor.execute('''
                 INSERT INTO funcionarios (nome, email, senha, telefone, cpf) VALUES (?, ?, ?, ?, ?)''', 
                 (nome, email, senha, telefone, cpf))
             conn.commit()
-
-
             return cursor.lastrowid
         except:
-                raise Exception("E-mail ou CPF já cadastrado!")
+            raise Exception("E-mail ou CPF já cadastrado!")
         finally:
             conn.close()
     
     @staticmethod
-    def buscar_por_email_senha(email, senha): #buscar funcionario
-
+    def buscar_por_email_senha(email, senha):
         conn = get_connection()
         try:
             cursor = conn.cursor()
@@ -41,7 +35,7 @@ class FuncionarioCRUD:
             conn.close()
     
     @staticmethod
-    def buscar_por_email(email): #buscar funcionario por email
+    def buscar_por_email(email):
         conn = get_connection()
         try:
             cursor = conn.cursor()
@@ -56,7 +50,6 @@ class FuncionarioCRUD:
     
     @staticmethod
     def buscar_por_nome(nome):
-    
         conn = get_connection()
         try:
             cursor = conn.cursor()
@@ -68,8 +61,25 @@ class FuncionarioCRUD:
             conn.close()
     
     @staticmethod
+    def buscar_por_id(id_funcionario):
+        """Busca funcionário por ID e retorna como dicionário"""
+        conn = get_connection()
+        try:
+            cursor = conn.cursor()
+            cursor.execute('''
+                SELECT id_funcionario, nome, email, telefone, cpf 
+                FROM funcionarios 
+                WHERE id_funcionario = ?
+            ''', (id_funcionario,))
+            resultado = cursor.fetchone()
+            if resultado:
+                return dict(resultado)
+            return None
+        finally:
+            conn.close()
+    
+    @staticmethod
     def atualizar(id_funcionario, nome=None, telefone=None, cpf=None):
-
         conn = get_connection()
         try:
             cursor = conn.cursor()
@@ -101,9 +111,9 @@ class FuncionarioCRUD:
         finally:
             conn.close()
     
+    
     @staticmethod
     def deletar(id_funcionario):
-        #deletar funcionario
         conn = get_connection()
         try:
             cursor = conn.cursor()
@@ -113,3 +123,4 @@ class FuncionarioCRUD:
             return cursor.rowcount > 0
         finally:
             conn.close()
+#======================================================================================================================================
