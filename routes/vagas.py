@@ -1,9 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
-from models.model_vagas import Vaga, Candidatura, Match
-from CRUDs.candidatura import CandidaturaCRUD, MatchCRUD
-from models.model_comp import Competencia 
-from CRUDs.crud_comp import CompetenciaCRUD
-
+from models import Vaga, Candidatura, Match, Competencia  
+from CRUDs import CandidaturaCRUD, MatchCRUD, CompetenciaCRUD  
 
 bp_vagas = Blueprint('vagas', __name__)
 

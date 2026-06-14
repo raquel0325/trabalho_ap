@@ -1,6 +1,7 @@
 from flask import Flask
 from config import Config
-from database.main import init_db
+from database import init_db  
+from routes import bp_auth, bp_home, bp_questionario, bp_vagas, bp_google, init_oauth
 
 app = Flask(__name__)
 app.secret_key = Config.SECRET_KEY
@@ -9,22 +10,10 @@ app.secret_key = Config.SECRET_KEY
 init_db()
 
 # Registra Blueprints
-from routes.auth import bp_auth
 app.register_blueprint(bp_auth)
-
-from routes.home import bp_home
 app.register_blueprint(bp_home)
-
-from routes.questionario import bp_questionario
 app.register_blueprint(bp_questionario)
-
-from routes.vagas import bp_vagas
 app.register_blueprint(bp_vagas)
-
-from routes.route_seguir import bp_seguir
-app.register_blueprint(bp_seguir)
-
-from routes.google_auth import bp_google, init_oauth
 init_oauth(app)
 app.register_blueprint(bp_google)
 

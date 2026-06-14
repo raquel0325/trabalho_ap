@@ -39,7 +39,7 @@
 
             <div class="descricao-info">
                 <strong>📋 Descrição da Vaga:</strong>
-                <p>{{ vaga.descricao }}</p>
+                 {{ vaga.descricao_html|safe }}
             </div>
 
             <div class="competencias-info">

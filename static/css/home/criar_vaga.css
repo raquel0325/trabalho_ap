@@ -1,19 +1,262 @@
-.sugestoes-lista {
-    display: none;
-    background: white;
-    border: 2px solid #05186c;
-    border-radius: 0 0 8px 8px;
-    max-height: 200px;
-    overflow-y: auto;
-    position: absolute;
+/* Layout Geral */
+.container-principal {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+/* Flexbox Wrapper configurado em coluna */
+.formulario-layout-wrapper {
+    display: flex;
+    flex-direction: column; 
+    gap: 30px; /* Garante exatamente 30px de espaço entre cada bloco grande */
+}
+
+.formulario-principal-corpo {
     width: 100%;
-    z-index: 1000;
+    display: flex;
+    flex-direction: column;
 }
-.sugestao-item {
-    padding: 10px 15px;
+
+/* Bloco das Competências */
+.sidebar-competencias {
+    width: 100%; 
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0e0e0;
+    position: static; 
+    max-height: none; 
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Lista horizontal de competências */
+.competencias-lista-sidebar {
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap;
+    gap: 10px;         
+    overflow-y: visible;
+    max-height: none; 
+    padding: 5px 0;
+}
+
+/* Elementos de Texto e Títulos */
+.titulo-pagina {
+    font-size: 28px;
+    font-weight: bold;
+    color: #05186c;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.secao-vaga {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px; /* Margem entre os sub-blocos do formulário */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0e0e0;
+}
+
+.secao-vaga:last-child {
+    margin-bottom: 0; /* Remove a margem do último elemento para não somar com o gap */
+}
+
+.secao-header h2 {
+    font-size: 18px;
+    color: #05186c;
+    margin: 0;
+    font-weight: 600;
+}
+
+.dividir {
+    height: 2px;
+    background-color: #e8f0fe;
+    margin: 12px 0 20px 0;
+}
+
+.campo-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.campo-metade {
+    flex: 1;
+    min-width: 250px; 
+}
+
+.campo label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.obrigatorio {
+    color: #d93025;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    border: 1px solid #6008ed;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #05186c;
+    box-shadow: 0 0 0 3px rgba(5, 24, 108, 0.15);
+}
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+select.select-custom {
+    background-color: #fff;
     cursor: pointer;
-    border-bottom: 1px solid #eee;
+    height: 47px; 
 }
-.sugestao-item:hover {
+
+/* Campo de adicionar competência */
+.adicionarcompetencia {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.adicionarcompetencia input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #450bc2;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.adicionarcompetencia input:focus {
+    outline: none;
+    border-color: #05186c;
+}
+
+.adicionarcompetencia button {
+    padding: 10px 15px;
+    background-color: #05186c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.adicionarcompetencia button:hover {
+    background-color: #030f47;
+}
+
+/* Item de Competência (Tag) */
+.competencia-item {
+    display: inline-flex; 
+    align-items: center;
+    background: #f8f9fa;
+    padding: 8px 14px;    
+    border-radius: 20px;
+    border: 1px solid #e9ecef;
+    transition: background-color 0.2s;
+    white-space: nowrap; 
+}
+
+.competencia-item:hover {
     background: #e8f0fe;
+}
+
+.competencia-item input[type="checkbox"] {
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #05186c;
+}
+
+.competencia-item label {
+    margin: 0;
+    cursor: pointer;
+    font-size: 14px;
+    user-select: none;
+    width: 100%;
+}
+
+/* Rodapé do Botão */
+.container-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+    width: 100%;
+}
+
+.btn-submit {
+    padding: 14px 40px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #05186c;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(5, 24, 108, 0.2);
+    transition: background-color 0.2s, transform 0.1s;
+    width: auto;
+}
+
+.btn-submit:hover {
+    background-color: #030f47;
+}
+
+.btn-submit:active {
+    transform: scale(0.98);
+}
+
+/* Responsividade Mobile */
+@media (max-width: 850px) {
+    .competencias-lista-sidebar {
+        max-height: 300px;
+        overflow-y: auto; /* Adiciona scroll interno temporário apenas no mobile se houver excesso */
+    }
+}
+input {
+  border: 1px solid #0055ff; /* Borda azul */
+  border-radius: 8px; /* Cantos arredondados */
+}
+
+.btn-formato {
+    padding: 5px 12px;
+    margin-right: 5px;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+.btn-formato:hover {
+    background: #e0e0e0;
 }

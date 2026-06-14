@@ -1,159 +1,127 @@
 {% extends "menu.html" %}
 {% block content %}
 
+<div class="container-principal"> 
 
-
-
-<div class="container">
-    <div>criar vagas</div>
-    <!-- Formulário de criação de vaga -->
-    <div>
-        <form action="{{ url_for('vagas.empresa_criar_vaga') }}" method="POST">
-
-            <div class="container">
-                <!-- secao 1-->
-                <div class='secao1'>
-                    <div class="secao-active" id="secao" data-secao="0">
-                        <!-- SECAO DE TITULO DA VAGA. CARGO OFERECIDO -->
-                        <div class="secao-header">
-                            <h2>Cargo</h2>
-                        </div>
+    <form action="{{ url_for('vagas.empresa_criar_vaga') }}" method="POST">
+        
+        <div class="formulario-layout-wrapper">
+            
+            <div class="formulario-principal-corpo">
+                
+                <div class="secao-vaga">
+                    <div class="secao-header">
+                        <h2>Informações Básicas</h2>
                     </div>
-                    <div class='dividir'></div>
-
-                    <div class="secao-content"> <!-- SECAO DE TITULO DA VAGA. CARGO OFERECIDO -->
+                    <div class="dividir"></div>
+                    
+                    <div class="secao-content">
                         <div class="campo-row">
-                            <div class='campo'>
+                            <div class="campo campo-metade">
                                 <label>Cargo <span class="obrigatorio">*</span></label>
-                                <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Cargo "
-                                    required>
+                                <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Cargo" list="lista-titulos" required>
                                 <datalist id="lista-titulos">
                                     {% for c in titulos %}
-                                    <option value="{{ c[0] }}">
-                                        {% endfor %}
+                                    <option value="{{ c[0] }}"></option>
+                                    {% endfor %}
                                 </datalist>
+                            </div>
+                            
+                            <div class="campo campo-metade">
+                                <label>Salário <span class="obrigatorio">*</span></label>
+                                <input type="number" name="salario" id="salario" class="form-control" placeholder="Salário" required>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- secao 2-->
-                <div class="secao2">
-                    <div class="secao-active" id="secao" data-secao="1">
-                        <!-- SECAO DE descricao DA VAGA. CARGO OFERECIDO -->
-                        <div class="secao-header">
-                            <h2>Descrição</h2>
-                        </div>
-                    </div>
-                    <div class='dividir'></div>
 
-                    <div class="secao-content"> <!-- SECAO DE descricao DA VAGA. CARGO OFERECIDO -->
+                <div class="secao-vaga">
+                    <div class="secao-header">
+                        <h2>Localização e Contratação</h2>
+                    </div>
+                    <div class="dividir"></div>
+                    
+                    <div class="secao-content">
                         <div class="campo-row">
-                            <div class='campo'>
-                                <label>Descrição <span class="obrigatorio">*</span></label>
-                                <textarea name="descricao" id="descricao" class="form-control" placeholder="Descrição"
-                                    required></textarea>
+                            <div class="campo campo-metade">
+                                <label>Cidade <span class="obrigatorio">*</span></label>
+                                <input type="text" name="cidade" id="cidade" class="form-control" placeholder="Cidade" required>
+                            </div>
+                            
+                            <div class="campo campo-metade">
+                                <label>Regime <span class="obrigatorio">*</span></label>
+                                <select name="regime" id="regime" class="form-control select-custom" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="CLT">CLT</option>
+                                    <option value="PJ">PJ</option>
+                                    <option value="Temporário">Temporário</option>
+                                    <option value="Estágio">Estágio</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                    <!-- secao 3-->
-                    <div class="secao3">
-                        <div class="secao-active" id="secao" data-secao="2">
-                            <!-- SECAO DE salario DA VAGA. CARGO OFERECIDO -->
-                            <div class="secao-header">
-                                <h2>Salário</h2>
-                            </div>
+                </div>
+            
+            </div> <aside class="sidebar-competencias">
+                <div class="secao-header">
+                    <h2>Competências</h2>
+                </div>
+                <div class="dividir"></div>
+                
+                <div class="adicionarcompetencia">
+                    <input type="text" id="input_nova_comp" placeholder="Nova competência">
+                    <button type="button" id="btn-adicionar" onclick="adicionarCompetencia()">Add</button>
+                </div>
+                
+                <div class="secao-content">
+                    <div id="lista-competencias" class="competencias-lista-sidebar">
+                        {% for c in competencias %}
+                        <div class="competencia-item">
+                            <input type="checkbox" name="competencias" value="{{ c[0] }}" id="comp_{{ c[0] }}">
+                            <label for="comp_{{ c[0] }}">{{ c[1] }}</label>
                         </div>
-                        <div class='dividir'></div>
-                        <div class="secao-content"> <!-- SECAO DE salario DA VAGA. CARGO OFERECIDO -->
-                            <div class="campo-row">
-                                <div class='campo'>
-                                    <label>Salário <span class="obrigatorio">*</span></label>
-                                    <input type="number" name="salario" id="salario" class="form-control"
-                                        placeholder="Salário" required>
-                                </div>
-                            </div>
-                            <!-- Corrigir o campo de endereço -->
-                            <div class="secao-endereco">
-                                <div class="secao-active" id="secao" data-secao="5">
-                                    <div class="secao-header">
-                                        <h2>Endereço</h2>
-                                    </div>
-                                    <div class='dividir'></div>
-                                    <div class="secao-content">
-                                        <div class="campo-row">
-                                            <div class='campo'>
-                                                <label>Cidade <span class="obrigatorio">*</span></label>
-                                                <!-- CORREÇÃO: name="cidade" (não "cidace") -->
-                                                <input type="text" name="cidade" id="cidade" class="form-control"
-                                                    placeholder="Cidade" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </aside>
 
+              
+                <div class="secao-vaga">
+                    <div class="secao-header">
+                        <h2>Descrição</h2>
+                    </div>
+                    <div class="dividir"></div>
 
-                            <!-- secao 4-->
-                            <div class="secao4">
-                                <div class="secao-active" id="secao" data-secao="3">
-                                    <!-- SECAO DE competencias DA VAGA. CARGO OFERECIDO -->
-                                    <div class="secao-header">
-                                        <h2>Competências</h2>
-                                    </div>
-                                </div>
-                                <div class='dividir'></div>
-                                <div class="adicionarcompetencia">
-                                    <input type="text" id="input_nova_comp" placeholder="Adicionar nova competência">
-                                    <button type="button" id="btn-adicionar"
-                                        onclick="adicionarCompetencia()">Adicionar</button>
-                                </div>
-                                <div class="secao-content">
-                                    <div class="campo-row">
-                                        <div id="lista-competencias" class="competencias-lista">
-                                            {% for c in competencias %}
-                                            <div class="competencia-item">
-                                                <input type="checkbox" name="competencias" value="{{ c[0] }}"
-                                                    id="comp_{{ c[0] }}">
-                                                <label for="comp_{{ c[0] }}">{{ c[1] }}</label>
-                                            </div>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- secao 5-->
-                            <div class="secao5">
-                                <div class="secao-active" id="secao" data-secao="4">
-                                    <!-- SECAO DE regime DA VAGA. CARGO OFERECIDO -->
-                                    <div class="secao-header">
-                                        <h2>Regime</h2>
-                                    </div>
-                                    <div class='dividir'></div>
-                                    <div class="secao-content"> <!-- SECAO DE regime DA VAGA. CARGO OFERECIDO -->
-                                        <div class="campo-row">
-                                            <div class='campo'>
-                                                <label>Regime <span class="obrigatorio">*</span></label>
-                                                <select name="regime" id="regime" required>
-                                                    <option value="">Selecione...</option>
-                                                    <option value="CLT">CLT</option>
-                                                    <option value="PJ">PJ</option>
-                                                    <option value="Temporário">Temporário</option>
-                                                    <option value="Estágio">Estágio</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="container-btn">
-                                    <div class="btn">
-                                        <button type="submit" class="btn-submit">Criar Vaga</button>
-                                    </div>
-                                </div>
-                            </div><!-- fim container -->
-                        </div>
-        </form>
-
+                    <div class="secao-content">
+                        <div class="campo-row">
+                            <div class="campo">
+    <label>Descrição <span class="obrigatorio">*</span></label>
+    
+    <!-- Botões de formatação -->
+    <div class="format-buttons" style="margin-bottom: 5px;">
+        <button type="button" onclick="formatar('**', '**')" class="btn-formato">🔲 Negrito</button>
+        <button type="button" onclick="formatar('*', '*')" class="btn-formato">⎯ Itálico</button>
+        <button type="button" onclick="formatarLista('- ')" class="btn-formato">• Lista</button>
+        <button type="button" onclick="formatarLista('1. ')" class="btn-formato">1. Lista</button>
     </div>
-    <script src="../../static/script/comp.js"></script>
-    {% endblock %}
+    
+    <textarea name="descricao" id="descricao" class="form-control" 
+              placeholder="Descreva a vaga..." required rows="8"></textarea>
+</div>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="container-btn">
+                <button type="submit" class="btn-submit">Criar Vaga</button>
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home/criar_vaga.css') }}">
+<script src="../../static/script/comp.js"></script>
+
+{% endblock %}  

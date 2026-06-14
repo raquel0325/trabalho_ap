@@ -1,22 +1,18 @@
-from CRUDs.crud_vagas import VagaCRUD
-from CRUDs.candidatura import CandidaturaCRUD, MatchCRUD
-from CRUDs.crud_comp import CompetenciaCRUD
+from CRUDs import VagaCRUD, CandidaturaCRUD, MatchCRUD  
+import markdown
 import re
+
 
 class Vaga:
     @staticmethod
     def criar(titulo, descricao, salario, cidade, regime, id_empresa, competencias_ids):
-        """Cria uma nova vaga com validações"""
         if not titulo or len(titulo) < 3:
             raise ValueError("Título deve ter pelo menos 3 caracteres")
         if not descricao or len(descricao) < 50:
-
             raise ValueError("Descrição deve ter pelo menos 50 caracteres")
         if salario and salario < 0:
-
             raise ValueError("Salário não pode ser negativo")
         if not competencias_ids:
-
             raise ValueError("Selecione pelo menos uma competência")
         
         return VagaCRUD.inserir(titulo, descricao, salario, cidade, regime, id_empresa, competencias_ids)
@@ -39,7 +35,13 @@ class Vaga:
             competencias = VagaCRUD.buscar_competencias_vaga(id_vaga)
             vaga_dict = dict(vaga)
             vaga_dict['competencias'] = competencias
+            
+            if vaga_dict.get('descricao'):
+                vaga_dict['descricao_html'] = markdown.markdown(
+                    vaga_dict['descricao'],
+                    extensions=['extra', 'nl2br'])
             return vaga_dict
+        
         return None
     
     @staticmethod

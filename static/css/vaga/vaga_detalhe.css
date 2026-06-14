@@ -252,3 +252,13 @@ body {
         text-align: center;
     }
 }
+
+.descricao-formatada {
+        line-height: 1.6;
+    }
+    .descricao-formatada strong {
+        font-weight: bold;
+    }
+    .descricao-formatada em {
+        font-style: italic;
+    }

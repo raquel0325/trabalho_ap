@@ -7,6 +7,8 @@ class Empresa:
     def cadastrar(nome, cnpj, email, senha, telefone='', endereco=''):
         """Cadastra uma nova empresa com validações"""
         # Validações
+        cnpj = re.sub(r'\D', '', cnpj) if cnpj else ''
+        telefone = re.sub(r'\D', '', telefone) if telefone else ''
         if not nome or len(nome) < 2:
             raise ValueError("Nome da empresa deve ter pelo menos 2 caracteres")
         

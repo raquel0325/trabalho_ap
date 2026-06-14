@@ -67,24 +67,29 @@
 
             
             <div id="formFuncionario" class="form-container active">
+                
                 <form action="/cadastro/funcionario" method="POST">
                     <input type="text" name="nome" placeholder="Nome completo" required><br>
                     <input type="email" name="email" placeholder="E-mail" required><br>
                     <input type="password" name="senha" placeholder="Senha (mínimo 6 caracteres)" required minlength="6"><br>
-                    <input type="text" name="cpf" placeholder="CPF (apenas números)" required><br>
-                    <input type="tel" name="telefone" placeholder="Telefone"><br>
+                   <input type="text" name="cpf" id="cpf" placeholder="CPF (apenas números)" required maxlength="14"><br>
+                    <input type="tel" name="telefone" id="telFuncionario" placeholder="Telefone" maxlength="15"><br>
                     <button type="submit" class="btn-entrar">Cadastrar</button>
                 </form>
             </div>
 
             <div id="formEmpresa" class="form-container">
+
+               
+              
+
                 <form action="/cadastro/empresa" method="POST">
                     <input type="text" name="nome" placeholder="Nome da Empresa" required><br>
-                    <input type="text" name="cnpj" placeholder="CNPJ (apenas números)" required><br>
+                 <input type="text" name="cnpj" id="cnpj" placeholder="CNPJ (apenas números)" required maxlength="18"> <br>
                     <input type="text" name="endereco" placeholder="Endereço"><br>
                     <input type="email" name="email" placeholder="E-mail Corporativo"><br>
                     <input type="password" name="senha" placeholder="Senha (mínimo 6 caracteres)" required minlength="6"><br>
-                    <input type="tel" name="telefone" placeholder="Telefone"><br>
+                      <input type="tel" name="telefone" id="telEmpresa" placeholder="Telefone" maxlength="15"><br>
                     <button type="submit" class="btn-entrar">Cadastrar</button>
                 </form>
             </div>

@@ -1,3 +1,5 @@
+import re
+
 from CRUDs.crud_func import FuncionarioCRUD
 from CRUDs.crud_quest import QuestionarioCRUD
 from models.model_comp import Competencia
@@ -8,6 +10,10 @@ class Funcionario:
     @staticmethod
     def cadastrar(nome, email, senha, telefone, cpf):
         """Cadastra um novo funcionário com validações"""
+
+        cpf = re.sub(r'\D', '', cpf) if cpf else ''
+        telefone = re.sub(r'\D', '', telefone) if telefone else ''
+    
         if not nome or len(nome) < 3:
             raise ValueError("Nome deve ter pelo menos 3 caracteres")
         if not email or '@' not in email:
