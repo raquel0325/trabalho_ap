@@ -1,0 +1,346 @@
+/* ==========================================================================
+   Variáveis Globais & Reset de Escopo
+   ========================================================================== */
+:root {
+    --primary: #05186c;
+    --primary-hover: #0a28a0;
+    --primary-light: #e8f0fe;
+    --accent: #99E2F2;
+    --text-main: #2d3748;
+    --text-muted: #718096;
+    --bg-body: #f7fafc;
+    --bg-card: #ffffff;
+    --border-color: #e2e8f0;
+    
+    /* Cores de Status */
+    --status-pendente-bg: #fffaf0;
+    --status-pendente-text: #b7791f;
+    --status-aprovado-bg: #f0fff4;
+    --status-aprovado-text: #38a169;
+    --status-rejeitado-bg: #fff5f5;
+    --status-rejeitado-text: #e53e3e;
+    
+    /* Transições e Sombras */
+    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+}
+
+.container-candidatos {
+    max-width: 1200px;
+    margin: 40px auto; 
+    padding: 0 24px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-main);
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Header (Corrigido e Alinhado à Esquerda)
+   ========================================================================== */
+.header-candidatos {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-color);
+ 
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.lado-esquerdo-header {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: 8px;              
+    flex: 1;
+}
+
+.header-candidatos h1 {
+    color: var(--primary);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin: 0;
+    text-align: left;
+}
+
+.info-vaga {
+    display: flex;
+    flex-direction: row;   
+    align-items: center;   
+    justify-content: flex-start; 
+    gap: 12px;             
+    width: 100%;
+}
+
+.info-vaga .titulo-vaga {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-main);
+    text-align: left;
+}
+
+.info-vaga .total {
+    font-weight: 600;
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 6px 14px;
+    border-radius: 6px;
+    white-space: nowrap;   
+    font-size: 14px;
+}
+
+.lado-direito-header {
+    display: flex;
+    align-items: flex-start;
+}
+
+.acoes-header {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: #f1f5f9;
+    color: var(--text-main);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: var(--transition-smooth);
+    border: 1px solid var(--border-color);
+}
+
+.btn-voltar:hover {
+    background:blue;
+    color:#ffffff;
+    transform: translateX(-2px);
+}
+
+/* ==========================================================================
+   Corpo e Tabela
+   ========================================================================== */
+.corpo-candidatos {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 32px; 
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+}
+
+.tabela-candidatos {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.tabela-candidatos table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px; 
+    text-align: left;
+    table-layout: auto; 
+}
+
+.tabela-candidatos thead {
+    background: var(--primary); 
+    color: #ffffff;
+}
+
+.tabela-candidatos th {
+    padding: 18px 24px; 
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 13px; 
+    letter-spacing: 0.5px;
+    color: #ffffff; 
+    white-space: nowrap; 
+}
+
+.tabela-candidatos td {
+    padding: 20px 24px; 
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+    color: var(--text-main);
+    white-space: nowrap; 
+}
+
+.tabela-candidatos td:nth-child(5), 
+.tabela-candidatos td:nth-child(6) {
+    white-space: normal;
+    min-width: 150px;
+    max-width: 250px;
+}
+
+.tabela-candidatos tbody tr {
+    transition: var(--transition-smooth);
+}
+
+.tabela-candidatos tbody tr:hover {
+    background: #f8fafc;
+}
+
+.tabela-candidatos tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* ==========================================================================
+   Status Badges (Pílulas de Status)
+   ========================================================================== */
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+    text-transform: capitalize;
+}
+
+.status-badge.pendente {
+    background: var(--status-pendente-bg);
+    color: var(--status-pendente-text);
+    border: 1px solid #fbd38d;
+}
+
+.status-badge.aprovado, 
+.status-badge.status-aprovado { 
+    background: var(--status-aprovado-bg);
+    color: var(--status-aprovado-text);
+    border: 1px solid #9ae6b4;
+}
+
+.status-badge.rejeitado,
+.status-badge.status-rejeitado {
+    background: var(--status-rejeitado-bg);
+    color: var(--status-rejeitado-text);
+    border: 1px solid #feb2b2;
+}
+
+/* ==========================================================================
+   Ações dos Candidatos (Botões Ajustados)
+   ========================================================================== */
+.acoes-candidato {
+    display: flex;
+    gap: 6px;
+}
+.acoes-candidato .btn-aprovar{
+    background: var(--status-aprovado-bg);
+    color: var(--status-aprovado-text);
+    
+}
+.acoes-candidato .btn-rejeitar{
+    background: var(--status-rejeitado-bg);
+    color: var(--status-rejeitado-text);
+}
+.acoes-candidato .btn-ver-perfil,
+.acoes-candidato .btn-aprovar,
+.acoes-candidato .btn-rejeitar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 14px;
+    height: 36px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px; 
+    font-weight: 500;
+    text-transform: capitalize;
+    transition: var(--transition-smooth);
+    text-decoration: none;
+    background: var(--bg-card);
+}
+
+.acoes-candidato .btn-ver-perfil:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-color: #bee3f8;
+    transform: translateY(-2px);
+}
+
+.acoes-candidato .btn-aprovar:hover {
+    background:green;
+    color:#ffffff;
+    border-color: var(--status-aprovado-text);
+    transform: translateY(-2px);
+}
+
+.acoes-candidato .btn-rejeitar:hover {
+    background: red;
+    color: #ffffff;
+    border-color: #feb2b2;
+    transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Estado Vazio (Sem Candidatos)
+   ========================================================================== */
+.sem-candidatos {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.sem-candidatos p:first-of-type {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.sem-candidatos p:last-of-type {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Responsividade Ajustada (Mobile)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .container-candidatos {
+        margin: 16px auto;
+        padding: 0 12px;
+    }
+
+    .header-candidatos {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 16px;
+    }
+
+    .lado-esquerdo-header {
+        width: 100%;
+    }
+
+    .info-vaga {
+        flex-direction: row; 
+        flex-wrap: wrap;     
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .lado-direito-header {
+        width: 100%;
+        text-align: left;
+        margin-top: 8px;
+    }
+    
+    .acoes-header {
+        justify-content: flex-start;
+    }
+
+    .tabela-candidatos th,
+    .tabela-candidatos td {
+        padding: 12px 14px;
+    }
+}

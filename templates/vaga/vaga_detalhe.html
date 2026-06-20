@@ -22,21 +22,10 @@
                 </div>
 
             {% elif session.get('tipo') == 'empresa' %}
-                <!-- EMPRESA - Mostrar número de candidatos -->
                 <div class="candidatos-section">
-                        <a href="{{ url_for('candidatar_se.ver_candidatos', id_vaga=vaga.id_vaga) }}" class="candidatos-num">
-                            {{ total_candidatos if total_candidatos else 0 }} candidato(s)</a>
-                </div>
-                <!-- EMPRESA - Botões de Editar e Excluir -->
-                <div class="empresa-acoes">
-                    <a href="{{ url_for('atualizar_vaga.editar_vaga', id_vaga=vaga.id_vaga) }}" class="btn-editar">
-                        ✏️ Editar Vaga
+                    <a href="{{ url_for('candidatar_se.ver_candidatos', id_vaga=vaga.id_vaga) }}" class="candidatos-num">
+                        {{ total_candidatos if total_candidatos else 0 }} candidato(s)
                     </a>
-                    <form action="{{ url_for('vagas.excluir_vaga', id_vaga=vaga.id_vaga) }}" method="POST" style="display: inline;">
-                        <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir esta vaga? Esta ação não pode ser desfeita!')">
-                            🗑️ Excluir Vaga
-                        </button>
-                    </form>
                 </div>
             {% endif %}
         </div>
@@ -71,18 +60,31 @@
         </div>
 
         <div class="acoes-detalhe">
-            {% if ja_candidatou %}
-                <div class="alert-success">
-                    ✅ Parabéns! Você já se candidatou a esta vaga. A empresa entrará em contato em breve.
+            {% if session.get('tipo') == 'empresa' %}
+                <div class="empresa-acoes">
+                    <a href="{{ url_for('atualizar_vaga.editar_vaga', id_vaga=vaga.id_vaga) }}" class="btn-editar">
+                        Editar Vaga
+                    </a>
+                    <button type="button" class="btn-excluir" onclick="confirmarExclusao('{{ vaga.id_vaga }}')">
+                         Excluir Vaga
+                    </button>
                 </div>
                 <a href="#" onclick="window.history.back(); return false;" class="btn-voltar">← Voltar</a>
+            
             {% else %}
-                {% if session.get('tipo') == 'funcionario' %}
-                    <form action="{{ url_for('candidatar_se.candidatar_vaga', id_vaga=vaga.id_vaga) }}" method="POST">
-                        <button type="submit" class="btn-candidatar-grande">📝 Candidatar-se a esta Vaga</button>
-                    </form>
+                {% if ja_candidatou %}
+                    <div class="alert-success">
+                        ✅ Parabéns! Você já se candidatou a esta vaga.
+                    </div>
+                    <a href="#" onclick="window.history.back(); return false;" class="btn-voltar">← Voltar</a>
+                {% else %}
+                    {% if session.get('tipo') == 'funcionario' %}
+                        <form action="{{ url_for('candidatar_se.candidatar_vaga', id_vaga=vaga.id_vaga) }}" method="POST">
+                            <button type="submit" class="btn-candidatar-grande">📝 Candidatar-se a esta Vaga</button>
+                        </form>
+                    {% endif %}
+                    <a href="#" onclick="window.history.back(); return false;" class="btn-voltar">← Voltar</a>
                 {% endif %}
-                <a href="#" onclick="window.history.back(); return false;" class="btn-voltar">← Voltar</a>
             {% endif %}
         </div>
     </div>
@@ -90,26 +92,26 @@
 </body>
 <script>
     function confirmarExclusao(idVaga) {
-    if (confirm('Tem certeza que deseja excluir esta vaga? Esta ação não pode ser desfeita!')) {
-        fetch(`/vaga/excluir/${idVaga}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Vaga excluída com sucesso!');
-                window.location.href = "{{ url_for('vagas.empresa_vagas') }}";
-            } else {
-                alert('Erro ao excluir vaga: ' + data.error);
-            }
-        })
-        .catch(error => {
-            alert('Erro ao excluir vaga');
-        });
+        if (confirm('Tem certeza que deseja excluir esta vaga? Esta ação não pode ser desfeita!')) {
+            fetch(`/vaga/excluir/${idVaga}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Vaga excluída com sucesso!');
+                    window.location.href = "{{ url_for('vagas.empresa_vagas') }}";
+                } else {
+                    alert('Erro ao excluir vaga: ' + data.error);
+                }
+            })
+            .catch(error => {
+                alert('Erro ao excluir vaga');
+            });
+        }
     }
-}
 </script>
 </html>
