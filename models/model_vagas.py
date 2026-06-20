@@ -64,8 +64,6 @@ class Vaga:
                 'empresa': empresa
         }
         return VagaCRUD.listar_todas(filtros)
-
-
 class Candidatura:
     """Regras para candidaturas"""
     
@@ -85,7 +83,26 @@ class Candidatura:
     def listar_da_vaga(id_vaga):
         """Lista candidatos de uma vaga"""
         return CandidaturaCRUD.listar_candidatos_vaga(id_vaga)
-
+    
+    @staticmethod
+    def contar_por_vaga(id_vaga):
+        """Conta candidatos de uma vaga"""
+        return CandidaturaCRUD.contar_candidatos_por_vaga(id_vaga)
+    
+    @staticmethod
+    def listar_candidatos_por_vaga(id_vaga):
+        """Lista candidatos de uma vaga com detalhes"""
+        return CandidaturaCRUD.listar_candidatos_por_vaga(id_vaga)
+    
+    @staticmethod
+    def atualizar_status(id_candidatura, novo_status):
+        """Atualiza o status de uma candidatura"""
+        # Validação do status
+        status_validos = ['pendente', 'aprovado', 'rejeitado']
+        if novo_status not in status_validos:
+            raise ValueError(f"Status inválido. Use: {', '.join(status_validos)}")
+        
+        return CandidaturaCRUD.atualizar_status(id_candidatura, novo_status)
 class Match:
     """Regras para match"""
     @staticmethod

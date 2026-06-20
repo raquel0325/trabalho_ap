@@ -58,7 +58,23 @@ def home_pag():
                              outros_usuarios=outros_usuarios_lista)
     
     elif tipo == 'empresa':
-        return render_template('home/home_emp.html', nome=session.get('usuario_nome'), tipo=tipo)
+        # Busca dados da empresa
+        from models.model_emp import Empresa
+        empresa = Empresa.buscar_por_id(id_usuario)
+        
+        # Busca vagas da empresa
+        from models.model_vagas import Vaga
+        vagas = Vaga.listar_empresa(id_usuario)
+        
+        # Atualiza sessão com o nome da empresa
+        if empresa and empresa.get('nome'):
+            session['usuario_nome'] = empresa.get('nome')
+        
+        return render_template('home/home_emp.html', 
+                             nome=session.get('usuario_nome'), 
+                             tipo=tipo,
+                             empresa=empresa,
+                             vagas=vagas)
     
     return redirect('/')
 #======================================================================================================================================
@@ -197,3 +213,45 @@ def atualizar_competencias():
     return redirect(url_for('home.home_pag'))
 
 #======================================================================================================================================
+
+@bp_home.route('/atualizar_empresa', methods=['POST'])
+def atualizar_empresa():
+    """Atualiza os dados da empresa"""
+    if 'usuario_id' not in session or session.get('tipo') != 'empresa':
+        return redirect('/')
+    
+    id_usuario = session['usuario_id']
+    
+    try:
+        from models.model_emp import Empresa
+        
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        telefone = request.form.get('telefone')
+        endereco = request.form.get('endereco')
+        
+        # Atualiza os dados
+        Empresa.atualizar_perfil(
+            id_empresa=id_usuario,
+            nome=nome,
+            email=email,
+            telefone=telefone,
+            endereco=endereco
+        )
+        
+        # Atualiza a sessão com os novos dados
+        if nome:
+            session['usuario_nome'] = nome
+        if email:
+            session['usuario_email'] = email
+        if telefone:
+            session['usuario_telefone'] = telefone
+        
+        flash("Perfil atualizado com sucesso!", "sucesso")
+        
+    except ValueError as e:
+        flash(str(e), "erro")
+    except Exception as e:
+        flash(f"Erro ao atualizar: {str(e)}", "erro")
+    
+    return redirect(url_for('home.home_pag'))

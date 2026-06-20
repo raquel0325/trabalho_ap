@@ -1,0 +1,380 @@
+/* ==========================================================================
+   LAYOUT PRINCIPAL (CORREÇÃO DE ALINHAMENTO LADO A LADO)
+   ========================================================================== */
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f4f6f9; /* Fundo geral mais suave */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Painel Empresa Lateral */
+.empresa-sidebar {
+    width: 280px;
+    min-width: 280px;
+    background: #05186c;;
+    border-right: 1px solid #eef2f5;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.02); /* Sombra bem sutil */
+}
+
+/* Conteúdo Principal ao Lado */
+.dashboard-main-content {
+    flex-grow: 1;
+    padding: 40px;
+    background-color: #f8fafc;
+    overflow-y: auto;
+}
+
+/* ==========================================================================
+   ELEMENTOS DA SIDEBAR (SUAVE)
+   ========================================================================== */
+.sidebar-header h3 {
+    color:#ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    padding-left: 10px;
+}
+
+.empresa-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tab-btn {
+    padding: 14px 18px;
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    color: #64748b; /* Texto cinza suave */
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tab-btn:hover {
+    background: #f1f5f9;
+    color: #05186c;
+}
+
+.tab-btn.active {
+    background: #05186c;
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(5, 24, 108, 0.15);
+}
+
+/* ==========================================================================
+   PERFIL EMPRESA (MAIS SUAVE E LIMPO)
+   ========================================================================== */
+.perfil-container {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 35px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03); /* Sombra suave moderna */
+}
+
+.perfil-header h1 {
+    color: #0d1b3e;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.perfil-header p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.form-divider {
+    border: none;
+    border-top: 1px solid #e2e8f0; /* Divisor mais discreto */
+    margin: 25px 0;
+}
+
+/* Grid de Informações */
+.campos-info-empresa {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.campos-info-empresa .campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campos-info-empresa .campo label {
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.campos-info-empresa .campo span {
+    color: #1e293b;
+    font-size: 15px;
+    padding: 12px 16px;
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+    border-radius: 10px;
+    transition: background 0.2s;
+}
+
+/* Formulário de Edição */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: #475569;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 15px;
+    color: #1e293b;
+    background-color: #fff;
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: #05186c;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(5, 24, 108, 0.08);
+}
+
+/* Botoes de Ação */
+.botoes-acao {
+    margin-top: 30px;
+}
+
+.btn-editar, .btn-salvar, .btn-cancelar {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn-editar {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.btn-editar:hover {
+    background: #c7d2fe;
+}
+
+.btn-salvar {
+    background: #10b981;
+    color: white;
+}
+
+.btn-salvar:hover {
+    background: #059669;
+}
+
+.btn-cancelar {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.btn-cancelar:hover {
+    background: #e2e8f0;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+/* ==========================================================================
+   CARDS DO DASHBOARD (SUAVE)
+   ========================================================================== */
+.dashboard-container h1 {
+    color: #0d1b3e;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.dashboard-container .subtitle {
+    color: #64748b;
+    font-size: 15px;
+    margin-bottom: 35px;
+}
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    border-left: 5px solid #05186c;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
+}
+
+.card-actions {
+    border-left-color: #10b981;
+}
+
+.card h3 {
+    color: #0d1b3e;
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.stat-number {
+    font-size: 42px;
+    font-weight: 800;
+    color: #05186c;
+    margin: 10px 0;
+}
+
+.stat-label {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-primary {
+    background: #05186c;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #0a28a0;
+    box-shadow: 0 4px 12px rgba(5, 24, 108, 0.2);
+}
+
+.btn-secondary {
+    background: #f1f5f9;
+    color: #05186c;
+    padding: 12px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background: #e2e8f0;
+}
+
+/* ==========================================================================
+   VAGAS (SUAVE)
+   ========================================================================== */
+.vagas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+.vaga-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    border-left: 4px solid #05186c;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vaga-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+}
+
+.vaga-card h3 {
+    color: #0d1b3e;
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.vaga-card p {
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.btn-ver {
+    background: #f1f5f9;
+    color: #05186c;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+
+.btn-ver:hover {
+    background: #05186c;
+    color: #fff;
+}
+
+.vagas-empty {
+    text-align: center;
+    padding: 60px 20px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
+}
+
+/* ==========================================================================
+   CONTROLE DAS ABAS
+   ========================================================================== */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}

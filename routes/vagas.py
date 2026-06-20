@@ -1,8 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from models import Vaga, Candidatura, Match, Competencia  
-from CRUDs import CandidaturaCRUD, MatchCRUD, CompetenciaCRUD  
+from CRUDs import CandidaturaCRUD, MatchCRUD, CompetenciaCRUD, VagaCRUD  
 
 bp_vagas = Blueprint('vagas', __name__)
+
+
 
 @bp_vagas.route('/vagas')
 def listar_vagas():
@@ -129,66 +131,32 @@ def empresa_vagas():
 
 #======================================================================================================================================
 
-@bp_vagas.route('/vaga/<int:id_vaga>/candidatar', methods=['POST'])
-def candidatar_vaga(id_vaga):
-    """Candidatar-se a uma vaga"""
-    if 'usuario_id' not in session:
+#excluir vaga
+@bp_vagas.route('/vaga/excluir/<int:id_vaga>', methods=['POST'])
+def excluir_vaga(id_vaga):
+    """Exclui uma vaga com redirect"""
+    if 'usuario_id' not in session or session.get('tipo') != 'empresa':
+        flash("Acesso não autorizado!", "erro")
         return redirect('/')
     
     try:
-        Candidatura.candidatar(session['usuario_id'], id_vaga)
-        flash('Candidatura realizada com sucesso!', 'sucesso')
-    except ValueError as e:
-        flash(str(e), 'erro')
-    
-    return redirect(url_for('vagas.detalhe_vaga', id_vaga=id_vaga))
-#======================================================================================================================================
-
-
-#======================================================================================================================================
-
-@bp_vagas.route('/vaga/<int:id_vaga>')
-def detalhe_vaga(id_vaga):
-    """Detalhes de uma vaga específica"""
-    if 'usuario_id' not in session:
-        return redirect('/')
-    
-    vaga = Vaga.buscar(id_vaga)
-    if not vaga:
-        flash("Vaga não encontrada!", "erro")
-        return redirect(url_for('vagas.listar_vagas'))
-    
-    id_funcionario = session['usuario_id']
-    match_percent = Match.calcular(id_funcionario, id_vaga)
-    match_degrees = match_percent * 3.6  
-    
-    from CRUDs.candidatura import CandidaturaCRUD
-    ja_candidatou = CandidaturaCRUD.verificar_candidatura(id_funcionario, id_vaga)
-    
-    return render_template('vaga/vaga_detalhe.html', 
-                         vaga=vaga, 
-                         match_percent=match_percent,
-                         match_degrees=match_degrees,
-                         ja_candidatou=ja_candidatou)
-
-
-#======================================================================================================================================
-
-
-#======================================================================================================================================
-@bp_vagas.route('/cancelar_candidatura/<int:id_candidatura>', methods=['POST'])
-def cancelar_candidatura(id_candidatura):
-    """Cancelar uma candidatura"""
-    from CRUDs.candidatura import CandidaturaCRUD
-    from database.connect import get_connection
-    
-    try:
-        conn = get_connection()
-        cursor = conn.cursor()
-        cursor.execute('DELETE FROM candidaturas WHERE id_candidatura = ?', (id_candidatura,))
-        conn.commit()
-        conn.close()
+        vaga = Vaga.buscar(id_vaga)
+        if not vaga:
+            flash("Vaga não encontrada!", "erro")
+            return redirect(url_for('vagas.empresa_vagas'))
         
-        return {'success': True}
+        if vaga['id_empresa'] != session['usuario_id']:
+            flash("Acesso não autorizado!", "erro")
+            return redirect('/')
+        
+        sucesso = Vaga.deletar(id_vaga)
+        
+        if sucesso:
+            flash("Vaga excluída com sucesso!", "sucesso")
+        else:
+            flash("Erro ao excluir vaga!", "erro")
+            
     except Exception as e:
-        return {'success': False, 'error': str(e)}
+        flash(f"Erro ao excluir vaga: {str(e)}", "erro")
+    
+    return redirect(url_for('vagas.empresa_vagas'))

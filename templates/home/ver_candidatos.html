@@ -1,0 +1,298 @@
+{% extends "menu.html" %}
+{% block content %}
+
+<div class="container-candidatos">
+    <div class="header-candidatos">
+        <h1>📋 Candidatos - {{ vaga.titulo }}</h1>
+        <div class="info-vaga">
+            <span class="empresa">🏢 {{ vaga.empresa_nome }}</span>
+            <span class="total">👥 {{ total_candidatos if total_candidatos else 0 }} candidato(s)</span>
+        </div>
+        <div class="acoes-header">
+            <a href="#" onclick="window.history.back(); return false;" class="btn-voltar">← Voltar</a>
+
+        </div>
+    </div>
+
+    <div class="corpo-candidatos">
+        {% if candidatos and candidatos|length > 0 %}
+            <div class="tabela-candidatos">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>Formação</th>
+                            <th>Último Cargo</th>
+                            <th>Data da Candidatura</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for candidato in candidatos %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td><strong>{{ candidato.nome }}</strong></td>
+                            <td>{{ candidato.email }}</td>
+                            <td>{{ candidato.telefone if candidato.telefone else 'Não informado' }}</td>
+                            <td>{{ candidato.formacao if candidato.formacao else 'Não informada' }}</td>
+                            <td>{{ candidato.ultimo_cargo if candidato.ultimo_cargo else 'Não informado' }}</td>
+                            <td>{{ candidato.data_candidatura[:10] if candidato.data_candidatura else 'Data desconhecida' }}</td>
+                            <td>
+                                <span class="status-badge {{ candidato.status if candidato.status else 'pendente' }}">
+                                    {{ candidato.status if candidato.status else 'Pendente' }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="acoes-candidato">
+                                    <a href="#" class="btn-ver-perfil" title="Ver Perfil">👤</a>
+                                    <button onclick="alterarStatus('{{ candidato.id_candidatura }}', 'aprovado')" class="btn-aprovar" title="Aprovar">✅</button>
+                                    <button onclick="alterarStatus('{{ candidato.id_candidatura }}', 'rejeitado')" class="btn-rejeitar" title="Rejeitar">❌</button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="sem-candidatos">
+                <p>😕 Nenhum candidato se inscreveu para esta vaga ainda.</p>
+                <p>Compartilhe esta vaga para atrair mais candidatos!</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.container-candidatos {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header-candidatos {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.header-candidatos h1 {
+    color: #05186c;
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.info-vaga {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.info-vaga .empresa {
+    font-weight: 500;
+}
+
+.info-vaga .total {
+    font-weight: bold;
+    color: #05186c;
+}
+
+.acoes-header {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #05186c;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn-voltar:hover {
+    background: #0a28a0;
+    transform: translateY(-2px);
+}
+
+.corpo-candidatos {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.tabela-candidatos {
+    overflow-x: auto;
+}
+
+.tabela-candidatos table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.tabela-candidatos thead {
+    background: #05186c;
+    color: #99E2F2;
+}
+
+.tabela-candidatos th {
+    padding: 12px 15px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.tabela-candidatos td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: middle;
+}
+
+.tabela-candidatos tbody tr:hover {
+    background: #e8f0fe;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-badge.pendente {
+    background: #FFF3CD;
+    color: #856404;
+}
+
+.status-badge.aprovado {
+    background: #D4EDDA;
+    color: #155724;
+}
+
+.status-badge.rejeitado {
+    background: #F8D7DA;
+    color: #721C24;
+}
+
+.acoes-candidato {
+    display: flex;
+    gap: 8px;
+}
+
+.acoes-candidato .btn-ver-perfil,
+.acoes-candidato .btn-aprovar,
+.acoes-candidato .btn-rejeitar {
+    padding: 5px 8px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.acoes-candidato .btn-ver-perfil {
+    background: #e8f0fe;
+    color: #05186c;
+}
+
+.acoes-candidato .btn-ver-perfil:hover {
+    background: #05186c;
+    color: white;
+}
+
+.acoes-candidato .btn-aprovar {
+    background: #D4EDDA;
+    color: #155724;
+}
+
+.acoes-candidato .btn-aprovar:hover {
+    background: #155724;
+    color: white;
+}
+
+.acoes-candidato .btn-rejeitar {
+    background: #F8D7DA;
+    color: #721C24;
+}
+
+.acoes-candidato .btn-rejeitar:hover {
+    background: #721C24;
+    color: white;
+}
+
+.sem-candidatos {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.sem-candidatos p {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+@media (max-width: 768px) {
+    .info-vaga {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .tabela-candidatos {
+        font-size: 12px;
+    }
+    
+    .tabela-candidatos th,
+    .tabela-candidatos td {
+        padding: 8px 10px;
+    }
+    
+    .acoes-candidato {
+        flex-direction: column;
+    }
+}
+</style>
+
+<script>
+function alterarStatus(idCandidatura, novoStatus) {
+    if (!confirm(`Tem certeza que deseja ${novoStatus === 'aprovado' ? 'APROVAR' : 'REJEITAR'} este candidato?`)) {
+        return;
+    }
+    
+    fetch(`/candidatura/${idCandidatura}/status`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: novoStatus })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Status atualizado com sucesso!');
+            location.reload();
+        } else {
+            alert('Erro ao atualizar status: ' + data.error);
+        }
+    })
+    .catch(error => {
+        alert('Erro ao atualizar status');
+    });
+}
+</script>
+
+{% endblock %}

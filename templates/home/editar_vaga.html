@@ -1,0 +1,102 @@
+{% extends "menu.html" %}
+{% block content %}
+
+<div class="container-principal">
+    <div class="formulario-layout-wrapper">
+        <form action="{{ url_for('atualizar_vaga.editar_vaga', id_vaga=vaga.id_vaga) }}" method="POST">
+            
+            <div class="formulario-principal-corpo">
+                <div class="secao-vaga">
+                    <div class="secao-header">
+                        <h2>Editar Vaga</h2>
+                    </div>
+                    <div class="dividir"></div>
+                    
+                    <div class="secao-content">
+                        <div class="campo-row">
+                            <div class="campo campo-metade">
+                                <label>Cargo <span class="obrigatorio">*</span></label>
+                                <input type="text" name="titulo" class="form-control" 
+                                       value="{{ vaga.titulo }}" required>
+                            </div>
+                            
+                            <div class="campo campo-metade">
+                                <label>Salário <span class="obrigatorio">*</span></label>
+                                <input type="number" name="salario" class="form-control" 
+                                       value="{{ vaga.salario }}" step="0.01" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="secao-vaga">
+                    <div class="secao-header">
+                        <h2>Descrição</h2>
+                    </div>
+                    <div class="dividir"></div>
+
+                    <div class="secao-content">
+                        <div class="campo">
+                            <label>Descrição <span class="obrigatorio">*</span></label>
+                            <textarea name="descricao" class="form-control" required rows="10">{{ vaga.descricao }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="sidebar-competencias">
+                <div class="secao-header">
+                    <h2>Competências</h2>
+                </div>
+                <div class="dividir"></div>
+                
+                <div class="secao-content">
+                    <div class="adicionarcompetencia">
+                        <input type="text" id="input_nova_comp" placeholder="Nova competência">
+                        <button type="button" onclick="adicionarCompetencia()">Adicionar</button>
+                    </div>
+                    
+                    <div id="lista-competencias" class="competencias-lista-sidebar">
+                        {% for c in competencias %}
+                        <div class="competencia-item">
+                            <input type="checkbox" name="competencias" value="{{ c.id_competencia }}" 
+                                   id="comp_{{ c.id_competencia }}"
+                                   {% if c.id_competencia in competencias_ids_vaga %}checked{% endif %}>
+                            <label for="comp_{{ c.id_competencia }}">{{ c.nome }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </aside>
+
+            <div class="container-btn">
+                <button type="submit" class="btn-submit">Salvar Alterações</button>
+                <a href="{{ url_for('candidatar_se.detalhe_vaga', id_vaga=vaga.id_vaga) }}" class="btn-cancelar">Cancelar</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home/criar_vaga.css') }}">
+<script src="../../static/script/comp.js"></script>
+
+<style>
+.btn-cancelar {
+    display: inline-block;
+    padding: 14px 40px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #999;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+.btn-cancelar:hover {
+    background-color: #777;
+}
+</style>
+{% endblock %}

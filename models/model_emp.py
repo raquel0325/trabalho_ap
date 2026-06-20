@@ -38,3 +38,17 @@ class Empresa:
             'cnpj': empresa['cnpj'],
             'tipo': 'empresa'
         }
+    @staticmethod
+    def buscar_por_id(id_empresa):
+        """Busca empresa por ID"""
+        return EmpresaCRUD.buscar_por_id(id_empresa)
+    @staticmethod
+    def atualizar_perfil(id_empresa, nome=None, email=None, telefone=None, endereco=None):
+        """Atualiza o perfil da empresa com validações"""
+        if email and '@' not in email:
+            raise ValueError("Email inválido")
+        
+        if nome and len(nome) < 2:
+            raise ValueError("Nome da empresa deve ter pelo menos 2 caracteres")
+        
+        return EmpresaCRUD.atualizar(id_empresa, nome, email, telefone, endereco)

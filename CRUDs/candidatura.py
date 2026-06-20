@@ -10,7 +10,21 @@ from database.connect import get_connection
 
 class CandidaturaCRUD:
     """CRUD para operações com candidaturas"""
-    
+    @staticmethod
+    def atualizar_status(id_candidatura, novo_status):
+        """Atualiza o status de uma candidatura"""
+        conn = get_connection()
+        try:
+            cursor = conn.cursor()
+            cursor.execute('''
+                UPDATE candidaturas 
+                SET status = ? 
+                WHERE id_candidatura = ?
+            ''', (novo_status, id_candidatura))
+            conn.commit()
+            return cursor.rowcount > 0
+        finally:
+            conn.close()
     @staticmethod
     def candidatar(id_funcionario, id_vaga):
         """Registra candidatura de um funcionário a uma vaga"""
@@ -25,7 +39,41 @@ class CandidaturaCRUD:
             return cursor.rowcount > 0
         finally:
             conn.close()
-    
+    @staticmethod
+    def contar_candidatos_por_vaga(id_vaga):
+        """Conta quantos candidatos se inscreveram em uma vaga"""
+        conn = get_connection()
+        try:
+            cursor = conn.cursor()
+            cursor.execute('''
+                SELECT COUNT(*) as total 
+                FROM candidaturas 
+                WHERE id_vaga = ?
+            ''', (id_vaga,))
+            resultado = cursor.fetchone()
+            return resultado['total'] if resultado else 0
+        finally:
+            conn.close()
+
+    @staticmethod
+    def listar_candidatos_por_vaga(id_vaga):
+        """Lista todos os funcionários que se candidataram a uma vaga"""
+        conn = get_connection()
+        try:
+            cursor = conn.cursor()
+            cursor.execute('''
+                SELECT f.id_funcionario, f.nome, f.email, f.telefone,
+                    c.id_candidatura, c.data_candidatura, c.status,
+                    rq.formacao, rq.ultimo_cargo, rq.tempo_experiencia
+                FROM candidaturas c
+                JOIN funcionarios f ON c.id_funcionario = f.id_funcionario
+                LEFT JOIN respostas_questionario rq ON f.id_funcionario = rq.id_funcionario
+                WHERE c.id_vaga = ?
+                ORDER BY c.data_candidatura DESC
+            ''', (id_vaga,))
+            return cursor.fetchall()
+        finally:
+            conn.close()
     @staticmethod
     def listar_candidaturas_funcionario(id_funcionario):
         """Lista candidaturas de um funcionário"""

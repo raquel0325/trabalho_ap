@@ -1,26 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conectar-CE</title>
-    <link rel="stylesheet" href="/static/css/home/homef.css">
-</head>
-<body>
-    <div class="container">
-        <!-- Header/Menu Principal -->
-        <div class="header">
-            <div class="logo">Conecta</div>
-            <div class="user-info">
-                <span>Olá, {{ session.usuario_nome }}</span>
-                <a href="/home" class="btn-back">Home</a>
-                <a href="/vagas" class="btn-back">Vagas</a>
-                <a href="/logout" class="btn-logout">Sair</a>
+{% extends "menu.html" %}
+{% block content %}
+<div class="dashboard-layout">
+    <aside class="empresa-sidebar">
+        <div class="sidebar-header">
+            <h3>Painel Empresa</h3>
+        </div>
+        <nav class="empresa-tabs">
+            <button class="tab-btn active" onclick="mudarAba('dashboard')">📊 Dashboard</button>
+            <button class="tab-btn" onclick="mudarAba('vagas')">📋 Minhas Vagas</button>
+            <button class="tab-btn" onclick="mudarAba('perfil')">👤 Meu Perfil</button>
+        </nav>
+    </aside>
+    <main class="dashboard-main-content">
+        <div id="aba-dashboard" class="tab-content active">
+    <div class="dashboard-container">
+        <div class="dashboard-cards">
+            <div class="card">
+                <h3>📊 Estatísticas</h3>
+                <p class="stat-number">{{ vagas|length if vagas else 0 }}</p>
+                <p class="stat-label">Total de vagas ativas</p>
+            </div>
+            <div class="card card-actions">
+                <h3>🚀 Ações Rápidas</h3>
+                <div class="action-buttons">
+                    <a href="{{ url_for('vagas.empresa_criar_vaga') }}" class="btn-primary">+ Criar Nova Vaga</a>
+                    <a href="{{ url_for('vagas.empresa_vagas') }}" class="btn-secondary">Ver Minhas Vagas</a>
+                </div>
             </div>
         </div>
+    </div>
+</div>
+        
+        <div id="aba-vagas" class="tab-content">
+            <div class="vagas-container">
+                <h2>Minhas Vagas</h2>
+                {% if vagas %}
+                    <div class="vagas-grid">
+                        {% for vaga in vagas %}
+                        <div class="vaga-card">
+                            <h3>{{ vaga.titulo }}</h3>
+                            <p>{{ vaga.descricao[:100] }}...</p>
+                            <a href="{{ url_for('candidatar_se.detalhe_vaga', id_vaga=vaga.id_vaga) }}" class="btn-ver">Ver Detalhes</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="vagas-empty">
+                        <p>Você ainda não criou nenhuma vaga.</p>
+                        <a href="{{ url_for('vagas.empresa_criar_vaga') }}" class="btn-primary">Criar Primeira Vaga</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div id="aba-perfil" class="tab-content">
+            <div class="perfil-container">
+                <div class="perfil-header">
+                    <h1>Meu Perfil</h1>
+                    <p>Gerencie suas informações pessoais e de login.</p>
+                </div>
+                <hr class="form-divider">
+                
+                <!-- MODO VISUALIZAÇÃO -->
+                <div id="view-mode-empresa">
+                    <div class="campos-info-empresa">
+                        <div class="campo">
+                            <label>Nome da Empresa:</label>
+                            <span>{{ empresa.nome if empresa else session.usuario_nome }}</span>
+                        </div>
+                        <div class="campo">
+                            <label>E-mail:</label>
+                            <span>{{ empresa.email if empresa else 'Não informado' }}</span>
+                        </div>
+                        <div class="campo">
+                            <label>CNPJ:</label>
+                            <span>{{ empresa.cnpj if empresa else 'Não informado' }}</span>
+                        </div>
+                        <div class="campo">
+                            <label>Telefone / Celular:</label>
+                            <span>{{ empresa.telefone if empresa and empresa.telefone else 'Não informado' }}</span>
+                        </div>
+                        <div class="campo">
+                            <label>Endereço:</label>
+                            <span>{{ empresa.endereco if empresa and empresa.endereco else 'Não informado' }}</span>
+                        </div>
+                    </div>
+                    <div class="botoes-acao">
+                        <button class="btn-editar" onclick="ativarEdicaoEmpresa()">✏️ Editar Perfil</button>
+                    </div>
+                </div>
+                
+                <!-- MODO EDIÇÃO -->
+                <div id="edit-mode-empresa" style="display: none;">
+                    <form action="{{ url_for('home.atualizar_empresa') }}" method="POST" class="perfil-form">
+                        <div class="form-group">
+                            <label for="nome">Nome da Empresa</label>
+                            <input type="text" id="nome" name="nome" value="{{ empresa.nome if empresa else '' }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" value="{{ empresa.email if empresa else '' }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefone">Telefone / Celular</label>
+                            <input type="tel" id="telefone" name="telefone" value="{{ empresa.telefone if empresa else '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="endereco">Endereço</label>
+                            <input type="text" id="endereco" name="endereco" value="{{ empresa.endereco if empresa else '' }}">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-salvar">💾 Salvar Alterações</button>
+                            <button type="button" class="btn-cancelar" onclick="cancelarEdicaoEmpresa()">❌ Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
 
+<script src="{{ url_for('static', filename='script/home_emp.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home/homeemp.css') }}">
 
-    <h1>Bem-vindo, {{ session.usuario_nome }}!</h1>
-
-</body>
-</html>
+{% endblock %}

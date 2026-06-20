@@ -220,7 +220,7 @@
                             <span class="match-badge">{{ vaga.match_percent }}%</span>
                         </div>
                         <div class="recomendacao-empresa">{{ vaga.empresa_nome }}</div>
-                        <a href="{{ url_for('vagas.detalhe_vaga', id_vaga=vaga.id_vaga) }}" class="btn-ver-recomendacao">Ver vaga →</a>
+                        <a href="{{ url_for('candidatar_se.detalhe_vaga', id_vaga=vaga.id_vaga) }}" class="btn-ver-recomendacao">Ver vaga →</a>
                     </div>
                     {% endfor %}
                 {% else %}
@@ -238,7 +238,7 @@
             <div class="candidaturas-lista">
                 {% for c in candidaturas %}
                 <div class="candidatura-wrapper">
-                    <a href="{{ url_for('vagas.detalhe_vaga', id_vaga=c.id_vaga) }}" class="candidatura-link">
+                    <a href="{{ url_for('candidatar_se.detalhe_vaga', id_vaga=c.id_vaga) }}" class="candidatura-link">
                         <div class="candidatura-card">
                             <div class="candidatura-header">
                                 <span class="cargo">{{ c.titulo }}</span>

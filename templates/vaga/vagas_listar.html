@@ -66,12 +66,12 @@
                         </div>
                         
                         <div class="acoes">
-                            <a href="{{ url_for('vagas.detalhe_vaga', id_vaga=vaga.id_vaga) }}" class="btn-ver">👁️ Ver Detalhes</a>
+                            <a href="{{ url_for('candidatar_se.detalhe_vaga', id_vaga=vaga.id_vaga) }}" class="btn-ver">👁️ Ver Detalhes</a>
                             {% if vaga.get('candidatou') %}
                                 <span class="badge-candidatado">✅ Candidatura Enviada</span>
                             {% else %}
                             {% if session.get('tipo') == 'funcionario' %}
-                                <form action="{{ url_for('vagas.candidatar_vaga', id_vaga=vaga.id_vaga) }}" method="POST" style="display: inline;">
+                                <form action="{{ url_for('candidatar_se.candidatar_vaga', id_vaga=vaga.id_vaga) }}" method="POST" style="display: inline;">
                                     <button type="submit" class="btn-candidatar">📝 Candidatar-se</button>
                                 </form>
                             {% endif %}
