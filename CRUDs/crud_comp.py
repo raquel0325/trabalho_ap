@@ -1,9 +1,7 @@
-import sys
-import os
+
 from database.connect import get_connection
 import sqlite3
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 class CompetenciaCRUD:

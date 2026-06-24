@@ -5,7 +5,9 @@ from CRUDs.crud_quest import QuestionarioCRUD
 from database.connect import get_connection
 from CRUDs.crud_func import FuncionarioCRUD
 from models.model_comp import Competencia
-from CRUDs.crud_seguir import SeguirCRUD
+from CRUDs.crud_contratar import ContratacaoCRUD
+from models.model_freelancer import Freelancer
+from models.model_contratar import Contratacao
 
 
 bp_home = Blueprint('home', __name__)
@@ -38,9 +40,10 @@ def home_pag():
         
         # Busca todas as competências disponíveis
         todas_competencias = Competencia.listar_todas()
+    
+        contratacoes = Contratacao.listar_contratacao(id_usuario)
         
-        outros_usuarios = SeguirCRUD.listar_outros_usuarios(id_usuario)
-        outros_usuarios_lista = [dict(usuario) for usuario in outros_usuarios] if outros_usuarios else []
+        meus_freelances = Freelancer.listar_por_funcionario(id_usuario)
 
         # Atualiza sessão
         if funcionario:
@@ -55,7 +58,9 @@ def home_pag():
                              questionario=questionario,
                              competencias_usuario=competencias_usuario,
                              todas_competencias=todas_competencias,
-                             outros_usuarios=outros_usuarios_lista)
+                             contratacoes=contratacoes,
+                             meus_freelances=meus_freelances
+                            )
     
     elif tipo == 'empresa':
         # Busca dados da empresa
@@ -69,12 +74,15 @@ def home_pag():
         # Atualiza sessão com o nome da empresa
         if empresa and empresa.get('nome'):
             session['usuario_nome'] = empresa.get('nome')
+
+        freelancer_contratados = Contratacao.listar_contratados(id_usuario)
         
         return render_template('home/home_emp.html', 
                              nome=session.get('usuario_nome'), 
                              tipo=tipo,
                              empresa=empresa,
-                             vagas=vagas)
+                             vagas=vagas,
+                             contratados=freelancer_contratados)
     
     return redirect('/')
 #======================================================================================================================================
@@ -158,9 +166,7 @@ def atualizar_competencias():
     
 
     
-    try:
-        from CRUDs.crud_comp import CompetenciaCRUD
-        from database.connect import get_connection
+    try: 
         
         # Remove todas as competências atuais
         conn = get_connection()

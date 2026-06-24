@@ -1,0 +1,106 @@
+{% extends "menu.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/vaga/vagas_list.css') }}">
+
+<!-- Filtros -->
+<div class="filtros">
+    <form method="GET" action="{{ url_for('freelancer.buscar_freelancer') }}">
+        <input type="text" name="busca" placeholder="🔍 Buscar freelancer por profissão..." value="{{ busca or '' }}">
+        <input type="number" name="preco_medio_min" placeholder="Preço" value="{{ preco_min or '' }}" step="1000">
+        <input type="text" name="freelancer" placeholder="Freelancer" value="{{ freelancer or '' }}">
+        <button type="submit" class="btn-filtrar">🔎 Filtrar</button>
+    </form>
+</div>
+
+<!-- Links -->
+<div class="nav-links">
+    <a href="{{ url_for('vagas.listar_vagas') }}" class="btn-link">← Voltar</a>
+
+    {% if session.get('tipo') == 'empresa' %}
+        <a href="#" class="btn-link">+ Anunciar Freelas</a>
+        <a href="{{ url_for('vagas.empresa_criar_vaga') }}" class="btn-link">+ Criar Vaga</a>
+    {% endif %}
+</div>
+
+<!-- Lista -->
+<div class="freelancers-container">
+
+    {% if resultado %}
+
+        {% for freelancer in resultado %}
+
+        <div class="freelancer-card">
+
+            <div class="avaliacao-info">
+                <h2>{{ freelancer.profissao }}</h2>
+                <div class="avaliacao-info">
+                    ⭐ {{ freelancer.media_avaliacao }}
+                    ({{ freelancer.total_avaliacoes }} avaliações)
+                </div>
+            </div>
+
+            <form method="POST" action="{{ url_for('contratar_frelas.contratar', id_freelancer=freelancer.id_freelancer) }}">
+                <button type="submit">Contratar Freelancer</button>
+            </form>
+
+            <p class="descricao">
+                {{ freelancer.servico_oferecido[:250] }}
+                {% if freelancer.servico_oferecido|length > 250 %}...{% endif %}
+            </p>
+
+            <div class="info">
+                <div class="salario">
+                    {% if freelancer.preco_medio %}
+                        R$ {{ "%.2f"|format(freelancer.preco_medio) }}
+                    {% else %}
+                        Preço a combinar
+                    {% endif %}
+                </div>
+            </div>
+                
+            <div class="acoes">
+                <a href="{{ url_for('avaliacao.ver_avaliacoes', id_freelancer=freelancer.id_freelancer) }}" class="btn-link">
+                    Ver avaliações
+                </a>
+            </div>
+
+            <!-- Só mostra o formulário de avaliação se o usuário já contratou E NÃO avaliou -->
+            {% if freelancer.ja_contratou and not freelancer.avaliado %}
+                <form method="POST" action="{{ url_for('avaliacao.avaliar_freelancer', id_freelancer=freelancer.id_freelancer) }}">
+                    <label>Nota</label>
+
+                    <select name="nota" required>
+                        <option value="">Selecione</option>
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                    </select>
+
+                    <textarea name="comentario" placeholder="Deixe um comentário"></textarea>
+
+                    <button type="submit">Enviar avaliação</button>
+                </form>
+
+            {% elif freelancer.ja_contratou and freelancer.avaliado %}
+                <p class="avaliado-msg">✅ Já avaliado</p>
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="sem-vagas">
+            <p>😕 Nenhum freelancer encontrado com os filtros selecionados.</p>
+            <p>Tente ajustar sua busca ou verifique outras oportunidades!</p>
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

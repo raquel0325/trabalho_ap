@@ -65,9 +65,11 @@
                     <a href="{{ url_for('atualizar_vaga.editar_vaga', id_vaga=vaga.id_vaga) }}" class="btn-editar">
                         Editar Vaga
                     </a>
-                    <button type="button" class="btn-excluir" onclick="confirmarExclusao('{{ vaga.id_vaga }}')">
-                         Excluir Vaga
-                    </button>
+                    <form action="{{ url_for('vagas.excluir_vaga', id_vaga=vaga.id_vaga) }}" method="POST" style="display: inline;">
+    <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir esta vaga? Esta ação não pode ser desfeita!')">
+     Excluir Vaga
+    </button>
+</form>
                 </div>
                 <a href="#" onclick="window.history.back(); return false;" class="btn-voltar">← Voltar</a>
             
@@ -90,28 +92,5 @@
     </div>
     {% endblock %}
 </body>
-<script>
-    function confirmarExclusao(idVaga) {
-        if (confirm('Tem certeza que deseja excluir esta vaga? Esta ação não pode ser desfeita!')) {
-            fetch(`/vaga/excluir/${idVaga}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Vaga excluída com sucesso!');
-                    window.location.href = "{{ url_for('vagas.empresa_vagas') }}";
-                } else {
-                    alert('Erro ao excluir vaga: ' + data.error);
-                }
-            })
-            .catch(error => {
-                alert('Erro ao excluir vaga');
-            });
-        }
-    }
-</script>
+
 </html>

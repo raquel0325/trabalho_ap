@@ -16,17 +16,14 @@
     <a href="#" class="menu-item active" onclick="mostrarSecao('perfil'); return false;">
         <span class="icone">📊</span> Perfil
     </a>
-    <a href="#" class="menu-item" onclick="mostrarSecao('chat'); return false;">
-        <span class="icone">💬</span> Chat
-    </a>
-    <a href="#" class="menu-item" onclick="mostrarSecao('pessoas'); return false;">
-        <span class="icone">👥</span> Pessoas
-    </a>
     <a href="#" class="menu-item" onclick="mostrarSecao('editar'); return false;">
         <span class="icone">✏️</span> Editar
     </a>
     <a href="#" class="menu-item" onclick="mostrarSecao('freelance'); return false;">
         <span class="icone">💼</span> Freelance
+    </a>
+    <a href="#" class="menu-item" onclick="mostrarSecao('contratados'); return false;">
+        <span class="icone">🤝</span> Contratados
     </a>
 
 </nav>
@@ -72,54 +69,18 @@
                 <div id="edit-mode" style="display: none;">
                     <form method="POST" action="{{ url_for('home.atualizar_perfil') }}">
                         <div class="campos-info">
-                            <div class="campo">
-                                <label>Nome:</label>
-                                <input type="text" name="nome" value="{{ funcionario.nome if funcionario else '' }}">
-                            </div>
-                            <div class="campo">
-                                <label>Email:</label>
-                                <input type="email" name="email" value="{{ funcionario.email if funcionario else '' }}">
-                            </div>
-                            <div class="campo">
-                                <label>Telefone:</label>
-                                <input type="text" name="telefone" value="{{ funcionario.telefone if funcionario else '' }}">
-                            </div>
-                            <div class="campo">
-                                <label>CPF:</label>
-                                <input type="text" name="cpf" value="{{ funcionario.cpf if funcionario else '' }}">
-                            </div>
-                            <div class="campo">
-                                <label>Cidade:</label>
-                                <input type="text" name="cidade" value="{{ questionario.cidade if questionario else '' }}">
-                            </div>
-                            <div class="campo">
-                                <label>Estado:</label>
-                                {{ select_estado(questionario.estado if questionario else '') }}
-                            </div>
-                            <div class="campo">
-                                <label>Formação:</label>
-                                {{ select_formacao(questionario.formacao if questionario else '') }}
-                            </div>
-                            <div class="campo">
-                                <label>Curso:</label>
-                                <input type="text" name="curso" value="{{ questionario.curso if questionario else '' }}">
-                            </div>
-                            <div class="campo">
-                                <label>Instituição:</label>
-                                <input type="text" name="instituicao" value="{{ questionario.instituicao if questionario else '' }}">
-                            </div>
-                            <div class="campo">
-                                <label>Último Cargo:</label>
-                                <input type="text" name="ultimo_cargo" value="{{ questionario.ultimo_cargo if questionario else '' }}">
-                            </div>
-                            <div class="campo">
-                                <label>Última Empresa:</label>
-                                <input type="text" name="ultima_empresa" value="{{ questionario.ultima_empresa if questionario else '' }}">
-                            </div>
-                            <div class="campo">
-                                <label>Tempo de Experiência:</label>
-                                {{ select_experiencia(questionario.tempo_experiencia if questionario else '') }}
-                            </div>
+                            <div class="campo"><label>Nome:</label><input type="text" name="nome" value="{{ funcionario.nome if funcionario else '' }}"></div>
+                            <div class="campo"><label>Email:</label><input type="email" name="email" value="{{ funcionario.email if funcionario else '' }}"></div>
+                            <div class="campo"><label>Telefone:</label><input type="text" name="telefone" value="{{ funcionario.telefone if funcionario else '' }}"> </div>
+                            <div class="campo"><label>CPF:</label> <input type="text" name="cpf" value="{{ funcionario.cpf if funcionario else '' }}"></div>
+                            <div class="campo"><label>Cidade:</label><input type="text" name="cidade" value="{{ questionario.cidade if questionario else '' }}"></div>
+                            <div class="campo"><label>Estado:</label>{{ select_estado(questionario.estado if questionario else '') }}</div>  
+                            <div class="campo"><label>Formação:</label>{{ select_formacao(questionario.formacao if questionario else '') }}</div>
+                            <div class="campo"><label>Curso:</label><input type="text" name="curso" value="{{ questionario.curso if questionario else '' }}"></div>
+                            <div class="campo"><label>Instituição:</label><input type="text" name="instituicao" value="{{ questionario.instituicao if questionario else '' }}"></div>
+                            <div class="campo"><label>Último Cargo:</label><input type="text" name="ultimo_cargo" value="{{ questionario.ultimo_cargo if questionario else '' }}"></div>
+                            <div class="campo"><label>Última Empresa:</label><input type="text" name="ultima_empresa" value="{{ questionario.ultima_empresa if questionario else '' }}"></div>
+                            <div class="campo"><label>Tempo de Experiência:</label>{{ select_experiencia(questionario.tempo_experiencia if questionario else '') }}</div>
                         </div>
                         <div class="botoes-edicao">
                             <button type="submit" class="btn-salvar">💾 Salvar</button>
@@ -130,40 +91,141 @@
             </div>
         </div>
 <!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-        <!-- SEÇÕES PLACEHOLDER -->
-        <div id="secao-chat" class="secao-info" style="display: none;">
-            <div class="info-usuario"><h2>Chat</h2><p>Em breve...</p></div>
-        </div>
-<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-<!-- SEÇÕES freelance -->
+<!-- SEÇÃO FREELANCE -->
 <div id="secao-freelance" class="secao-info" style="display: none;">
-    <div class="info-usuario"><h2>Freelance</h2><p>Em breve...</p></div>
-</div>
-<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-<div id="secao-pessoas" class="secao-info" style="display: none;">
     <div class="info-usuario">
         <div class="section-header">
-            <h2>Pessoas</h2>
+            <h2>Meus Freelances</h2>
+            <button class="btn-editar" onclick="mostrarFormFreelance()"> + Novo Freelance</button>
         </div>
-        
-        <div class="pessoas-container">
-            {% if outros_usuarios %}
-                {% for usuario in outros_usuarios %}
-                <div class="pessoa-card" data-usuario-id="{{ usuario.id_funcionario }}" data-usuario-nome="{{ usuario.nome }}">
-                    <div class="pessoa-avatar">👤</div>
-                    <div class="pessoa-info">
-                        <h3>{{ usuario.nome }}</h3>
-                        <p class="pessoa-email">{{ usuario.email }}</p>
+    
+        <!-- Lista de freelances existentes -->
+        {% if meus_freelances %}
+            <div class="freelances-lista">
+                {% for freelance in meus_freelances %}
+                <div class="freelance-card">
+                    <div class="freelance-header">
+                        <h3>{{ freelance.profissao }}</h3>
+                        <span class="status-badge {% if freelance.disponibilidade == 'disponivel' %}status-disponivel{% else %}status-indisponivel{% endif %}">
+                            {{ freelance.disponibilidade }}
+                        </span>
                     </div>
-                    <div class="pessoa-acoes">
-                        <button class="btn-seguir" onclick="seguirUsuario(this)"> ➕ Seguir</button>
-                        <button class="btn-recomendar" onclick="recomendarUsuario(this)">📢 Recomendar</button>
+                    <p class="freelance-descricao">{{ freelance.servico_oferecido }}</p>
+                    <div class="freelance-info">
+                        <span class="freelance-preco">💰 R$ {{ "%.2f"|format(freelance.preco_medio) }}</span>
+                        <span class="freelance-avaliacoes">⭐ {{ freelance.total_avaliacoes }} avaliações</span>
+                        <span class="freelance-data">📅 {{ freelance.data_cadastro[:10] if freelance.data_cadastro else '' }}</span>
+                    </div>
+                    <div class="freelance-acoes">
+                        <button class="btn-editar-freelance" onclick="editarFreelance('{{ freelance.id_freelancer }}')">✏️ Editar</button>
+                        <button class="btn-excluir-freelance" onclick="excluirFreelance('{{ freelance.id_freelancer }}')">🗑️ Excluir</button>
                     </div>
                 </div>
                 {% endfor %}
-            
-            {% endif %}
+            </div>
+        {% else %}
+            <div class="sem-freelances">
+                <p>😕 Você ainda não anunciou nenhum freelance.</p>
+                <p>Clique em "Novo Freelance" para começar!</p>
+            </div>
+        {% endif %}
+        
+        <!-- Formulário para novo freelance (inicialmente oculto) -->
+        <div id="form-freelance-container" style="display: none; margin-top: 30px;">
+            <div class="form-freelance">
+                <h3>Anunciar novo freelance</h3>
+                <form method="POST" action="{{ url_for('freelancer.cadastrar_freelance') }}">
+                    <div class="campo">
+                        <label>Profissão:</label>
+                        <input type="text" name="profissao" placeholder="Ex: Desenvolvedor Web" required>
+                    </div>
+                    <div class="campo">
+                        <label>Serviço Oferecido:</label>
+                        <textarea name="servico_oferecido" placeholder="Descreva o serviço que você oferece..." required></textarea>
+                    </div>
+                    <div class="campo">
+                        <label>Preço Médio (R$):</label>
+                        <input type="number" name="preco_medio" placeholder="0.00" step="0.01" required>
+                    </div>
+                    <div class="campo">
+                        <label>Disponibilidade:</label>
+                        <select name="disponibilidade">
+                            <option value="disponivel">Disponível</option>
+                            <option value="indisponivel">Indisponível</option>
+                            <option value="ocupado">Ocupado</option>
+                        </select>
+                    </div>
+                    <div class="botoes-edicao">
+                        <button type="submit" class="btn-salvar">💾 Salvar Freelance</button>
+                        <button type="button" class="btn-cancelar" onclick="fecharFormFreelance()">❌ Cancelar</button>
+                    </div>
+                </form>
+            </div>
         </div>
+    </div>
+</div>
+
+<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!-- SEÇÃO CONTRATADOS -->
+<div id="secao-contratados" class="secao-info" style="display:none;">
+    <div class="info-usuario">
+
+        <div class="section-header">
+            <h2>Freelancers Contratados</h2>
+        </div>
+        {% if contratacoes %}
+            <div class="freelances-lista">
+                {% for contrato in contratacoes %}
+                <div class="freelance-card">
+                    <div class="freelance-header"><h3>{{ contrato.profissao }}</h3><span class="status-badge"> {{ contrato.status }} </span></div>
+                    
+                    <p><strong>Freelancer:</strong>{{ contrato.nome_freelancer }}</p>
+                    <p class="freelance-descricao">{{ contrato.servico_oferecido }}</p>
+
+                    <div class="freelance-info">
+
+                        <span> R$ {{ "%.2f"|format(contrato.preco_medio) }}</span>
+                        <span>{{ contrato.data_contratacao[:10] }}</span>
+
+                        <!-- Só mostra o formulário se NÃO foi avaliado -->
+                        {% if contrato.id_freelancer and not contrato.avaliado %}
+
+                            <form method="POST" action="{{ url_for('avaliacao.avaliar_freelancer', id_freelancer=contrato.id_freelancer) }}">
+
+                                <label>Nota</label>
+
+                                <select name="nota" required>
+                                    <option value="">Selecione</option>
+                                    <option value="1">⭐</option>
+                                    <option value="2">⭐⭐</option>
+                                    <option value="3">⭐⭐⭐</option>
+                                    <option value="4">⭐⭐⭐⭐</option>
+                                    <option value="5">⭐⭐⭐⭐⭐</option>
+                                </select>
+
+                                <textarea name="comentario"placeholder="Deixe um comentário"></textarea>
+                                <button type="submit"> Enviar avaliação </button>
+
+                            </form>
+
+                        {% elif contrato.avaliado %}
+                            <p class="avaliado-msg">✅ Já avaliado</p>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="sem-freelances"><p>😕 Você ainda não contratou nenhum freelancer.</p></div>
+
+        {% endif %}
+
     </div>
 </div>
 <!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->

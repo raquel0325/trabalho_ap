@@ -1,10 +1,8 @@
 
-import sys
-import os
 import sqlite3
 from database.connect import get_connection
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 class VagaCRUD:
     

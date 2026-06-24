@@ -1,0 +1,197 @@
+{% extends "menu.html" %}
+
+{% block content %}
+<div class="avaliacoes-container">
+    <div class="avaliacoes-header">
+        <h2>⭐ Avaliações de {{ freelancer.profissao }}</h2>
+        <a href="{{ request.referrer or url_for('home.home_pag') }}" class="btn-voltar">← Voltar</a>
+    </div>
+
+    <div class="media-container">
+        <div class="media-nota">
+            <span class="nota-grande">{{ media }}</span>
+            <span class="nota-max">/ 5</span>
+        </div>
+        <div class="media-estrelas">
+            {% for i in range(1, 6) %}
+                {% if i <= media %}
+                    ⭐
+                {% else %}
+                    ☆
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="total-avaliacoes">
+            {{ total }} avaliações
+        </div>
+    </div>
+
+    <div class="avaliacoes-lista">
+        {% if avaliacoes %}
+            {% for avaliacao in avaliacoes %}
+            <div class="avaliacao-item">
+                <div class="avaliacao-header">
+                    <div class="avaliador-info">
+                        <span class="avaliador-nome">👤 {{ avaliacao.nome_avaliador }}</span>
+                        <span class="avaliador-email">{{ avaliacao.email_avaliador }}</span>
+                    </div>
+                    <div class="avaliacao-nota">
+                        {% for i in range(1, 6) %}
+                            {% if i <= avaliacao.nota %}
+                                ⭐
+                            {% else %}
+                                ☆
+                            {% endif %}
+                        {% endfor %}
+                        <span class="nota-numero">({{ avaliacao.nota }}/5)</span>
+                    </div>
+                </div>
+                {% if avaliacao.comentario %}
+                <p class="avaliacao-comentario">{{ avaliacao.comentario }}</p>
+                {% endif %}
+                <span class="avaliacao-data">📅 {{ avaliacao.data_avaliacao[:10] }}</span>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="sem-avaliacoes">
+                <p>😕 Este freelancer ainda não tem avaliações.</p>
+                <p>Seja o primeiro a avaliar!</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.avaliacoes-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.avaliacoes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.avaliacoes-header h2 {
+    margin: 0;
+    color: #333;
+}
+
+.btn-voltar {
+    padding: 8px 16px;
+    background: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.btn-voltar:hover {
+    background: #5a6268;
+}
+
+.media-container {
+    text-align: center;
+    padding: 30px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.nota-grande {
+    font-size: 48px;
+    font-weight: bold;
+    color: #f39c12;
+}
+
+.nota-max {
+    font-size: 24px;
+    color: #999;
+}
+
+.media-estrelas {
+    font-size: 28px;
+    margin: 10px 0;
+}
+
+.total-avaliacoes {
+    color: #666;
+    font-size: 16px;
+}
+
+.avaliacoes-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.avaliacao-item {
+    padding: 16px 20px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    transition: box-shadow 0.2s;
+}
+
+.avaliacao-item:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.avaliacao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.avaliador-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.avaliador-nome {
+    font-weight: 600;
+    color: #333;
+}
+
+.avaliador-email {
+    font-size: 12px;
+    color: #999;
+}
+
+.avaliacao-nota {
+    font-size: 18px;
+}
+
+.nota-numero {
+    font-size: 14px;
+    color: #666;
+    margin-left: 4px;
+}
+
+.avaliacao-comentario {
+    color: #555;
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.avaliacao-data {
+    font-size: 12px;
+    color: #999;
+}
+
+.sem-avaliacoes {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+}
+
+.sem-avaliacoes p {
+    margin: 5px 0;
+}
+</style>
+
+{% endblock %}

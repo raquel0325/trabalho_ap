@@ -13,14 +13,14 @@
         <div class="header">
             <h1>⭐ Vagas Recomendadas para Você</h1>
             <div class="user-info">
-                <span>👋 Olá, {{ session.usuario_nome }}</span>
-                <a href="/home" class="btn-back">🏠 Home</a>
-                <a href="/logout" class="btn-logout">🚪 Sair</a>
+                <span> Olá, {{ session.usuario_nome }}</span>
+                <a href="/home" class="btn-back"> Home</a>
+                <a href="/logout" class="btn-logout"> Sair</a>
             </div>
         </div>
 
         <div class="nav-links">
-            <a href="{{ url_for('vagas.listar_vagas') }}" class="btn-link">📋 Todas Vagas</a>
+            <a href="{{ url_for('vagas.listar_vagas') }}" class="btn-link"> Todas Vagas</a>
            
         </div>
 
@@ -28,7 +28,7 @@
             {% if vagas %}
                 {% for vaga in vagas %}
                     <div class="vaga-card recomendada">
-                        <div class="recomendada-badge">🎯 Recomendada</div>
+                        <div class="recomendada-badge"> Recomendada</div>
                         <div class="vaga-header">
                             <h2>{{ vaga.titulo }}</h2>
                             {% set match = vaga.get('match_percent', 0) %}
@@ -36,11 +36,11 @@
                                 {% if match >= 70 %}high
                                 {% elif match >= 40 %}medium
                                 {% else %}low{% endif %}">
-                                🔥 {{ match }}% Compatível
+                                 {{ match }}% Compatível
                             </div>
                         </div>
                         
-                        <div class="empresa">🏢 {{ vaga.empresa_nome }}</div>
+                        <div class="empresa"> {{ vaga.empresa_nome }}</div>
                         
                         <p class="descricao">
                             {{ vaga.descricao[:200] }}{% if vaga.descricao|length > 200 %}...{% endif %}
@@ -49,9 +49,9 @@
                         <div class="info">
                             <div class="salario">
                                 {% if vaga.salario %}
-                                    💰 R$ {{ "%.2f"|format(vaga.salario) }}
+                                     R$ {{ "%.2f"|format(vaga.salario) }}
                                 {% else %}
-                                    💰 Salário a combinar
+                                     Salário a combinar
                                 {% endif %}
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                         <div class="acoes">
                             <a href="{{ url_for('candidatar_se.detalhe_vaga', id_vaga=vaga.id_vaga) }}" class="btn-ver">👁️ Ver Detalhes</a>
                             {% if vaga.get('candidatou') %}
-                                <span class="badge-candidatado">✅ Você já se candidatou</span>
+                                <span class="badge-candidatado">Você já se candidatou</span>
                             {% else %}
                                 <form action="{{ url_for('candidatar_se.candidatar_vaga', id_vaga=vaga.id_vaga) }}" method="POST" style="display: inline;">
                                     <button type="submit" class="btn-candidatar">📝 Candidatar-se Agora</button>
@@ -70,9 +70,9 @@
                 {% endfor %}
             {% else %}
                 <div class="sem-vagas">
-                    <p>😕 Ainda não temos vagas recomendadas para você.</p>
+                    <p> Ainda não temos vagas recomendadas para você.</p>
                     <p>Complete seu perfil com mais informações e competências para receber melhores recomendações!</p>
-                    <a href="{{ url_for('perfil.perfil_funcionario') }}" class="btn-completar">📝 Completar Meu Perfil</a>
+                    <a href="{{ url_for('perfil.perfil_funcionario') }}" class="btn-completar"> Completar Meu Perfil</a>
                     <div style="margin-top: 20px;">
                         <a href="{{ url_for('vagas.listar_vagas') }}" style="color: #05186c;">Ver todas as vagas disponíveis →</a>
                     </div>

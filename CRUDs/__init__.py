@@ -9,6 +9,9 @@ from CRUDs.crud_func import FuncionarioCRUD
 from CRUDs.crud_quest import QuestionarioCRUD
 from CRUDs.crud_vagas import VagaCRUD
 from CRUDs.candidatura import CandidaturaCRUD, MatchCRUD
+from CRUDs.crud_freelancer import FreelancerCRUD
+from CRUDs.crud_avaliacao import AvaliacaoCRUD
+from CRUDs.crud_contratar import ContratacaoCRUD
 
 __all__ = [
     'CompetenciaCRUD',
@@ -17,5 +20,8 @@ __all__ = [
     'QuestionarioCRUD',
     'VagaCRUD',
     'CandidaturaCRUD',
-    'MatchCRUD'
+    'MatchCRUD',
+    'FreelancerCRUD',
+    'AvaliacaoCRUD',
+    'ContratacaoCRUD'
 ]

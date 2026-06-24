@@ -1,14 +1,9 @@
-import sys
-import os
 import sqlite3
-from database.connect import get_connection
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from database.connect import get_connection
 
 
 class CandidaturaCRUD:
+#====================================================================================================
     """CRUD para operações com candidaturas"""
     @staticmethod
     def atualizar_status(id_candidatura, novo_status):
@@ -25,6 +20,7 @@ class CandidaturaCRUD:
             return cursor.rowcount > 0
         finally:
             conn.close()
+#====================================================================================================
     @staticmethod
     def candidatar(id_funcionario, id_vaga):
         """Registra candidatura de um funcionário a uma vaga"""
@@ -39,6 +35,7 @@ class CandidaturaCRUD:
             return cursor.rowcount > 0
         finally:
             conn.close()
+#====================================================================================================
     @staticmethod
     def contar_candidatos_por_vaga(id_vaga):
         """Conta quantos candidatos se inscreveram em uma vaga"""
@@ -54,8 +51,7 @@ class CandidaturaCRUD:
             return resultado['total'] if resultado else 0
         finally:
             conn.close()
-
-    @staticmethod
+#====================================================================================================    @staticmethod
     def listar_candidatos_por_vaga(id_vaga):
         """Lista todos os funcionários que se candidataram a uma vaga"""
         conn = get_connection()
@@ -74,6 +70,7 @@ class CandidaturaCRUD:
             return cursor.fetchall()
         finally:
             conn.close()
+#====================================================================================================
     @staticmethod
     def listar_candidaturas_funcionario(id_funcionario):
         """Lista candidaturas de um funcionário"""
@@ -92,8 +89,7 @@ class CandidaturaCRUD:
             return cursor.fetchall()
         finally:
             conn.close()
-    
-    @staticmethod
+#====================================================================================================    @staticmethod
     def listar_candidatos_vaga(id_vaga):
         """Lista candidatos de uma vaga com match score"""
         conn = get_connection()
@@ -112,7 +108,7 @@ class CandidaturaCRUD:
             return cursor.fetchall()
         finally:
             conn.close()
-    
+#====================================================================================================    
     @staticmethod
     def verificar_candidatura(id_funcionario, id_vaga):
         """Verifica se funcionário já se candidatou"""
@@ -126,6 +122,26 @@ class CandidaturaCRUD:
             return cursor.fetchone() is not None
         finally:
             conn.close()
+#====================================================================================================
+
+@staticmethod
+def deletar(id_candidatura):
+    """Deleta uma candidatura"""
+    conn = get_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM candidaturas WHERE id_candidatura = ?', (id_candidatura,))
+        conn.commit()
+        return cursor.rowcount > 0
+    finally:
+        conn.close()
+
+        
+#====================================================================================================
+
+#                 operaçoes adicionais, compatibilidade e sistema de recomendação
+
+#====================================================================================================
 
 
 class MatchCRUD:
@@ -185,18 +201,3 @@ class MatchCRUD:
             return resultado[:limite]
         finally:
             conn.close()
-
-
-
-
-@staticmethod
-def deletar(id_candidatura):
-    """Deleta uma candidatura"""
-    conn = get_connection()
-    try:
-        cursor = conn.cursor()
-        cursor.execute('DELETE FROM candidaturas WHERE id_candidatura = ?', (id_candidatura,))
-        conn.commit()
-        return cursor.rowcount > 0
-    finally:
-        conn.close()

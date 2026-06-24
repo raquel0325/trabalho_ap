@@ -1,9 +1,39 @@
-// static/script/home_func.js
 
+function mostrarFormFreelance() {
+    document.getElementById('form-freelance-container').style.display = 'block';
+    // Scroll para o formulário
+    document.getElementById('form-freelance-container').scrollIntoView({ behavior: 'smooth' });
+}
+
+function fecharFormFreelance() {
+    document.getElementById('form-freelance-container').style.display = 'none';
+}
+
+function editarFreelance(id) {
+    // Redireciona para página de edição
+    window.location.href = `/freelancer/editar/${id}`;
+}
+
+function excluirFreelance(id) {
+    if (confirm('Tem certeza que deseja excluir este freelance?')) {
+        fetch(`/freelancer/excluir/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Freelance excluído com sucesso!');
+                location.reload();
+            } else {
+                alert('Erro ao excluir: ' + data.message);
+            }
+        });
+    }
+}
 // Função para alternar entre seções do menu
 function mostrarSecao(secao) {
     // Esconde todas as seções
-    const secoes = ['perfil', 'chat', 'pessoas', 'editar', 'freelance'];
+    const secoes = ['perfil', 'editar', 'freelance', 'contratados'];
     secoes.forEach(sec => {
         const elemento = document.getElementById(`secao-${sec}`);
         if (elemento) elemento.style.display = 'none';
@@ -135,117 +165,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 //======================================================================================================================================
 
-// Função para seguir um usuário (usando o novo blueprint)
-function seguirUsuario(element) {
-    const card = element.closest('.pessoa-card');
-    const usuarioId = card.getAttribute('data-usuario-id');
-    const nome = card.getAttribute('data-usuario-nome');
-    
-    fetch(`/seguir_usuario/${usuarioId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert(`✅ Você agora está seguindo ${nome}!`);
-            // Atualiza o botão para mostrar que está seguindo
-            const btn = element;
-            btn.innerHTML = '✅ Seguindo';
-            btn.classList.remove('btn-seguir');
-            btn.classList.add('btn-seguindo');
-            btn.setAttribute('onclick', `deixarSeguir(this)`);
-        } else {
-            alert('❌ Erro ao seguir usuário: ' + data.error);
-        }
-    })
-    .catch(error => {
-        console.error('Erro:', error);
-        alert('❌ Erro ao seguir usuário');
-    });
-}
-
-// Função para deixar de seguir um usuário
-function deixarSeguir(element) {
-    const card = element.closest('.pessoa-card');
-    const usuarioId = card.getAttribute('data-usuario-id');
-    const nome = card.getAttribute('data-usuario-nome');
-    
-    if (!confirm(`Tem certeza que deseja deixar de seguir ${nome}?`)) {
-        return;
-    }
-    
-    fetch(`/deixar_seguir/${usuarioId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert(`✅ Você deixou de seguir ${nome}!`);
-            // Atualiza o botão para voltar ao estado "Seguir"
-            const btn = element;
-            btn.innerHTML = '➕ Seguir';
-            btn.classList.remove('btn-seguindo');
-            btn.classList.add('btn-seguir');
-            btn.setAttribute('onclick', `seguirUsuario(this)`);
-        } else {
-            alert('❌ Erro ao deixar de seguir: ' + data.error);
-        }
-    })
-    .catch(error => {
-        console.error('Erro:', error);
-        alert('❌ Erro ao deixar de seguir');
-    });
-}
-
-// Função para recomendar um usuário
-function recomendarUsuario(element) {
-    const card = element.closest('.pessoa-card');
-    const usuarioId = card.getAttribute('data-usuario-id');
-    const nome = card.getAttribute('data-usuario-nome');
-    
-    // Opção 1: Apenas um alerta simples
-    alert(`📢 Funcionalidade em desenvolvimento!\n\nVocê pode recomendar ${nome} para vagas.`);
-    
-    // Opção 2: Abrir um modal (se quiser implementar depois)
-    // abrirModalRecomendacao(usuarioId, nome);
-}
-
-// Função para carregar o estado inicial dos botões (quem já está seguindo)
-function carregarStatusSeguindo() {
-    const cards = document.querySelectorAll('.pessoa-card');
-    
-    cards.forEach(card => {
-        const usuarioId = card.getAttribute('data-usuario-id');
-        
-        fetch(`/verificar_seguindo/${usuarioId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success && data.seguindo) {
-                const btn = card.querySelector('.btn-seguir');
-                if (btn) {
-                    btn.innerHTML = '✅ Seguindo';
-                    btn.classList.remove('btn-seguir');
-                    btn.classList.add('btn-seguindo');
-                    btn.setAttribute('onclick', `deixarSeguir(this)`);
-                }
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao verificar status:', error);
-        });
-    });
-}
 
 // Inicialização quando o DOM carregar
 document.addEventListener('DOMContentLoaded', function() {
@@ -262,7 +181,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
-    // Carrega o status de seguindo para todos os usuários
-    carregarStatusSeguindo();
 });

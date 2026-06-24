@@ -1,9 +1,8 @@
+from config import Config
 import sqlite3
 import os
-import sys
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import Config
+
 
 def init_db():
     conn = sqlite3.connect(Config.DB_PATH)
@@ -62,7 +61,7 @@ def init_db():
         FOREIGN KEY (id_funcionario) REFERENCES funcionarios (id_funcionario) ON DELETE CASCADE
     )''')
 
-
+    # Tabela vagas
     cursor.execute('''CREATE TABLE IF NOT EXISTS vagas (
         id_vaga INTEGER PRIMARY KEY AUTOINCREMENT,
         titulo TEXT,
@@ -95,17 +94,53 @@ def init_db():
         FOREIGN KEY (id_vaga) REFERENCES vagas (id_vaga) ON DELETE CASCADE,
         UNIQUE(id_funcionario, id_vaga)
     )''')
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS seguidores (
-    id_seguidor INTEGER PRIMARY KEY AUTOINCREMENT,
-    seguidor_id INTEGER,
-    seguido_id INTEGER,
-    data_seguimento TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (seguidor_id) REFERENCES funcionarios (id_funcionario) ON DELETE CASCADE,
-    FOREIGN KEY (seguido_id) REFERENCES funcionarios (id_funcionario) ON DELETE CASCADE,
-    UNIQUE(seguidor_id, seguido_id)
-)
-    ''')
+
+    # Tabela freelancers
+    cursor.execute('''CREATE TABLE IF NOT EXISTS freelancers (
+        id_freelancer INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_funcionario INTEGER NOT NULL,
+        profissao TEXT,
+        servico_oferecido TEXT,
+        preco_medio REAL,
+        disponibilidade TEXT DEFAULT 'disponivel',
+        total_avaliacoes INTEGER DEFAULT 0,
+        data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (id_funcionario) REFERENCES funcionarios (id_funcionario) ON DELETE CASCADE
+    )''')
+    
+    # 2. Tabela de contratacoes (qualquer usuário pode contratar)
+    cursor.execute('''CREATE TABLE IF NOT EXISTS contratacoes (
+        id_contratacao INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_freelancer INTEGER NOT NULL,
+        id_contratante INTEGER NOT NULL,
+        data_contratacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        status TEXT DEFAULT 'pendente' CHECK(status IN ('pendente', 'aceito', 'recusado', 'concluido', 'cancelado')),
+        data_conclusao TIMESTAMP,
+        FOREIGN KEY (id_freelancer) REFERENCES freelancers (id_freelancer) ON DELETE CASCADE,
+        FOREIGN KEY (id_contratante) REFERENCES funcionarios (id_funcionario) ON DELETE CASCADE
+    )''')
+
+    # Tabela avaliacoes (avaliações de freelancers)
+    cursor.execute('''CREATE TABLE IF NOT EXISTS avaliacoes (
+        id_avaliacao INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_freelancer INTEGER,
+        id_contratante INTEGER,
+        nota INTEGER CHECK(nota >= 1 AND nota <= 5),
+        comentario TEXT,
+        data_avaliacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (id_freelancer) REFERENCES freelancers (id_freelancer) ON DELETE CASCADE,
+        FOREIGN KEY (id_contratante) REFERENCES funcionarios (id_funcionario) ON DELETE CASCADE
+    )''')
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     conn.commit()
     conn.close()

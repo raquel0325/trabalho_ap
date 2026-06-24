@@ -24,7 +24,7 @@ def listar_vagas():
     )
     
     id_funcionario = session['usuario_id']
-    from CRUDs.candidatura import CandidaturaCRUD
+
     
     vagas_formatadas = []
     for vaga in vagas:

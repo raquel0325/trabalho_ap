@@ -23,6 +23,8 @@
         <!-- Links de Navegação -->
         <div class="nav-links">
             <a href="{{ url_for('vagas.listar_vagas') }}" class="btn-link {% if request.endpoint == 'vagas.listar_vagas' %}active{% endif %}"> Todas Vagas</a>
+            <!--- encontrar freelancer -->
+            <a href="{{ url_for('freelancer.buscar_freelancer') }}" class="btn-link">+ Encontrar Freelancer</a>
             {% if session.get('tipo') == 'empresa' %}
             <a href="{{ url_for('vagas.empresa_criar_vaga') }}" class="btn-link">+ Criar Vaga</a>
             {% endif %}
