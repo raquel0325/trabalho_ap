@@ -52,3 +52,7 @@ class Empresa:
             raise ValueError("Nome da empresa deve ter pelo menos 2 caracteres")
         
         return EmpresaCRUD.atualizar(id_empresa, nome, email, telefone, endereco)
+#======================================================================================================================================
+    @staticmethod
+    def excluir_perfil(id_empresa):
+        return EmpresaCRUD.deletar(id_empresa)

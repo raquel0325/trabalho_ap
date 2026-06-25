@@ -6,11 +6,77 @@
     <title>Conerctar-CE</title>
     <link rel="stylesheet" href="../static/css/index.css">
     <script src="../static/script/index.js" defer></script>
-</head>
-<body>
-
     
+</head>
+<script>
+setTimeout(() => {
+    document.querySelectorAll('.flash').forEach(msg => {
 
+        msg.style.transition = "0.5s";
+
+        msg.style.opacity = "0";
+
+        setTimeout(() => {
+            msg.remove();
+        }, 500);
+
+    });
+}, 4000);
+</script>
+<style> 
+.flash-container{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.flash{
+    min-width: 280px;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,.2);
+    animation: aparecer .3s ease;
+}
+
+.flash.sucesso{
+    background: #28a745;
+}
+
+.flash.erro{
+    background: #dc3545;
+}
+
+.flash.info{
+    background: #007bff;
+}
+
+@keyframes aparecer{
+    from{
+        opacity:0;
+        transform:translateX(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+</style>
+</style>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-container">
+            {% for categoria, mensagem in messages %}
+                <div class="flash {{ categoria }}">
+                    {{ mensagem }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
     <!-- ==================== LADO ESQUERDO - LOGO/INFO ==================== -->
     <div class="conteinerInf">
         <div class="conteudo-inf">

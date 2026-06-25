@@ -22,10 +22,16 @@ class Freelancer:
     def listar_por_funcionario(id_funcionario):
         """Lista todos os freelances de um funcionário"""
         return FreelancerCRUD.listar_por_funcionario(id_funcionario)
+    
     @staticmethod
     def buscar_por_funcionario(id_funcionario):
         """Busca um freelance pelo ID do funcionário"""
         return FreelancerCRUD.buscar_por_funcionario(id_funcionario)
+
+    @staticmethod
+    def editar(id_freelancer, profissao, servico_oferecido, preco_medio, disponibilidade):
+        """Edita um freelance existente"""
+        return FreelancerCRUD.atualizar(id_freelancer, profissao, servico_oferecido, preco_medio, disponibilidade)
 
 
     

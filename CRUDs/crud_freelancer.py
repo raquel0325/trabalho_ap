@@ -144,3 +144,49 @@ class FreelancerCRUD:
         finally:
             conn.close()
 #=================================================================================================================
+    @staticmethod
+    def atualizar(id_freelancer, profissao, servico_oferecido, preco_medio, disponibilidade):
+        conn = get_connection()
+        try:
+            cursor = conn.cursor()
+
+            cursor.execute('''
+                UPDATE freelancers
+                SET profissao = ?,
+                    servico_oferecido = ?,
+                    preco_medio = ?,
+                    disponibilidade = ?
+                WHERE id_freelancer = ?
+            ''', (
+                profissao,
+                servico_oferecido,
+                preco_medio,
+                disponibilidade,
+                id_freelancer
+            ))
+
+            conn.commit()
+
+            # retorna quantas linhas foram afetadas
+            return cursor.rowcount
+
+        finally:
+            conn.close()
+#=================================================================================================================
+    @staticmethod
+    def deletar(id_freelancer):
+        conn = get_connection()
+        try:
+            cursor = conn.cursor()
+
+            cursor.execute('''
+                DELETE FROM freelancers
+                WHERE id_freelancer = ?
+            ''', (id_freelancer,))
+
+            conn.commit()
+
+            return 'erroruu'
+
+        finally:
+            conn.close()

@@ -18,7 +18,7 @@
     </div>
 
     <div class="form">
-      <form action="/salvar_questionario" method="POST" id="questionarioForm">
+      <form action="{{ url_for('questionario.salvar_questionario') }}" method="POST">
         <input type="hidden" name="id_func" value="{{ id_func }}" />
 
         <div class="container">
@@ -248,45 +248,39 @@
 
               <!-- LISTA DE COMPETÊNCIAS  -->
               <div id="lista-competencias" class="competencias-lista">
-                {% for c in competencias %}
-                <div class="competencia-item">
-                  <input
-                    type="checkbox"
-                    name="competencias"
-                    value="{{ c[0] }}"
-                    id="comp_{{ c[0] }}"
-                  />
-                  <label for="comp_{{ c[0] }}">{{ c[1] }}</label>
-                </div>
-                {% endfor %}
-              </div>  
 
-              <!-- ADICIONAR NOVA COMPETÊNCIA -->
+  {% for c in competencias %}
+  <div class="competencia-item">
+    <input
+      type="checkbox"
+      name="competencias"
+      value="{{ c[0] }}"
+      id="comp_{{ c[0] }}"
+    />
+    <label for="comp_{{ c[0] }}">{{ c[1] }}</label>
+  </div>
+  {% endfor %}
 
-              <div class="nova-competencia">
-                <input
-                  type="text"
-                  id="input_nova_comp"
-                  placeholder="Adicionar nova competência (ex: Photoshop, Inglês...)"
-                />
-                <button type="button" onclick="adicionarCompetencia()">
-                  + Add
-                </button>
-              </div>
+</div>
 
-              <!-- LISTA DE NOVAS COMPETÊNCIAS ADICIONADAS -->
-              <div
-                id="novas-competencias-lista"
-                class="competencias-lista"
-                style="margin-top: 15px; display: none">
-                <!--  novas competências -->
-              </div>
+<!-- ADD NOVA COMPETÊNCIA -->
+<div class="nova-competencia">
+  <input
+    type="text"
+    id="input_nova_comp"
+    placeholder="Adicionar nova competência..."
+  />
+  <button type="button" onclick="adicionarCompetencia()">
+    + Add
+  </button>
+</div>
 
-              <small style="color: #666"
-                >Digite para pesquisar ou adicione novas competências</small
-              >
-            </div>
-          </div>
+<!-- IMPORTANTÍSSIMO: inputs reais aqui -->
+<div id="novas-competencias-lista"></div>
+
+<small style="color: #666">
+  Digite para pesquisar ou adicionar novas competências
+</small>
           <!-- Fim seção 4 -->
 
           <!-- ============================================ -->

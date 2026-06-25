@@ -100,3 +100,8 @@ class Funcionario:
     def atualizar_perfil(id_funcionario, nome=None, telefone=None, cpf=None):
         """Atualiza dados do perfil"""
         return FuncionarioCRUD.atualizar(id_funcionario, nome, telefone, cpf)
+    
+    @staticmethod
+    def excluir_perfil(id_funcionario):
+        """Exclui todos os dados relacionados ao funcionário"""
+        return FuncionarioCRUD.deletar(id_funcionario)

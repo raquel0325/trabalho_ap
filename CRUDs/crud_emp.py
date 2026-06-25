@@ -23,7 +23,11 @@ class EmpresaCRUD:
             raise Exception("E-mail ou CNPJ já cadastrado!") from e
         finally:
             conn.close()
-    
+
+#======================================================================================================================================
+
+
+#======================================================================================================================================
     @staticmethod
     def buscar_por_email_senha(email, senha):
         conn = get_connection()
@@ -37,7 +41,11 @@ class EmpresaCRUD:
             return cursor.fetchone()
         finally:
             conn.close()
-    
+
+#======================================================================================================================================
+
+
+#======================================================================================================================================  
     @staticmethod
     def buscar_por_id(id_empresa):
         """Busca empresa por ID"""
@@ -52,7 +60,11 @@ class EmpresaCRUD:
             return None
         finally:
             conn.close()
-    
+
+#======================================================================================================================================
+
+
+#======================================================================================================================================
     @staticmethod
     def buscar_por_email(email):
         """Busca empresa por email"""
@@ -67,7 +79,11 @@ class EmpresaCRUD:
             return cursor.fetchone()
         finally:
             conn.close()
-    
+
+#======================================================================================================================================
+
+
+#======================================================================================================================================
     @staticmethod
     def atualizar(id_empresa, nome=None, email=None, telefone=None, endereco=None):
         """Atualiza os dados de uma empresa"""
@@ -104,15 +120,42 @@ class EmpresaCRUD:
             raise Exception("E-mail já cadastrado!")
         finally:
             conn.close()
-    
+
+#======================================================================================================================================
+
+
+#======================================================================================================================================
+
     @staticmethod
     def deletar(id_empresa):
         conn = get_connection()
+
         try:
             cursor = conn.cursor()
-            cursor.execute('DELETE FROM empresas WHERE id_empresa = ?', 
-                         (id_empresa,))
+
+            # Remove candidaturas das vagas da empresa
+            print("Deleting candidatados")
+            cursor.execute("""DELETE FROM candidaturas  WHERE id_vaga IN (
+                    SELECT id_vaga FROM vagas WHERE id_empresa = ?)""", (id_empresa,))
+
+            # Remove vagas
+            print("Deleting vagas")
+            cursor.execute('DELETE FROM vagas WHERE id_empresa = ?',(id_empresa,))
+
+            # Remove contratações
+            print("Deleting contratacoes")
+            cursor.execute('DELETE FROM contratacoes WHERE id_contratante = ?',(id_empresa,))
+
+            # Remove empresa
+            print("Deleting empresa")
+            cursor.execute('DELETE FROM empresas WHERE id_empresa = ?',(id_empresa,))
+
             conn.commit()
-            return cursor.rowcount > 0
+            return True
+
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+
         finally:
             conn.close()

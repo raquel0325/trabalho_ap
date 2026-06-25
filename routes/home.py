@@ -1,13 +1,15 @@
 from flask import Blueprint, flash, render_template, request, redirect, url_for, session
-from CRUDs.candidatura import CandidaturaCRUD, MatchCRUD
-from models.model_vagas import Vaga, Candidatura, Match
-from CRUDs.crud_quest import QuestionarioCRUD
 from database.connect import get_connection
+from CRUDs.candidatura import CandidaturaCRUD, MatchCRUD
+from CRUDs.crud_quest import QuestionarioCRUD
 from CRUDs.crud_func import FuncionarioCRUD
-from models.model_comp import Competencia
 from CRUDs.crud_contratar import ContratacaoCRUD
 from models.model_freelancer import Freelancer
 from models.model_contratar import Contratacao
+from models.model_comp import Competencia
+from models.model_vagas import Vaga, Candidatura, Match
+from models.model_emp import Empresa
+from models.model_fun import Funcionario
 
 
 bp_home = Blueprint('home', __name__)
@@ -24,44 +26,29 @@ def home_pag():
     if tipo == 'funcionario':
         # Busca candidaturas
         candidaturas = CandidaturaCRUD.listar_candidaturas_funcionario(id_usuario)
-        
         # Busca vagas recomendadas
         vagas_recomendadas = Match.melhores_vagas(id_usuario, limite=5)
-        
         # Busca dados do funcionário
         funcionario = FuncionarioCRUD.buscar_por_id(id_usuario)
-        
         # Busca dados do questionário
         questionario = QuestionarioCRUD.buscar_por_funcionario(id_usuario)
-        
         #  BUSCA AS COMPETÊNCIAS DO USUÁRIO 
-
         competencias_usuario = Competencia.listar_do_funcionario(id_usuario)
-        
         # Busca todas as competências disponíveis
         todas_competencias = Competencia.listar_todas()
-    
+        # Busca contratos
         contratacoes = Contratacao.listar_contratacao(id_usuario)
-        
+        # Busca meus freelances
         meus_freelances = Freelancer.listar_por_funcionario(id_usuario)
-
         # Atualiza sessão
         if funcionario:
             session['usuario_nome'] = funcionario.get('nome')
-        
-        return render_template('home/home_func.html', 
-                             nome=session.get('usuario_nome'), 
-                             tipo=tipo,
-                             candidaturas=candidaturas,
-                             vagas_recomendadas=vagas_recomendadas,
-                             funcionario=funcionario,
-                             questionario=questionario,
-                             competencias_usuario=competencias_usuario,
-                             todas_competencias=todas_competencias,
-                             contratacoes=contratacoes,
-                             meus_freelances=meus_freelances
-                            )
     
+        return render_template('home/home_func.html', nome=session.get('usuario_nome'), tipo=tipo,
+                             candidaturas=candidaturas,vagas_recomendadas=vagas_recomendadas,
+                             funcionario=funcionario,questionario=questionario,
+                             competencias_usuario=competencias_usuario,todas_competencias=todas_competencias,
+                             contratacoes=contratacoes,meus_freelances=meus_freelances)    
     elif tipo == 'empresa':
         # Busca dados da empresa
         from models.model_emp import Empresa
@@ -77,14 +64,11 @@ def home_pag():
 
         freelancer_contratados = Contratacao.listar_contratados(id_usuario)
         
-        return render_template('home/home_emp.html', 
-                             nome=session.get('usuario_nome'), 
-                             tipo=tipo,
-                             empresa=empresa,
-                             vagas=vagas,
-                             contratados=freelancer_contratados)
+        return render_template('home/home_emp.html', nome=session.get('usuario_nome'), tipo=tipo,
+                             empresa=empresa,vagas=vagas,contratados=freelancer_contratados)
     
     return redirect('/')
+    
 #======================================================================================================================================
 
 
@@ -98,166 +82,37 @@ def logout():
 
 
 #======================================================================================================================================
-@bp_home.route('/atualizar_perfil', methods=['POST'])
-def atualizar_perfil():
-    """Atualiza os dados do perfil do funcionário"""
+
+
+@bp_home.route('/excluir_perfil', methods=['POST'])
+def excluir_perfil():
+
     if 'usuario_id' not in session:
         return redirect('/')
-    
-    id_usuario = session['usuario_id']
-    
+
+    usuario_id = session['usuario_id']
+    tipo = session.get('tipo')
+
     try:
-        # Atualiza dados na tabela funcionarios
-        FuncionarioCRUD.atualizar(
-            id_usuario,
-            nome=request.form.get('nome'),
-            telefone=request.form.get('telefone'),
-            cpf=request.form.get('cpf')
-        )
-        
-        # Verifica se já existe um questionário
-        existente = QuestionarioCRUD.buscar_por_funcionario(id_usuario)
-        
-        if existente:
-            # Atualiza questionário existente
-            QuestionarioCRUD.atualizar(
-                id_funcionario=id_usuario,
-                cidade=request.form.get('cidade'),
-                estado=request.form.get('estado'),
-                formacao=request.form.get('formacao'),
-                curso=request.form.get('curso'),
-                instituicao=request.form.get('instituicao'),
-                ultimo_cargo=request.form.get('ultimo_cargo'),
-                ultima_empresa=request.form.get('ultima_empresa'),
-                tempo_experiencia=request.form.get('tempo_experiencia')
-            )
+
+        if tipo == 'funcionario':
+            Funcionario.excluir_perfil(usuario_id)
+
+        elif tipo == 'empresa':
+            Empresa.excluir_perfil(usuario_id)
+
         else:
-            # Insere novo questionário
-            QuestionarioCRUD.inserir_resposta(
-                id_funcionario=id_usuario,
-                cidade=request.form.get('cidade'),
-                estado=request.form.get('estado'),
-                formacao=request.form.get('formacao'),
-                curso=request.form.get('curso'),
-                instituicao=request.form.get('instituicao'),
-                ano_conclusao=None,
-                ultimo_cargo=request.form.get('ultimo_cargo'),
-                ultima_empresa=request.form.get('ultima_empresa'),
-                tempo_experiencia=request.form.get('tempo_experiencia')
-            )
-        
-        flash("Perfil atualizado com sucesso!", "sucesso")
-        
-    except Exception as e:
-        flash(f"Erro ao atualizar: {str(e)}", "erro")
-    
-    return redirect(url_for('home.home_pag'))
-#======================================================================================================================================
+            flash('Tipo de usuário inválido.', 'erro')
+            return redirect(url_for('home.home_pag'))
 
+        session.clear()
 
-#======================================================================================================================================
-@bp_home.route('/atualizar_competencias', methods=['POST'])
-def atualizar_competencias():
-    """Atualiza as competências do usuário"""
-    if 'usuario_id' not in session:
+        flash('Perfil excluído com sucesso!', 'sucesso')
+
         return redirect('/')
-    
-    id_usuario = session['usuario_id']
-    
 
-    
-    try: 
-        
-        # Remove todas as competências atuais
-        conn = get_connection()
-        cursor = conn.cursor()
-        cursor.execute('DELETE FROM funcionario_competencias WHERE id_funcionario = ?', (id_usuario,))
-        print("✓ Competências antigas removidas")
-        
-        # Adiciona as novas competências selecionadas
-        competencias_ids = request.form.getlist('competencias')
-        for comp_id in competencias_ids:
-            if comp_id and comp_id.isdigit():
-                print(f"✓ Adicionando competência ID: {comp_id}")
-                cursor.execute('INSERT INTO funcionario_competencias (id_funcionario, id_competencia) VALUES (?, ?)',
-                             (id_usuario, int(comp_id)))
-        
-        # Adiciona novas competências
-        novas_competencias = request.form.getlist('novas_competencias')
-        for nome_comp in novas_competencias:
-            nome_comp = nome_comp.strip()
-            if nome_comp:
-                print(f"✓ Processando nova competência: '{nome_comp}'")
-                
-                # Verifica se já existe
-                cursor.execute('SELECT id_competencia FROM competencias WHERE nome = ?', (nome_comp,))
-                existente = cursor.fetchone()
-                
-                if existente:
-                    comp_id = existente['id_competencia']
-                    print(f"  → Competência já existe, ID: {comp_id}")
-                else:
-                    cursor.execute('INSERT INTO competencias (nome) VALUES (?)', (nome_comp,))
-                    comp_id = cursor.lastrowid
-                    print(f"  → Nova competência criada, ID: {comp_id}")
-                
-                cursor.execute('INSERT INTO funcionario_competencias (id_funcionario, id_competencia) VALUES (?, ?)',
-                             (id_usuario, comp_id))
-        
-        conn.commit()
-        conn.close()
-        
-
-        flash("Competências atualizadas com sucesso!", "sucesso")
-        
     except Exception as e:
-        print(f"❌ ERRO: {str(e)}")
-        import traceback
-        traceback.print_exc()
-        flash(f"Erro ao atualizar competências: {str(e)}", "erro")
-    
-    return redirect(url_for('home.home_pag'))
 
-#======================================================================================================================================
+        flash(f'Erro ao excluir perfil: {str(e)}', 'erro')
 
-@bp_home.route('/atualizar_empresa', methods=['POST'])
-def atualizar_empresa():
-    """Atualiza os dados da empresa"""
-    if 'usuario_id' not in session or session.get('tipo') != 'empresa':
-        return redirect('/')
-    
-    id_usuario = session['usuario_id']
-    
-    try:
-        from models.model_emp import Empresa
-        
-        nome = request.form.get('nome')
-        email = request.form.get('email')
-        telefone = request.form.get('telefone')
-        endereco = request.form.get('endereco')
-        
-        # Atualiza os dados
-        Empresa.atualizar_perfil(
-            id_empresa=id_usuario,
-            nome=nome,
-            email=email,
-            telefone=telefone,
-            endereco=endereco
-        )
-        
-        # Atualiza a sessão com os novos dados
-        if nome:
-            session['usuario_nome'] = nome
-        if email:
-            session['usuario_email'] = email
-        if telefone:
-            session['usuario_telefone'] = telefone
-        
-        flash("Perfil atualizado com sucesso!", "sucesso")
-        
-    except ValueError as e:
-        flash(str(e), "erro")
-    except Exception as e:
-        flash(f"Erro ao atualizar: {str(e)}", "erro")
-    
-    return redirect(url_for('home.home_pag'))
+        return redirect(url_for('home.home_pag'))

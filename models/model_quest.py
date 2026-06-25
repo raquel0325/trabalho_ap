@@ -29,11 +29,17 @@ class Questionario:
             tempo_experiencia=dados.get('tempo_experiencia')
         )
         
-        # Vincula competências existentes
+        # Vincula competências existentes (são IDs)
         for comp_id in competencias_ids:
-            Competencia.adicionar_ao_funcionario(id_funcionario, comp_id)
+            if comp_id:  # Verifica se o ID não está vazio
+                try:
+                    # O método adicionar_ao_funcionario agora aceita tanto ID quanto nome
+                    Competencia.adicionar_ao_funcionario(id_funcionario, int(comp_id))
+                except Exception as e:
+                    print(f"Erro ao adicionar competência ID {comp_id}: {e}")
+                    continue
         
-        # Adiciona novas competências
+        # Adiciona novas competências (são nomes)
         for nome_comp in novas_competencias:
             if nome_comp.strip():
                 Competencia.adicionar_ao_funcionario(id_funcionario, nome_comp.strip())

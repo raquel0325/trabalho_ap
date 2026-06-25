@@ -3,7 +3,7 @@ from config import Config
 from database import init_db  
 from routes import bp_auth, bp_home, bp_questionario, bp_vagas, bp_freelancer
 from routes import bp_google, init_oauth, bp_candidatar_se, bp_atualizar_vaga
-from routes import bp_avaliacao, bp_contratar_frelas
+from routes import bp_avaliacao, bp_contratar_frelas, bp_atualizar_perfil
 
 app = Flask(__name__)
 app.secret_key = Config.SECRET_KEY
@@ -21,6 +21,7 @@ app.register_blueprint(bp_atualizar_vaga)
 app.register_blueprint(bp_freelancer)
 app.register_blueprint(bp_avaliacao)
 app.register_blueprint(bp_contratar_frelas)
+app.register_blueprint(bp_atualizar_perfil)
 
 init_oauth(app)
 app.register_blueprint(bp_google)

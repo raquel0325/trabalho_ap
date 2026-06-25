@@ -1,4 +1,30 @@
 
+function confirmarExcluirPerfil() {
+
+    const msg1 =
+        "⚠️ ATENÇÃO!\n\n" +
+        "Você está prestes a excluir PERMANENTEMENTE seu perfil e todos os dados associados.\n\n" +
+        "Essa ação não poderá ser desfeita.\n\n" +
+        "Deseja continuar?";
+
+    if (!confirm(msg1)) {
+        return;
+    }
+
+    if (!confirm("Última confirmação. Excluir perfil permanentemente?")) {
+        return;
+    }
+
+    const form = document.createElement('form');
+
+    form.method = 'POST';
+
+    form.action = '/excluir_perfil';
+
+    document.body.appendChild(form);
+
+    form.submit();
+}
 function mostrarFormFreelance() {
     document.getElementById('form-freelance-container').style.display = 'block';
     // Scroll para o formulário
@@ -164,7 +190,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 //======================================================================================================================================
-
 
 // Inicialização quando o DOM carregar
 document.addEventListener('DOMContentLoaded', function() {
