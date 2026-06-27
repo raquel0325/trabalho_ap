@@ -4,13 +4,9 @@ from CRUDs.crud_freelancer import FreelancerCRUD
 from CRUDs.crud_contratar import ContratacaoCRUD
 from models.model_avaliacao import Avaliacao
 
-
-
 bp_freelancer = Blueprint('freelancer', __name__)
 
 @bp_freelancer.route('/freelancer', methods=['GET', 'POST'])
-
-    
 def buscar_freelancer():
     if 'usuario_id' not in session:
         return redirect('/')
@@ -52,16 +48,19 @@ def buscar_freelancer():
             
             # Se contratou, busca a média das avaliações
             media_info = Avaliacao.calcular_media_avaliacoes(freelancer['id_freelancer'])
-
             freelancer_dict['media_avaliacao'] = media_info['media']
             freelancer_dict['total_avaliacoes'] = media_info['total']
 
-            freelancer_dict['ja_contratou'] = contratacao is not None
-            
-            freelancers_com_status.append(freelancer_dict)
-    
-    return render_template('vaga/freelancer_listar.html',resultado=freelancers_com_status,busca=busca,
-                           disponibilidade=disponibilidade,preco_medio_min=preco_medio_min,preco_medio_max=preco_medio_max,
+            if freelancer_dict['ja_contratou']:
+                freelancer_dict['avaliado'] = ContratacaoCRUD.buscar_avaliacao(
+                    freelancer['id_freelancer'],
+                    id_usuario,
+                    tipo_contratante
+                )
+        freelancers_com_status.append(freelancer_dict)
+
+    resultado = freelancers_com_status
+    return render_template('vaga/freelancer_listar.html',resultado=resultado,busca=busca, disponibilidade=disponibilidade,preco_medio_min=preco_medio_min,preco_medio_max=preco_medio_max,
                            tipo_usuario=tipo_usuario)
 #====================================================================================================================================
 

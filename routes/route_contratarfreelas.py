@@ -15,7 +15,7 @@ def contratar(id_freelancer):
 
     id_contratante = session['usuario_id']
     tipo_contratante = session['tipo']
-
+    
 
     sucesso = Contratacao.contratar_freelancer(
         id_freelancer,

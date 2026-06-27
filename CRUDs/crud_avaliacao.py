@@ -10,12 +10,7 @@ class AvaliacaoCRUD:
         conn = get_connection()
         try:
             cursor = conn.cursor()
-            # Verifica se já existe avaliação deste contratante
-            print(tipo_contratante)
-            print(id_contratante)
-            print(id_freelancer)
-            print(nota)
-            print(comentario)
+
             cursor.execute("""
                 SELECT id_avaliacao
                 FROM avaliacoes
@@ -63,6 +58,34 @@ class AvaliacaoCRUD:
             """, (id_freelancer, id_freelancer))
 
             conn.commit()
+
+            try:
+                cursor.execute(
+                    'SELECT id_funcionario FROM freelancers WHERE id_freelancer = ?',
+                    (id_freelancer,),
+                )
+                rf = cursor.fetchone()
+                id_destino_freelancer_funcionario = rf['id_funcionario'] if rf else None
+
+                # Se o avaliador é empresa, notifica o freelancer.
+                if id_destino_freelancer_funcionario is not None:
+                    cursor.execute(
+                        '''
+                        INSERT INTO notificacoes (id_usuario, titulo, mensagem, tipo, id_referencia, lida)
+                        VALUES (?, ?, ?, ?, ?, 0)
+                        ''',
+                        (
+                            id_destino_freelancer_funcionario,
+                            'Nova avaliação recebida',
+                            'Você recebeu uma nova avaliação no seu serviço. Confira no painel.',
+                            'avaliacao_recebida',
+                            id_freelancer,
+                        ),
+                    )
+                    conn.commit()
+            except Exception:
+                pass
+
             return True
 
         except Exception as e:

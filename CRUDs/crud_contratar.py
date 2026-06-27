@@ -6,9 +6,6 @@ class ContratacaoCRUD:
     @staticmethod
     def contratar_freelancer(id_freelancer, id_contratante, tipo_contratante):
         conn = get_connection()
-        print(id_freelancer)
-        print(id_contratante)
-        print(tipo_contratante)
         try:
             cursor = conn.cursor()
 
@@ -23,6 +20,33 @@ class ContratacaoCRUD:
             """, (id_freelancer, id_contratante, tipo_contratante))
 
             conn.commit()
+
+            # Notifica o freelancer (id_usuario = id_funcionario)
+            # Encontramos o id_funcionario via tabela freelancers
+            cursor.execute(
+                'SELECT id_funcionario FROM freelancers WHERE id_freelancer = ?',
+                (id_freelancer,),
+            )
+            r = cursor.fetchone()
+            id_funcionario_freelancer = r['id_funcionario'] if r else None
+
+            # Notificar freelancer (id_usuario = id_funcionario)
+            if id_funcionario_freelancer is not None:
+                cursor.execute(
+                    '''
+                    INSERT INTO notificacoes (id_usuario, titulo, mensagem, tipo, id_referencia, lida)
+                    VALUES (?, ?, ?, ?, ?, 0)
+                    ''',
+                    (
+                        id_funcionario_freelancer,
+                        'Solicitação de contrato recebida',
+                        'Você recebeu uma solicitação de contrato. Acompanhe o status no seu painel.',
+                        'solicitacao_contrato',
+                        id_freelancer,
+                    ),
+                )
+                conn.commit()
+
             return True
 
         except Exception as e:
@@ -61,6 +85,7 @@ class ContratacaoCRUD:
 
         finally:
             conn.close()
+    
 #=================================================================================================================
     @staticmethod
     def buscar_por_id(id_contratacao):
@@ -107,7 +132,7 @@ class ContratacaoCRUD:
             return cursor.fetchall()
         finally:
             conn.close()
-
+#=================================================================================================================
 
     @staticmethod
     def buscar_por_freelancer_e_contratante(id_freelancer, id_contratante,tipo_contratante):
@@ -126,11 +151,7 @@ class ContratacaoCRUD:
 #=================================================================================================================
     @staticmethod
     def listar_solicitantes(id_freelancer):
-        """
-        Lista todos que solicitaram um freelancer específico,
-        trazendo nome e e-mail do solicitante independente de ser
-        funcionario ou empresa.
-        """
+        """Lista todos que solicitaram um freelancer específico"""
         conn = get_connection()
         try:
             cursor = conn.cursor()
@@ -178,20 +199,16 @@ class ContratacaoCRUD:
             conn.close()
  
     # =================================================================================================================
-    # NOVO: atualiza o status de uma contratação (usado pelo freelancer)
+    #atualiza o status de uma contratação (usado pelo freelancer)
     @staticmethod
     def atualizar_status(id_contratacao, novo_status, id_freelancer_dono):
-        """
-        Atualiza o status de uma contratação.        Statuses válidos: pendente, aceito, recusado, concluido, cancelado
-        """
+        """Atualiza o status de uma contratação. Statuses válidos: pendente, aceito, recusado, concluido, cancelado"""
         statuses_validos = {'pendente', 'aceito', 'recusado', 'concluido', 'cancelado'}
         if novo_status not in statuses_validos:
             return False
- 
         conn = get_connection()
         try:
             cursor = conn.cursor()
- 
             # Verifica se a contratação pertence a um freelancer do funcionário logado
             cursor.execute('''
                 SELECT c.id_contratacao
@@ -217,7 +234,35 @@ class ContratacaoCRUD:
                     SET status = ?
                     WHERE id_contratacao = ?
                 ''', (novo_status, id_contratacao))
- 
+
+            # Notifica a outra parte
+            cursor.execute('''
+                SELECT id_freelancer, id_contratante, tipo_contratante
+                FROM contratacoes
+                WHERE id_contratacao = ?
+            ''', (id_contratacao,))
+            row2 = cursor.fetchone()
+            if row2:
+                id_freelancer = row2['id_freelancer']
+                id_contratante = row2['id_contratante']
+                tipo_contratante = row2['tipo_contratante']
+
+                if tipo_contratante == 'empresa':
+                    id_destino = id_contratante
+                else:
+                    id_destino = id_contratante
+
+                titulo = 'Status do contrato atualizado'
+                mensagem = f'Seu pedido/contrato agora está como: {novo_status}.'
+
+                cursor.execute(
+                    '''
+                    INSERT INTO notificacoes (id_usuario, titulo, mensagem, tipo, id_referencia, lida)
+                    VALUES (?, ?, ?, ?, ?, 0)
+                    ''',
+                    (id_destino, titulo, mensagem, 'status_contrato', id_contratacao),
+                )
+
             conn.commit()
             return cursor.rowcount > 0
  
@@ -225,5 +270,23 @@ class ContratacaoCRUD:
             conn.rollback()
             print("Erro ao atualizar status:", e)
             return False
+        finally:
+            conn.close()
+#=================================================================================================================
+    @staticmethod
+    def buscar_avaliacao(id_freelancer, id_contratante, tipo_contratante):
+        conn = get_connection()
+        try:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT 1
+                FROM avaliacoes
+                WHERE id_freelancer = ?
+                AND id_contratante = ?
+                AND tipo_contratante = ?
+                LIMIT 1
+            """, (id_freelancer, id_contratante, tipo_contratante))
+
+            return cursor.fetchone() is not None
         finally:
             conn.close()

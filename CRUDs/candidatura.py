@@ -27,11 +27,30 @@ class CandidaturaCRUD:
         conn = get_connection()
         try:
             cursor = conn.cursor()
+
+            # Descobre a empresa dona da vaga (para notificar)
+            cursor.execute('SELECT id_empresa FROM vagas WHERE id_vaga = ?', (id_vaga,))
+            row = cursor.fetchone()
+            id_empresa = row['id_empresa'] if row else None
+
             cursor.execute('''
                 INSERT OR IGNORE INTO candidaturas (id_funcionario, id_vaga, data_candidatura)
                 VALUES (?, ?, CURRENT_TIMESTAMP)
             ''', (id_funcionario, id_vaga))
             conn.commit()
+
+            if cursor.rowcount > 0 and id_empresa is not None:
+                titulo = 'Nova candidatura'
+                mensagem = 'Você recebeu uma nova candidatura em uma de suas vagas.'
+                cursor.execute(
+                    '''
+                    INSERT INTO notificacoes (id_usuario, titulo, mensagem, tipo, id_referencia, lida)
+                    VALUES (?, ?, ?, ?, ?, 0)
+                    ''',
+                    (id_empresa, titulo, mensagem, 'nova_candidatura', id_vaga),
+                )
+                conn.commit()
+
             return cursor.rowcount > 0
         finally:
             conn.close()
@@ -139,8 +158,6 @@ class CandidaturaCRUD:
         
 #====================================================================================================
 
-#                 operaçoes adicionais, compatibilidade e sistema de recomendação
-
 #====================================================================================================
 
 
@@ -151,8 +168,7 @@ class MatchCRUD:
         conn = get_connection()
         try:
             cursor = conn.cursor()
-        
-        # Calcula match por competências (70% do peso)
+
             cursor.execute('SELECT COUNT(*) as total FROM vaga_competencias WHERE id_vaga = ?', (id_vaga,))
             total_vaga = cursor.fetchone()['total']
         

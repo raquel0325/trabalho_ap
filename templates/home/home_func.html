@@ -299,16 +299,28 @@
     <!-- BARRA LATERAL DIREITA: ACCORDION -->
     <div class="sidebar-direita-accordion">
         
-        <!-- GAVETA: NOTIFICAÇÕES -->
+        <!-- GAVETA: NOTIFICAÇÕES --> 
         <details class="accordion-item" open>
             <summary class="accordion-header">
                 <h2>Notificações</h2>
                 <span class="accordion-seta">▼</span>
             </summary>
             <div class="accordion-conteudo">
-                <div class="notification-box">   
-                    <p>Nenhuma notificação nova no momento.</p>
-                </div>
+                {% if notificacoes %}
+                <div class="notificacoes-lista">
+                        {% for notif in notificacoes %}
+                        <div class="freelance-card" style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); border-left: 4px solid #05186c;">
+                            <div class="freelance-header">
+                                <h3>{{ notif.titulo }}</h3>
+                                <span class="status-badge">{{ notif.data }}</span>
+                            </div>
+                            <p class="freelance-descricao">{{ notif.mensagem }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="sem-freelances"><p>Nenhuma notificação por enquanto.</p></div>
+                {% endif %}
             </div>
         </details>
 

@@ -129,21 +129,26 @@ def init_db():
         id_avaliacao INTEGER PRIMARY KEY AUTOINCREMENT,
         id_freelancer INTEGER,
         id_contratante INTEGER,
+        tipo_contratante TEXT DEFAULT NULL,
         nota INTEGER CHECK(nota >= 1 AND nota <= 5),
         comentario TEXT,
         data_avaliacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (id_freelancer) REFERENCES freelancers (id_freelancer) ON DELETE CASCADE
     )''')
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    # Tabela notificacoes (alertas na tela)
+    cursor.execute('''CREATE TABLE IF NOT EXISTS notificacoes (
+        id_notificacao INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_usuario INTEGER NOT NULL,
+        titulo TEXT NOT NULL,
+        mensagem TEXT NOT NULL,
+        tipo TEXT NOT NULL,
+        id_referencia INTEGER,
+        lida INTEGER DEFAULT 0,
+        data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )''')
+
+
     conn.commit()
     conn.close()
 
