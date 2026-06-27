@@ -4,31 +4,42 @@ O **Conectar-CE** é uma plataforma digital centralizada focada em fortalecer o 
 de forma rápida e gratuita.
 
 ## 🚀 Funcionalidades (MVP)
-- [ ] Cadastro e Login de usuários.
-- [ ] Mural de vagas dinâmico com filtros por cidade (Juazeiro, Crato, Barbalha).
-- [ ] Cadastro de perfil profissional para autônomos.
-- [ ] Área para empresas/contratantes postarem anúncios.
-- [ ] Dashboard simples para gerenciamento de posts.
+- Cadastro e Login (inclui autenticação local e Google OAuth).
+- Mural de vagas com filtros por cidade (Juazeiro, Crato, Barbalha) e busca.
+- Perfil profissional para candidatos (questionário + competências).
+- Match automático: recomenda vagas compatíveis com base nas competências.
+- Candidatura a vagas com verificação de duplicidade e histórico.
+- Área de empresas/contratantes para criar e gerenciar vagas.
+
+## 📝 Tecnologias Utilizadas
+- **Painel do funcionário :** seção de perfil com modo visualização/edição, gerenciamento de competências e **recomendações** 
+- **Freelance (novo módulo):** cadastrar/editar/excluir freelances, ver **solicitantes** e acompanhar **contratações**.
+- **Avaliação de freelancers:** empresas podem avaliar freelancers após contratação (nota + comentário).
+- **Notificações e vagas salvas:** exibição na lateral direita (accordion) com listagem e ações.
+- **Painel da empresa:** abas (Perfil, Dashboard, Vagas), com estatísticas e ações rápidas (criar vagas) + seções de contratados e notificações.
 
 ## Visão Geral
 
-O Vagas Conecta é uma aplicação web desenvolvida em Flask que permite:
-    **Funcionários:** Cadastrar-se, preencher perfil profissional com competências, buscar vagas compatíveis e candidatar-se.
-    **Empresas:** Cadastrar-se e publicar vagas com requisitos de competências.
-    **Sistema de Match:** Calcula automaticamente a compatibilidade entre o perfil do candidato e os requisitos da vaga.
+O Conectar-CE é uma aplicação web desenvolvida em Flask que permite:
+    **Funcionários:** cadastrar-se, preencher perfil profissional com competências, buscar vagas compatíveis e candidatar-se.
+    **Empresas:** cadastrar-se e publicar vagas com requisitos de competências.
+    **Sistema de Match:** calcula automaticamente a compatibilidade entre o perfil do candidato e os requisitos da vaga.
 
 ## Funcionalidades
 **Para Funcionários:**
-    *Cadastro* com autenticação local ou Google OAuth
-    Questionário complementar com dados profissionais
-    *Seleção* e adição de competências personalizadas
-    Listagem de vagas com filtros (busca, salário, empresa)
-    *Visualização* de vagas recomendadas por compatibilidade
-    Candidatura a vagas com verificação de duplicidade
-    *Histórico* de candidaturas
+    * Cadastro* com autenticação local ou Google OAuth.
+    Questionário complementar com dados profissionais.
+    * Seleção* e adição de competências personalizadas (inclui adicionar competências novas).
+    Listagem de vagas com filtros (busca, salário, empresa).
+    * Visualização* de vagas recomendadas por compatibilidade.
+    Candidatura a vagas com verificação de duplicidade.
+    * Histórico* de candidaturas.
+
 **Para Empresas:**
-    Criação de vagas com competências necessárias
-    Gestão de vagas publicadas e candidaturas
+    Criação de vagas com competências necessárias.
+    Gestão de vagas publicadas e candidaturas.
+    Gestão do módulo **Freelance** (contratações e avaliações).
+
 
 ## TECNOLOGIAS UTILIZADAS 
 **Tecnologia| Descrição**
@@ -42,71 +53,58 @@ Jinja2	    | Template engine
 
 ## Estrutura do Projeto
 
-vagas-conecta/
+conectar-ce/
 │
-├── app.py                      # Arquivo principal da aplicação
-├── config.py                   # Configurações e variáveis de ambiente
-├── .env                        # Variáveis sensíveis (não versionado)
-├── requirements.txt            # Dependências do projeto
+├── app.py                              # Inicializa a aplicação Flask
+├── config.py                           # Variáveis de ambiente/configurações
+├── database/                          # Banco e inicialização
+│   ├── connect.py                     # Conexão SQLite (get_connection)
+│   └── main.py                        # init_db(): cria/atualiza tabelas
 │
-├── database/
-│   ├── __init__.py
-│   ├── connect.py              # Conexão com banco de dados
-│   ├── main.py                 # Inicialização das tabelas
-│   └── banco.db                # Arquivo SQLite (gerado)
+├── CRUDs/                              # Camada de acesso ao banco (CRUD)
+│   ├── candidatura.py                # Candidaturas + match (quando aplicável)
+│   ├── crud_contratar.py             # Contratações (freelance)
+│   ├── crud_freelancer.py            # Freelancers
+│   ├── crud_comp.py                 # Competências
+│   ├── crud_func.py                 # Funcionários
+│   ├── crud_emp.py                  # Empresas
+│   ├── crud_quest.py                # Questionário/respostas
+│   ├── crud_notificacao.py          # Notificações
+│   └── crud_vagas.py               # Vagas + vínculo com competências
 │
-├── CRUDs/
-│   ├── __init__.py
-│   ├── candidatura.py          # CRUD de candidaturas e match
-│   ├── crud_comp.py            # CRUD de competências
-│   ├── crud_emp.py             # CRUD de empresas
-│   ├── crud_func.py            # CRUD de funcionários
-│   ├── crud_quest.py           # CRUD do questionário
-│   └── crud_vagas.py           # CRUD de vagas
+├── models/                             # Regras de negócio (camada de domínio)
+│   ├── model_fun.py                   # Funcionário
+│   ├── model_emp.py                   # Empresa
+│   ├── model_comp.py                  # Competência
+│   ├── model_quest.py                 # Questionário
+│   ├── model_vagas.py                 # Vaga/Candidatura/Match
+│   ├── model_freelancer.py           # Freelancer
+│   ├── model_contratar.py            # Contratação
+│   └── model_notificacao.py          # Notificação
 │
-├── models/
-│   ├── __init__.py
-│   ├── model_comp.py           # Regras de competências
-│   ├── model_emp.py            # Regras de empresas
-│   ├── model_fun.py            # Regras de funcionários
-│   ├── model_quest.py          # Regras do questionário
-│   └── model_vagas.py          # Regras de vagas
-│
-├── routes/
-│   ├── __init__.py
-│   ├── auth.py                 # Rotas de autenticação
-│   ├── google_auth.py          # Rotas OAuth Google
-│   ├── home.py                 # Rota inicial
-│   ├── questionario.py         # Rotas do questionário
-│   └── vagas.py                # Rotas de vagas
+├── routes/                             # Rotas HTTP (controllers)
+│   ├── auth.py                         # Login/cadastro (base)
+│   ├── google_auth.py                 # OAuth Google
+│   ├── home.py                         # /home e /logout + dashboard
+│   ├── questionario.py               # /questionario e salvar
+│   ├── vagas.py                       # /vagas, detalhes e candidatura
+│   └── freelancer.py                 # rotas do módulo freelance (criar/editar/excluir/fluxos)
 │
 ├── static/
-│   ├── css/
-│   │   ├── candidatura.css
-│   │   ├── homef.css
-│   │   ├── index.css
-│   │   ├── questionario.css
-│   │   └── vagas.css
-│   ├── imagem/
-│   │   ├── google-icon.png
-│   │   ├── linkedin-icon.png
-│   │   ├── image1.jpg
-│   │   └── logo.png
-│   └── script/
-│       ├── emp.js
-│       ├── index.js
-│       └── questionario.js
+│   ├── css/                          # estilos
+│   └── script/                       # JS da interface (home_func.js, home_emp.js etc.)
 │
-└── templates/
-    ├── index.html              # Página de login/cadastro
-    ├── home_func.html          # Home do funcionário
-    ├── home_emp.html           # Home da empresa
-    ├── questionario.html       # Questionário complementar
-    └── vaga/
-        ├── candidaturas.html       # Minhas candidaturas
-        ├── vagas_listar.html       # Lista de vagas
-        ├── vagas_recomendadas.html # Vagas recomendadas
-        └── vaga_detalhe.html       # Detalhes da vaga
+└── templates/                         # Templates Jinja2
+    ├── index.html                     # Login/cadastro
+    ├── home/home_func.html          # Dashboard funcionário
+    ├── home/home_emp.html           # Dashboard empresa
+    ├── questionario.html            # Questionário
+    └── vaga/                        # Área de vagas (listagem/detalhe/candidaturas)
+        ├── vagas_listar.html
+        ├── vagas_recomendadas.html
+        ├── vaga_detalhe.html
+        └── candidaturas.html
+
 
 ## BANCO DE DADOS ==============================================================================
 **FUNCIONARIOS==================================**
@@ -140,6 +138,7 @@ status	    |TEXT	     |Status da vaga
 *Coluna	      | Tipo	 | Descrição*
 id_competencia|INTEGER  |PK Identificador único
 nome	      |TEXT	     |Nome da competência
+
 **CANDIDATURAS====================================**
 *Coluna	      | Tipo	 | Descrição*
 id_candidato   |INTEGER  |PK Identificador único
@@ -148,13 +147,54 @@ id_funcionario |INTEGER  |FK Identificador do funcionário
 data	       |TEXT 	 |Data da candidatura
 status	    |TEXT	     |Status da candidatura
 
+**FREELANCERS / FREELANCE==========================**
+*Coluna	      | Tipo	 | Descrição*
+id_freelancer |INTEGER  |PK Identificador único
+id_funcionario|INTEGER |FK Funcionário (dono do freelance)
+profissao	 |TEXT	     |Profissão/título do anúncio
+servico_oferecido|TEXT  |Descrição do serviço
+preco_medio	|REAL	     |Preço médio cobrado
+disponibilidade|TEXT |Disponível/ocupado/indisponível
+
+**CONTRATACOES====================================**
+*Coluna	      | Tipo	 | Descrição*
+id_contratacao|INTEGER  |PK Identificador único
+id_freelancer  |INTEGER  |FK Freelance
+id_contratante |INTEGER  |FK Empresa ou funcionário
+tipo_contratante|TEXT    |empresa/funcionario
+data_contratacao|TIMESTAMP|Data do pedido
+status	    |TEXT	     |pendente/aceito/recusado/concluido/cancelado
+data_conclusao|TIMESTAMP|Data quando concluído
+
+**AVALIACOES======================================**
+*Coluna	      | Tipo	 | Descrição*
+id_avaliacao  |INTEGER  |PK Identificador único
+id_freelancer |INTEGER  |FK Freelance
+id_contratante|INTEGER  |FK Contratante
+tipo_contratante|TEXT   |
+ota	        |INTEGER |1..5
+comentario	|TEXT	     |Comentário do contratante
+data_avaliacao|TIMESTAMP|Data da avaliação
+
+**NOTIFICACOES====================================**
+*Coluna	      | Tipo	 | Descrição*
+id_notificacao|INTEGER  |PK Identificador único
+id_usuario	 |INTEGER  |Usuário que recebe
+titulo	    |TEXT	     |
+mensagem	  |TEXT	     |
+tipo	      |TEXT	     |
+id_referencia|INTEGER  |Relaciona com contrato/solicitação etc.
+lida	       |INTEGER  |0/1
+data_criacao|TIMESTAMP|Data de criação
+
+
 ## Rotas da Aplicação ==============================================================================
 
 *Autenticação (routes/auth.py)*
 Rotas                 | Descrição
 --------------------- | -------------
-/                     | Home - antes do login o index
-/login                | login autenticação de usuário
+/                     | Página inicial (antes do login)
+/login                | Login autenticação
 /cadastro/funcionario | Cadastro de funcionário
 /cadastro/empresa     | Cadastro de empresa
 
@@ -162,27 +202,65 @@ Rotas                 | Descrição
 Rotas                 | Descrição
 --------------------- | -------------
 /google-login         | Login com Google
-/signin-google        | Redirecionamento após o login
+/signin-google        | Redirecionamento após OAuth
 
 *Home (routes/home.py)*
 Rotas                 | Descrição
 --------------------- | -------------
-/home                 | Home Página inicial pós-login
-/logout               | Logout 
+/home                 | Dashboard (funcionário ou empresa)
+/logout               | Logout
 
 *Questionário (routes/questionario.py)*
 Rotas                  | Descrição
 ---------------------  | -------------
-/questionario/<id_func>| Página de questionário do funcionário
-/salvar_questionario   | Salvar questionário do funcionário
+/questionario/<id_func>| Página do questionário
+/salvar_questionario   | Salva questionário e competências
 
-*Vagas (routes/vagas.py)*
+*Candidatar / Vagas (routes/candidatar_se.py)*
 Rotas                       | Descrição
----------------------       | -------------
-/vagas                      | lista vagas com filtros
-/vagas/<id_vaga>            | Detalhes da vaga
-/vagas/<id_vaga>/candidatar | candidatar a vaga
-/empresa/vaga/criar         | Criar vaga
+---------------------------| -------------
+/vaga/<id_vaga>            | Detalhes da vaga
+/vaga/<id_vaga>/candidatar| Candidatar-se à vaga
+/cancelar_candidatura/<id_candidatura> | Cancelar candidatura
+/candidatura/<id_candidatura>/status | Alterar status da candidatura (empresa)
+/vaga/<id_vaga>/candidatos | Listar candidatos (empresa)
+
+*Vagas & Gestão (routes/route_vagas.py)*
+Rotas                       | Descrição
+---------------------------| -------------
+/vagas                      | Listagem de vagas com filtros
+/empresa/vaga/criar         | Criar vaga (empresa)
+/empresa/vagas              | Vagas da empresa (dashboard)
+/vaga/excluir/<id_vaga>    | Excluir vaga (empresa)
+/vaga/<id_vaga>/editar      | Editar vaga (empresa)
+
+*Atualização de Perfil (routes/atualizar_perfil.py)*
+Rotas                       | Descrição
+---------------------------| -------------
+/atualizar_perfil          | Atualizar dados + questionário (funcionário)
+/atualizar_competencias    | Atualizar competências do funcionário
+/atualizar_empresa         | Atualizar perfil da empresa
+
+*Avaliações (routes/route_avaliacao.py)*
+Rotas                         | Descrição
+----------------------------| -------------
+/avaliar/<id_freelancer>    | Enviar avaliação (empresa)
+/avaliacoes/<id_freelancer> | Ver avaliações de um freelancer
+
+*Freelance (routes/route_freelancer.py)*
+Rotas (principais)          | Descrição
+-----------------------------| -------------
+/freelancer                  | Buscar freelancers (filtros)
+/freelancer/cadastrar       | Cadastrar freelance (funcionário)
+/freelancer/editar/<id>    | Editar freelance (funcionário)
+/freelancer/excluir/<id>   | Excluir freelance (DELETE)
+
+*Contratar & Solicitantes (routes/route_contratarfreelas.py e routes/route_solicitante.py)*
+Rotas (principais)          | Descrição
+-----------------------------| -------------
+/contratar/<id_freelancer> | Contratar freelancer (cria contratação e notifica)
+/freelancer/<id_freelancer>/solicitantes | Ver solicitantes do freelancer
+/contratacao/<id_contratacao>/status | Atualizar status da contratação (funcionário dono)
 
 
 ## Modelos e Regras de Negócio =====================================================================
@@ -190,6 +268,28 @@ Arquitetura em 3 Camadas
 Routes (rotas) → Models (regras) → CRUDs (banco)
 
 *Validações Principais*
+
+- **Funcionário:**
+  - Nome mínimo 3 caracteres.
+  - E-mail deve conter `@`.
+  - Senha mínima 6 caracteres.
+  - CPF exatamente 11 dígitos.
+- **Empresa:**
+  - Nome mínimo 2 caracteres.
+  - CNPJ exatamente 14 dígitos.
+  - E-mail deve conter `@`.
+  - Senha mínima 6 caracteres.
+- **Vaga:**
+  - Descrição mínima 50 caracteres.
+  - Salário não pode ser negativo.
+  - Pelo menos uma competência necessária.
+- **Candidatura:**
+  - Um funcionário não pode se candidatar duas vezes à mesma vaga.
+  - Status de candidatura deve ser válido.
+- **Freelance / Contratação:**
+  - Contratar freelancer cria contratação no estado inicial (pendente).
+  - Atualização de status só aceita valores válidos: pendente/aceito/recusado/concluido/cancelado.
+  - Avaliação só pode ser feita após contratação válida e garante que o contratante é quem realmente contratou.
 
 *Funcionário:=========================*
     *Nome:*   | mínimo 3 caracteres
@@ -216,11 +316,19 @@ Routes (rotas) → Models (regras) → CRUDs (banco)
 *Azul claro*  | #99E2F2   | Fundo gradiente
 
 **Páginas Disponíveis ================================================**
-    *Login/Cadastro (index.html)*          - Página inicial com formulários de acesso
-    *Home Funcionário (home_func.html)*    - Dashboard pós-login
-    *Questionário (questionario.html)*     - Formulário de perfil profissional
-    *Lista de Vagas (vagas_listar.html)*   - Vagas com filtros e match
-    *Detalhe da Vaga (vaga_detalhe.html)*  - Informações completas
+    *Login/Cadastro (index.html)*                 - Página inicial com formulários de acesso
+    *Home Funcionário (home/home_func.html)*    - Dashboard do funcionário (perfil, competências, recomendações, freelances, contratados, notificações, vagas salvas)
+    *Home Empresa (home/home_emp.html)*         - Dashboard da empresa (perfil, estatísticas, vagas, contratados e notificações)
+    *Questionário (questionario.html)*         - Formulário de perfil profissional (dados + competências)
+    *Lista de Vagas (vagas_listar.html)*        - Vagas com filtros e match
+    *Detalhe da Vaga (vaga_detalhe.html)*       - Informações completas e ações de candidatura
+    *Candidaturas (candidaturas.html)*        - Histórico/lista de candidaturas do funcionário
+    *Freelancer Listar (freelancer_listar.html)*- Lista/busca de freelancers (com status de contratação e avaliações)
+    *Editar Freelancer (editar_freelance.html)*- Edição de um freelance do funcionário
+    *Ver Solicitantes (ver_solicitantes.html)* - Lista de solicitantes de um freelancer
+    *Criar Vaga (criar_vaga.html)*              - Formulário para criação de novas vagas (empresa)
+    *Editar Vaga (editar_vaga.html)*            - Edição de uma vaga existente (empresa)
+    *Avaliações (ver-avaliacao.html)*          - Página para ver avaliações de um freelancer
 
 ## Fluxo de Uso ==============================================================================
 Fluxo do Funcionário
