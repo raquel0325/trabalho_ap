@@ -15,92 +15,189 @@ body {
     margin: 0 auto;
     padding: 20px;
 }
-
-.header {
-    background: linear-gradient(135deg, #05186c 0%, #000000 100%);
-    color: #99E2F2;
-    padding: 20px 30px;
-    border-radius: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.header h1 {
-    font-size: 28px;
-}
-
-.user-info {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-
-.user-info span {
-    font-weight: 500;
-}
-
-.btn-back, .btn-logout {
-    color: #99E2F2;
-    text-decoration: none;
-    padding: 8px 18px;
-    border-radius: 8px;
-    transition: all 0.3s;
-    font-weight: 500;
-}
-
-.btn-back:hover, .btn-logout:hover {
-    background: rgba(153, 226, 242, 0.2);
-    transform: translateY(-2px);
-}
-
+/* --- BLOCO DOS FILTROS (ESTRUTURA CORRIGIDA) --- */
 .filtros {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
+    background: #ffffff; 
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
     margin-bottom: 25px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    box-sizing: border-box;
 }
 
+/* O formulário ocupa toda a largura */
 .filtros form {
+    width: 100%;
+}
+
+/* ALINHAMENTO DOS INPUTS E DO BOTÃO EM LINHA */
+.filtros-inputs {
     display: flex;
     gap: 15px;
-    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap; /* Quebra linha em telas menores se necessário */
 }
 
-.filtros input {
+.filtros-inputs input {
     flex: 1;
-    min-width: 200px;
-    padding: 12px 15px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
+    padding: 10px 12px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
     font-size: 14px;
-    transition: border-color 0.3s;
+    outline: none;
+    height: 42px; /* Garante mesma altura para inputs e botão */
+    box-sizing: border-box;
 }
 
-.filtros input:focus {
-    outline: none;
-    border-color: #05186c;
+.filtros-inputs input:focus {
+    border-color: #0066cc;
+}
+
+/* Proporções customizadas que você já tinha */
+.filtros-inputs input.input-busca {
+    flex: 3;
+}
+
+.filtros-inputs input.input-salario {
+    flex: 0.8;
+    min-width: 120px;
 }
 
 .btn-filtrar {
-    background: #05186c;
-    color: white;
+    background-color: #1f3d5c;
+    color: #ffffff;
     border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
+    padding: 0 25px;
+    border-radius: 6px;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s;
+    height: 42px; /* Mesma altura dos inputs */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
 }
-
+   
 .btn-filtrar:hover {
-    background: #0a28a0;
+    background: #050d2e;
     transform: translateY(-2px);
 }
 
+.btn-filtrar:active {
+    transform: translateY(0);
+}
+
+/* Os botões de navegação lateral agora ficam ao lado dos inputs no desktop */
+.filtros-botoes {
+    display: flex;
+    flex-direction: row; 
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-filtrar {
+    background-color: #1f3d5c;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+   
+.btn-filtrar:hover {
+    background: #050d2e;
+    transform: translateY(-2px);
+}
+
+.btn-filtrar:active {
+    transform: translateY(0);
+}
+ 
+.btn-link-filtro {
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px;
+    transition: all 0.3s;
+    text-decoration: none;
+    background: #f0f4f8;
+    color: #05186c;
+    border: 2px solid transparent;
+    display: inline-block;
+}
+
+.btn-link-filtro:hover {
+    background: #05186c;
+    color: #99E2F2;
+    transform: translateY(-2px);
+}
+
+.btn-link-filtro.active {
+    background: #e8f0fe;
+    border-color: #05186c;
+    color: #05186c;
+}
+/* Linha 2: Botões de navegação abaixo */
+.filtros-botoes {
+    display: flex;
+    flex-direction: row; 
+    gap: 15px;
+    width: 100%;
+}
+
+.btn-link-filtro {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px;
+    transition: all 0.3s;
+    text-decoration: none;
+    background: #f0f4f8;
+    color: #05186c;
+    border: 2px solid transparent;
+    display: inline-block;
+}
+
+.btn-link-filtro:hover {
+    background: #05186c;
+    color: #99E2F2;
+    transform: translateY(-2px);
+}
+
+.btn-link-filtro.active {
+    background: #e8f0fe;
+    border-color: #05186c;
+    color: #05186c;
+}
+
+/* --- RESPONSIVIDADE (CELULAR) --- */
+@media (max-width: 768px) {
+    .filtros-inputs {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filtros-inputs input, .btn-filtrar {
+        width: 100%;
+    }
+
+    .filtros-botoes {
+        flex-direction: column;
+    }
+    
+    .btn-link-filtro {
+        width: 100%;
+    }
+}
+
+/* --- RESTANTE DO LAYOUT (VAGAS E CARDS) --- */
 .nav-links {
     display: flex;
     gap: 15px;
@@ -117,11 +214,6 @@ body {
     font-weight: 600;
     transition: all 0.3s;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.btn-link.active {
-    background: #05186c;
-    color: #99E2F2;
 }
 
 .btn-link:hover {
@@ -182,17 +274,9 @@ body {
     font-weight: bold;
 }
 
-.match-badge.high {
-    background: #4CAF50;
-}
-
-.match-badge.medium {
-    background: #FF9800;
-}
-
-.match-badge.low {
-    background: #9E9E9E;
-}
+.match-badge.high { background: #4CAF50; }
+.match-badge.medium { background: #FF9800; }
+.match-badge.low { background: #9E9E9E; }
 
 .empresa {
     color: #666;
@@ -230,7 +314,7 @@ body {
 }
 
 .btn-ver {
-    background: #05186c;
+    background:  #1f3d5c;
     color: white;
     padding: 10px 20px;
     border-radius: 8px;
@@ -241,7 +325,7 @@ body {
 }
 
 .btn-ver:hover {
-    background: #0a28a0;
+    background: #050d2e;
     transform: translateY(-2px);
 }
 
@@ -276,35 +360,13 @@ body {
     background: white;
     border-radius: 15px;
 }
-
-.sem-vagas p {
-    margin-bottom: 20px;
-    color: #666;
-    font-size: 18px;
+/* O input de busca vai crescer 3x mais que os outros */
+.filtros-inputs input.input-busca {
+    flex: 3;
 }
 
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-
-    .header {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-
-    .filtros form {
-        flex-direction: column;
-    }
-
-    .vaga-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .info {
-        flex-direction: column;
-        gap: 10px;
-    }
+/* O input de salário vai ficar menor (metade do tamanho padrão dos outros) */
+.filtros-inputs input.input-salario {
+    flex: 0.5;
+    min-width: 120px; /* Garante que ele não suma em telas menores */
 }

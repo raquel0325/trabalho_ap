@@ -1,3 +1,6 @@
+/* ==========================================================================
+   CONFIGURAÇÕES GERAIS E LAYOUT BASE
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -16,6 +19,9 @@ body {
     padding: 20px;
 }
 
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
 .header {
     background: linear-gradient(135deg, #05186c 0%, #000000 100%);
     color: #99E2F2;
@@ -25,7 +31,7 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .logo {
@@ -41,7 +47,8 @@ body {
     margin-left: auto;
 }
 
-.btn-back, .btn-logout {
+.btn-back, 
+.btn-logout {
     color: #99E2F2;
     text-decoration: none;
     padding: 8px 18px;
@@ -50,33 +57,65 @@ body {
     font-weight: 500;
 }
 
-.btn-back:hover, .btn-logout:hover {
+.btn-back:hover, 
+.btn-logout:hover {
     background: rgba(153, 226, 242, 0.2);
     transform: translateY(-2px);
 }
 
-@media (max-width: 768px) {
-    .container { padding: 15px; }
-    .header { flex-direction: column; gap: 15px; text-align: center; }
-    .user-info { margin-left: 0; justify-content: center; }
-}
-
-/* DASHBOARD */
+/* ==========================================================================
+   DASHBOARD E ESTRUTURA
+   ========================================================================== */
 .dashboard-container {
     display: flex;
     gap: 20px;
     margin-top: 20px;
 }
 
-/* SIDEBAR */
-.sidebar {
-    width: 220px;
+/* Componentes de Bloco Brancos (Sidebar e Cards Principais) */
+.sidebar,
+.info-usuario, 
+.recomendacoes-section,
+.vagas-salvas-container {
     background: white;
     border-radius: 15px;
-    padding: 20px 15px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+.sidebar {
+    width: 220px;
+    padding: 20px 15px;
+}
+
+.vagas-salvas-container {
+    width: 280px;
+}
+
+.info-usuario, 
+.recomendacoes-section {
+    margin-bottom: 20px;
+}
+
+/* Títulos Padronizados */
+.info-usuario h2, 
+.recomendacoes-section h2,
+.vagas-salvas-container h2.titulo-direita,
+.section-header {
+    color: #05186c;
+    font-size: 18px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #99E2F2;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Sidebar Info */
 .perfil-resumo {
     text-align: center;
     padding-bottom: 15px;
@@ -88,7 +127,11 @@ body {
 .perfil-resumo h3 { color: #05186c; font-size: 16px; margin-bottom: 5px; }
 .perfil-resumo p { color: #888; font-size: 11px; }
 
-.menu-lateral { display: flex; flex-direction: column; gap: 5px; }
+.menu-lateral { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 5px; 
+}
 
 .menu-item {
     display: flex;
@@ -105,23 +148,10 @@ body {
 .menu-item:hover { background: #e8f0fe; color: #05186c; }
 .menu-item.active { background: #05186c; color: #99E2F2; }
 
-/* CONTEÚDO CENTRAL */
-.conteudo-central { flex: 1; min-width: 0; }
-
-.info-usuario, .recomendacoes-section {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.info-usuario h2, .recomendacoes-section h2 {
-    color: #05186c;
-    font-size: 18px;
-    margin-bottom: 15px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #99E2F2;
+/* Conteúdo Central */
+.conteudo-central { 
+    flex: 1; 
+    min-width: 0; 
 }
 
 .campos-info {
@@ -134,18 +164,42 @@ body {
 .campos-info .campo label { color: #05186c; font-size: 11px; font-weight: 600; text-transform: uppercase; }
 .campos-info .campo span { color: #555; font-size: 14px; }
 
-/* RECOMENDAÇÕES */
-.recomendacoes-lista { display: flex; flex-direction: column; gap: 10px; }
+/* ==========================================================================
+   RECOMENDAÇÕES E PESSOAS
+   ========================================================================== */
+.recomendacoes-lista,
+.pessoas-container,
+.candidaturas-lista,
+.contratados-gavetas-lista,
+.freelances-lista { 
+    display: flex; 
+    flex-direction: column; 
+}
 
-.recomendacao-card {
+.recomendacoes-lista { gap: 10px; }
+.pessoas-container { gap: 12px; max-height: 500px; overflow-y: auto; }
+.candidaturas-lista { gap: 8px; }
+.contratados-gavetas-lista { gap: 12px; margin-top: 15px; }
+.freelances-lista { gap: 16px; margin-top: 15px; }
+
+/* Cards Base (Recomendações e Pessoas) */
+.recomendacao-card,
+.pessoa-card {
     background: #f9f9f9;
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 12px;
-    border-left: 3px solid #05186c;
     transition: 0.3s;
 }
 
-.recomendacao-card:hover { transform: translateX(3px); background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.recomendacao-card { border-left: 3px solid #05186c; border-radius: 10px; }
+.pessoa-card { border: 1px solid #e0e0e0; padding: 12px 15px; display: flex; align-items: center; gap: 15px; }
+
+.recomendacao-card:hover,
+.pessoa-card:hover { 
+    transform: translateX(3px); 
+    background: white; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+}
 
 .recomendacao-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
 .recomendacao-titulo { color: #05186c; font-size: 14px; font-weight: 600; }
@@ -163,31 +217,50 @@ body {
 .btn-ver-recomendacao { color: #05186c; font-size: 11px; text-decoration: none; font-weight: 600; }
 .btn-ver-recomendacao:hover { text-decoration: underline; }
 
-/* VAGAS SALVAS */
-.vagas-salvas-container {
-    background: white;
-    border: 2px solid #05186c;
-    border-radius: 15px;
-    padding: 15px;
-    width: 280px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+/* Componentes de Pessoas */
+.pessoa-avatar {
+    font-size: 35px;
+    background: #e8f0fe;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.vagas-salvas-container h2.titulo-direita {
-    color: #05186c;
-    font-size: 16px;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #99E2F2;
-    text-align: right;
+.pessoa-info { flex: 1; }
+.pessoa-info h3 { color: #05186c; font-size: 15px; margin-bottom: 3px; }
+.pessoa-email { color: #888; font-size: 11px; }
+.pessoa-acoes { display: flex; flex-direction: column; gap: 6px; }
+
+/* Botões de Ações de Pessoas */
+.btn-seguir, .btn-seguindo, .btn-recomendar {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
 }
 
+.btn-seguir { background: #05186c; }
+.btn-seguir:hover { background: #0a28a0; transform: scale(1.02); }
+.btn-seguindo { background: #4CAF50; }
+.btn-seguindo:hover { background: #45a049; transform: scale(1.02); }
+.btn-recomendar { background: #FF9800; }
+.btn-recomendar:hover { background: #e68900; }
+
+/* ==========================================================================
+   VAGAS SALVAS
+   ========================================================================== */
 .candidaturas-scroll { max-height: 400px; overflow-y: auto; }
 .candidaturas-scroll::-webkit-scrollbar { width: 4px; }
 .candidaturas-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
 .candidaturas-scroll::-webkit-scrollbar-thumb { background: #05186c; border-radius: 10px; }
 
-.candidaturas-lista { display: flex; flex-direction: column; gap: 8px; }
 .candidatura-wrapper { display: flex; align-items: center; gap: 6px; }
 .candidatura-link { text-decoration: none; flex: 1; }
 
@@ -212,7 +285,6 @@ body {
 }
 
 .candidatura-card:hover { transform: translateX(-2px); background: white; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-
 .candidatura-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; gap: 6px; }
 .candidatura-header .cargo { color: #05186c; font-size: 11px; font-weight: 600; }
 .candidatura-header .data { color: #666; font-size: 9px; }
@@ -227,20 +299,13 @@ body {
     border-radius: 5px;
     color: #999;
 }
-
 .btn-deletar:hover { color: #e74c3c; background: #fde8e7; }
 
-/* BOTÕES DE EDIÇÃO */
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #99E2F2;
-}
-
-.btn-editar {
+/* ==========================================================================
+   BOTÕES E MODOS DE EDIÇÃO (GERAL)
+   ========================================================================== */
+.btn-editar,
+.btn-add-comp {
     background: #05186c;
     color: white;
     border: none;
@@ -252,43 +317,48 @@ body {
 }
 
 .btn-editar:hover { background: #0a28a0; transform: scale(1.05); }
-
 .botoes-edicao { display: flex; gap: 10px; margin-top: 20px; }
 
-.btn-salvar {
-    background: #4CAF50;
-    color: white;
+.btn-salvar, .btn-cancelar {
     border: none;
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
-}
-
-.btn-cancelar {
-    background: #999;
     color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
 }
 
+.btn-salvar { background: #4CAF50; }
 .btn-salvar:hover { background: #45a049; }
+.btn-cancelar { background: #999; }
 .btn-cancelar:hover { background: #777; }
 
-#edit-mode input, #edit-mode select {
+#edit-mode input, 
+#edit-mode select,
+.input-group input,
+.form-freelance-grid input[type="text"],
+.form-freelance-grid input[type="number"],
+.form-freelance-grid select,
+.form-freelance-grid textarea {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 13px;
+    transition: all 0.3s ease;
 }
 
-#edit-mode input:focus, #edit-mode select:focus { border-color: #05186c; outline: none; }
+#edit-mode input:focus, 
+#edit-mode select:focus,
+.input-group input:focus,
+.form-freelance-grid input:focus,
+.form-freelance-grid select:focus,
+.form-freelance-grid textarea:focus { 
+    border-color: #05186c; 
+    outline: none; 
+}
 
-/* EDITAR COMPETÊNCIAS */
+/* EDIÇÃO DE COMPETÊNCIAS */
 .competencias-edit-container { max-height: 400px; overflow-y: auto; padding-right: 10px; }
 
 .competencias-edit-container .instrucao {
@@ -330,24 +400,11 @@ body {
 }
 
 .nova-competencia-area label { display: block; color: #05186c; font-weight: 600; font-size: 13px; margin-bottom: 8px; }
-
 .input-group { display: flex; gap: 10px; }
-.input-group input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; }
-.input-group input:focus { border-color: #05186c; outline: none; }
+.input-group input { padding: 10px; border-radius: 8px; }
 
-.btn-add-comp {
-    background: #05186c;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: 0.3s;
-}
-
+.btn-add-comp { padding: 10px 20px; font-weight: 600; }
 .btn-add-comp:hover { background: #0a28a0; transform: translateY(-1px); }
-
 .novas-competencias-lista { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 
 .nova-competencia-tag {
@@ -369,65 +426,557 @@ body {
     font-size: 14px;
     padding: 0;
 }
-
 .nova-competencia-tag .remove-tag:hover { color: #ff6b6b; }
 
-/* PESSOAS */
-.pessoas-container { display: flex; flex-direction: column; gap: 12px; max-height: 500px; overflow-y: auto; }
-
-.pessoa-card {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 12px 15px;
+/* ==========================================================================
+   CONTRATADOS (GAVETAS)
+   ========================================================================== */
+.gaveta-contrato {
     background: #f9f9f9;
-    border-radius: 12px;
     border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
     transition: 0.3s;
 }
 
-.pessoa-card:hover { transform: translateX(3px); background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-
-.pessoa-avatar {
-    font-size: 35px;
-    background: #e8f0fe;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.gaveta-contrato[open] {
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: #05186c;
 }
 
-.pessoa-info { flex: 1; }
-.pessoa-info h3 { color: #05186c; font-size: 15px; margin-bottom: 3px; }
-.pessoa-email { color: #888; font-size: 11px; }
+.gaveta-header {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    list-style: none; 
+    font-weight: 600;
+}
 
-.pessoa-acoes { display: flex; flex-direction: column; gap: 6px; }
+.gaveta-header::-webkit-details-marker { display: none; }
+.gaveta-titulo-info h3 { color: #05186c; font-size: 15px; margin-bottom: 4px; }
+.gaveta-titulo-info .freelancer-nome { font-size: 12px; color: #666; }
+.gaveta-conteudo { padding: 15px; border-top: 1px solid #eee; background: #ffffff; }
 
-.btn-seguir, .btn-seguindo, .btn-recomendar {
+/* Formulário Interno */
+.form-avaliacao-gaveta {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-avaliacao-gaveta select, 
+.form-avaliacao-gaveta textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.btn-enviar-avaliacao {
+    background: #05186c;
+    color: white;
     border: none;
-    padding: 6px 12px;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    align-self: flex-start;
+    transition: 0.3s;
+}
+.btn-enviar-avaliacao:hover { background: #0a28a0; }
+
+/* ==========================================================================
+   FORMULÁRIO NOVO FREELANCE
+   ========================================================================== */
+.form-freelance-wrapper {
+    margin-top: 30px;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-freelance-card {
+    background: #ffffff;
+    border: 2px solid #99E2F2;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-freelance-header {
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.form-freelance-header h3 {
+    color: #05186c;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.form-freelance-header p { color: #718096; font-size: 13px; }
+.form-freelance-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.form-freelance-grid .campo { display: flex; flex-direction: column; gap: 6px; }
+.form-freelance-grid .campo label { color: #05186c; font-size: 12px; font-weight: 600; }
+
+.col-full { grid-column: span 2; }
+.col-half { grid-column: span 1; }
+
+.form-freelance-grid input[type="text"],
+.form-freelance-grid input[type="number"],
+.form-freelance-grid select,
+.form-freelance-grid textarea {
+    padding: 10px 12px;
     border-radius: 8px;
+    color: #2d3748;
+    background-color: #fcfcfc;
+}
+
+.form-freelance-grid input:focus,
+.form-freelance-grid select:focus,
+.form-freelance-grid textarea:focus {
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(5, 24, 108, 0.1);
+}
+
+.form-freelance-grid textarea { resize: vertical; min-height: 100px; }
+
+/* Prefixo de Preço (R$) */
+.input-with-prefix {
+    display: flex;
+    position: relative;
+    align-items: center;
+}
+
+.input-with-prefix .prefix {
+    position: absolute;
+    left: 12px;
+    color: #718096;
+    font-size: 13px;
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.input-with-prefix input { padding-left: 35px !important; }
+
+/* Botões do Form Freelance */
+.form-freelance-grid .botoes-edicao {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 15px;
+}
+
+.btn-salvar-freelance, .btn-cancelar-freelance {
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+
+.btn-salvar-freelance { background: #4CAF50; color: white; }
+.btn-salvar-freelance:hover { background: #439a46; }
+.btn-cancelar-freelance { background: #e2e8f0; color: #4a5568; }
+.btn-cancelar-freelance:hover { background: #cbd5e1; }
+
+/* ==========================================================================
+   SEÇÃO MEUS FREELANCES (CARDS E LISTA)
+   ========================================================================== */
+.freelance-card {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.25s ease;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.freelance-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(5, 24, 108, 0.08);
+    border-color: #99E2F2;
+}
+
+.freelance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.freelance-header h3 {
+    color: #05186c;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Badges de Status */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.status-badge.status-disponivel {
+    background-color: #e6f4ea;
+    color: #137333;
+    border: 1px solid #c2e7cc;
+}
+
+.status-badge.status-indisponivel {
+    background-color: #fce8e6;
+    color: #c5221f;
+    border: 1px solid #fad2cf;
+}
+
+.freelance-descricao {
+    color: #555555;
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.freelance-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-top: 12px;
+    border-top: 1px dashed #e0e0e0;
+    margin-bottom: 16px;
+}
+
+.freelance-info span {
+    font-size: 12.5px;
+    color: #666666;
+    display: flex;
+    align-items: center;
+}
+
+.freelance-preco {
+    color: #05186c !important;
+    font-weight: 600;
+}
+
+.freelance-acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Botões do Card Freelance */
+.btn-editar-freelance, 
+.btn-excluir-freelance {
+    border: 1px solid #e0e0e0;
+    padding: 6px 14px;
+    border-radius: 6px;
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
+    background: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.btn-editar-freelance { color: #05186c; }
+.btn-editar-freelance:hover { background: #e8f0fe; border-color: #05186c; }
+
+.btn-excluir-freelance { color: #555; }
+.btn-excluir-freelance:hover {
+    background: #fff5f5;
+    color: #e53e3e;
+    border-color: #feb2b2;
+}
+
+/* Estado vazio */
+.sem-freelances {
+    text-align: center;
+    padding: 40px 20px;
+    background: #fafafa;
+    border-radius: 12px;
+    border: 2px dashed #e0e0e0;
+}
+
+.sem-freelances p:first-of-type {
+    font-size: 15px;
+    font-weight: 600;
+    color: #05186c;
+    margin-bottom: 6px;
+}
+
+.sem-freelances p:last-of-type {
+    font-size: 12.5px;
+    color: #777777;
+}
+
+/* ==========================================================================
+   MEDIA QUERIES (RESPONSIVIDADE)
+   ========================================================================== */
+@media (max-width: 900px) {
+    .dashboard-container { flex-direction: column; }
+    .sidebar, .vagas-salvas-container { width: 100%; }
+    .campos-info { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+    .container { padding: 15px; }
+    .header { flex-direction: column; gap: 15px; text-align: center; }
+    .user-info { margin-left: 0; justify-content: center; }
+}
+
+@media (max-width: 600px) {
+    .form-freelance-grid { grid-template-columns: 1fr; }
+    .col-half, .col-full { grid-column: span 1; }
+    .form-freelance-grid .botoes-edicao { flex-direction: column-reverse; }
+    .btn-salvar-freelance, .btn-cancelar-freelance { width: 100%; text-align: center; }
+    
+    .freelance-header,
+    .freelance-info { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .freelance-info { gap: 8px; }
+    .freelance-acoes { width: 100%; }
+    .btn-editar-freelance, .btn-excluir-freelance { flex: 1; text-align: center; }
+}
+/* ==========================================================================
+   ESTILIZAÇÃO PARA SOLICITANTES (BOTÃO, BADGE E INTERFACE)
+   ========================================================================== */
+
+/* Botão de Solicitantes no Card de Freelance */
+.btn-solicitantes {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #05186c;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.btn-solicitantes:hover {
+    background-color: #0a28a0;
+    box-shadow: 0 2px 6px rgba(5, 24, 108, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Contador / Badge de Solicitantes Pendentes */
+.badge-pendentes {
+    background-color: #e53e3e;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+    display: inline-block;
+    line-height: 1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    animation: pulseBadge 2s infinite;
+}
+
+/* Animação sutil para chamar atenção para novas solicitações */
+@keyframes pulseBadge {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+
+/* ==========================================================================
+   AJUSTES E MELHORIAS: SEÇÃO CONTRATADOS & AVALIAÇÃO
+   ========================================================================== */
+
+/* Estilização do Formulário de Avaliação dentro dos Cards */
+.freelance-card form {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #e0e0e0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.freelance-card form label {
+    color: #05186c;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Dropdown de estrelas */
+.freelance-card form select {
+    width: 100%;
+    max-width: 150px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 13px;
+    background-color: #fcfcfc;
+    color: #333;
+}
+
+/* Textarea de comentário */
+.freelance-card form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 13px;
+    resize: vertical;
+    min-height: 60px;
+    background-color: #fcfcfc;
+}
+
+/* Botão de Enviar Avaliação */
+.freelance-card form button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: background 0.2s;
+}
+
+.freelance-card form button[type="submit"]:hover {
+    background-color: #439a46;
+}
+
+/* Mensagem de já avaliado */
+.avaliado-msg {
+    color: #4CAF50;
+    font-weight: 600;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+ 
+.avaliado-msg::before {
+    content: "✅";
+}
+.btn-excluir-perfil-header {
+    background: #e74c3c;
+    color: white;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
     transition: 0.3s;
 }
 
-.btn-seguir { background: #05186c; color: white; }
-.btn-seguir:hover { background: #0a28a0; transform: scale(1.02); }
+.btn-excluir-perfil-header:hover {
+    background: #c0392b;
+    transform: scale(1.05);
+    color: white;
+}
+/* ==========================================================================
+   ACCORDION DA BARRA LATERAL DIREITA
+   ========================================================================== */
+.sidebar-direita-accordion {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
 
-.btn-seguindo { background: #4CAF50; color: white; }
-.btn-seguindo:hover { background: #45a049; transform: scale(1.02); }
+.accordion-item {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
 
-.btn-recomendar { background: #FF9800; color: white; }
-.btn-recomendar:hover { background: #e68900; }
+.accordion-item[open] {
+    box-shadow: 0 4px 12px rgba(5, 24, 108, 0.08);
+}
 
-/* RESPONSIVIDADE */
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    list-style: none; /* Remove a seta padrão do HTML */
+}
+
+.accordion-header::-webkit-details-marker {
+    display: none; /* Remove a seta no Safari/Chrome antigo */
+}
+
+.accordion-header h2 {
+    color: #05186c;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    padding-bottom: 2px;
+}
+
+.accordion-seta {
+    font-size: 11px;
+    color: #05186c;
+    transition: transform 0.2s ease;
+}
+
+/* Rotaciona a seta suavemente quando o details estiver aberto */
+.accordion-item[open] .accordion-seta {
+    transform: rotate(180deg);
+}
+
+.accordion-conteudo {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 2px solid #99E2F2;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.notification-box {
+    padding: 8px 10px;
+    background: #f9f9f9;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    color: #555;
+    font-size: 13px;
+}
+
+/* Ajuste de responsividade existente */
 @media (max-width: 900px) {
-    .dashboard-container { flex-direction: column; }
-    .sidebar { width: 100%; }
-    .vagas-salvas-container { width: 100%; }
-    .campos-info { grid-template-columns: 1fr; }
+    .sidebar-direita-accordion { 
+        width: 100%; 
+    }
 }

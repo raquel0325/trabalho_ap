@@ -90,4 +90,4 @@ function formatarLista(marcador) {
     textarea.value = novoTexto;
     textarea.focus();
     textarea.setSelectionRange(inicioLinha + marcador.length + linhaAtual.length, inicioLinha + marcador.length + linhaAtual.length);
-}
+} 

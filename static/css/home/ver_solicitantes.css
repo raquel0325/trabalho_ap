@@ -1,0 +1,369 @@
+/* ── Variáveis de Design Global (Tema Claro Profissional) ─────────────────────────── */
+:root {
+    --bg-primary: #f8fafc;        /* Fundo principal claro (cinza bem suave) */
+    --surface: #ffffff;           /* Superfície dos cards (branco puro para contraste) */
+    --text-main: #0f172a;         /* Texto principal bem escuro (alta legibilidade) */
+    --text-muted: #64748b;        /* Texto secundário/atenuado */
+    --border-color: #e2e8f0;      /* Bordas discretas claras */
+    
+    /* Cores de Status adaptadas para modo claro (tons mais vivos e fundos suaves) */
+    --color-pending: #d97706;
+    --color-pending-bg: #fef3c7;
+    --color-pending-text: #b45309;
+    
+    --color-success: #16a34a;
+    --color-success-bg: #dcfce7;
+    --color-success-text: #15803d;
+    
+    --color-danger: #dc2626;
+    --color-danger-bg: #fee2e2;
+    --color-danger-text: #b91c1c;
+    
+    --color-info: #2563eb;
+    --color-info-bg: #dbeafe;
+    --color-info-text: #1d4ed8;
+    
+    --color-neutral: #64748b;
+    --color-neutral-bg: #f1f5f9;
+    --color-neutral-text: #475569;
+}
+
+/* ── Container Geral ─────────────────────────────────────── */
+.solicitantes-page {
+    max-width: 900px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem 4rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-main);
+    background-color: var(--bg-primary);
+}
+
+/* ── Cabeçalho Clean ─────────────────────────────────────── */
+.solicitantes-header {
+    display: flex;
+    flex-direction: column; 
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.solicitantes-titulo-bloco {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 1rem;
+}
+
+.solicitantes-titulo {
+    flex: 1;
+}
+
+.solicitantes-titulo h1 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-main);
+}
+
+.subtitulo {
+    margin: 0.35rem 0 0;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.subtitulo strong {
+    color: var(--text-main);
+}
+
+.total-badge {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: #e2e8f0;
+    border: 1px solid #cbd5e1;
+    border-radius: 9999px;
+}
+
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    gap: 0.5rem;
+    padding: 0.55rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-voltar:hover {
+    color: var(--text-main);
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+/* ── Mensagens de Feedback (Flash) ──────────────────────── */
+.flash-msg {
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.925rem;
+    font-weight: 500;
+    border-radius: 10px;
+}
+
+.flash-sucesso { 
+    color: var(--color-success-text); 
+    background: var(--color-success-bg); 
+    border-left: 4px solid var(--color-success); 
+}
+
+.flash-erro { 
+    color: var(--color-danger-text); 
+    background: var(--color-danger-bg); 
+    border-left: 4px solid var(--color-danger); 
+}
+
+/* ── Cards de Solicitação ───────────────────────────────── */
+.solicitantes-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.solicitante-card {
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-left: 6px solid var(--color-neutral);
+    border-radius: 14px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05); /* Sombra leve para destacar no fundo claro */
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.solicitante-card:hover {
+    transform: translateY(-2px);
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Dinâmica de bordas por status */
+.status-borda-pendente  { border-left-color: var(--color-pending); }
+.status-borda-aceito    { border-left-color: var(--color-success); }
+.status-borda-recusado  { border-left-color: var(--color-danger); }
+.status-borda-concluido { border-left-color: var(--color-info); }
+.status-borda-cancelado { border-left-color: var(--color-neutral); }
+
+/* Conteúdo interno do Card */
+.solicitante-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.solicitante-identidade {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tipo-badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: 6px;
+}
+
+.tipo-empresa     { background: #f3e8ff; color: #6b21a8; }
+.tipo-funcionario { background: #e0f2fe; color: #0369a1; }
+
+.solicitante-nome {
+    margin: 0.2rem 0 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.solicitante-contatos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.solicitante-email, 
+.solicitante-telefone, 
+.data-solicitacao {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.solicitante-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+/* Badges/Pills de Status */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 9999px;
+}
+
+.status-pendente  { background: var(--color-pending-bg); color: var(--color-pending-text); }
+.status-aceito    { background: var(--color-success-bg); color: var(--color-success-text); }
+.status-recusado  { background: var(--color-danger-bg); color: var(--color-danger-text); }
+.status-concluido { background: var(--color-info-bg); color: var(--color-info-text); }
+.status-cancelado { background: var(--color-neutral-bg); color: var(--color-neutral-text); }
+
+.data-solicitacao {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+/* ── Seção de Ações e Formulários ────────────────────────── */
+.solicitante-acoes {
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.label-status {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-size: 0.825rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+}
+
+.status-botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.btn-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    transition: all 0.15s ease-in-out;
+}
+
+.btn-aceitar { 
+    color: #fff; 
+    background: var(--color-success); 
+}
+.btn-aceitar:hover { background: #15803d; }
+
+.btn-recusar { 
+    color: #b91c1c; 
+    background: transparent; 
+    border-color: #fca5a5; 
+}
+.btn-recusar:hover { background: var(--color-danger-bg); }
+
+.btn-concluir { 
+    color: #080a7d; 
+    background:#1d4fd800; 
+    border-color: #1d4fd8;
+}
+.btn-concluir:hover { background: #1d4fd85f;  }
+
+.btn-cancelar { 
+    color: var(--text-muted); 
+    background: transparent; 
+    border-color: var(--border-color); 
+}
+.btn-cancelar:hover { 
+    color: var(--text-main); 
+    background: #f1f5f9; 
+}
+
+/* ── Seção de Histórico / Excluídos ──────────────────────── */
+.excluidos-secao {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 2px dashed var(--border-color);
+}
+
+.excluidos-titulo {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.excluidos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.card-historico {
+    padding: 1rem 1.25rem;
+    background: #f8fafc; /* Um cinza bem leve para diferenciar dos cards ativos */
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    opacity: 0.70;
+}
+
+.card-historico:hover {
+    transform: none;
+    opacity: 1;
+}
+
+.card-historico .solicitante-nome {
+    font-size: 1.05rem;
+}
+
+/* ── Estado Vazio ────────────────────────────────────────── */
+.sem-solicitantes {
+    padding: 4rem 2rem;
+    font-size: 1.05rem;
+    text-align: center;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 2px dashed var(--border-color);
+    border-radius: 14px;
+}
+
+/* ── Responsividade ──────────────────────────────────────── */
+@media (max-width: 600px) {
+    .solicitante-topo { 
+        flex-direction: column; 
+    }
+    .solicitante-meta { 
+        align-items: flex-start; 
+    }
+}

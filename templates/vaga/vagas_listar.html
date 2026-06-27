@@ -6,29 +6,27 @@
     <title>Todas as Vagas - Conecta</title>
     <link rel="stylesheet" href="../static/css/vaga/vagas_list.css">
 </head>
-<body>
+<body> 
 {% extends "menu.html" %}
 {% block content %}
-
+  
         <!-- Filtros -->
-        <div class="filtros">
-            <form method="GET" action="{{ url_for('vagas.listar_vagas') }}">
-                <input type="text" name="busca" placeholder="🔍 Buscar vaga por título ou descrição..." value="{{ busca or '' }}">
-                <input type="number" name="salario_min" placeholder=" Salário mínimo" value="{{ salario_min or '' }}" step="1000">
-                <input type="text" name="empresa" placeholder="🏢 Nome da empresa" value="{{ empresa or '' }}">
-                <button type="submit" class="btn-filtrar">🔎 Filtrar</button>
-            </form>
+  <div class="filtros">
+    <form method="GET" action="{{ url_for('vagas.listar_vagas') }}">
+        
+        <div class="filtros-inputs">
+            <input type="text" name="busca" class="input-busca" placeholder=" Buscar vaga por título..." value="{{ busca or '' }}">
+            <input type="text" name="empresa" placeholder=" Nome da empresa" value="{{ empresa or '' }}">
+            <input type="number" name="salario_min" class="input-salario" placeholder=" Salário " value="{{ salario_min or '' }}" step="1000">
+            
+            <button type="submit" class="btn-filtrar"> Filtrar</button>
         </div>
+        
+        
+        
+    </form>
+</div>
 
-        <!-- Links de Navegação -->
-        <div class="nav-links">
-            <a href="{{ url_for('vagas.listar_vagas') }}" class="btn-link {% if request.endpoint == 'vagas.listar_vagas' %}active{% endif %}"> Todas Vagas</a>
-            <!--- encontrar freelancer -->
-            <a href="{{ url_for('freelancer.buscar_freelancer') }}" class="btn-link">+ Encontrar Freelancer</a>
-            {% if session.get('tipo') == 'empresa' %}
-            <a href="{{ url_for('vagas.empresa_criar_vaga') }}" class="btn-link">+ Criar Vaga</a>
-            {% endif %}
-        </div>
 
         <!-- Lista de Vagas -->
         <div class="vagas-container">
@@ -68,22 +66,22 @@
                         </div>
                         
                         <div class="acoes">
-                            <a href="{{ url_for('candidatar_se.detalhe_vaga', id_vaga=vaga.id_vaga) }}" class="btn-ver">👁️ Ver Detalhes</a>
+                            <a href="{{ url_for('candidatar_se.detalhe_vaga', id_vaga=vaga.id_vaga) }}" class="btn-ver">Detalhes</a>
                             {% if vaga.get('candidatou') %}
-                                <span class="badge-candidatado">✅ Candidatura Enviada</span>
+                                <span class="badge-candidatado"> Solicitado </span>
                             {% else %}
                             {% if session.get('tipo') == 'funcionario' %}
                                 <form action="{{ url_for('candidatar_se.candidatar_vaga', id_vaga=vaga.id_vaga) }}" method="POST" style="display: inline;">
-                                    <button type="submit" class="btn-candidatar">📝 Candidatar-se</button>
+                                    <button type="submit" class="btn-candidatar">Solicita-se</button>
                                 </form>
                             {% endif %}
-                            {% endif %}
+                            {% endif %} 
                         </div>
                     </div>
                 {% endfor %}
             {% else %}
                 <div class="sem-vagas">
-                    <p>😕 Nenhuma vaga encontrada com os filtros selecionados.</p>
+                    <p> Nenhuma vaga encontrada com os filtros selecionados.</p>
                     <p>Tente ajustar sua busca ou verifique outras oportunidades!</p>
                     <a href="{{ url_for('vagas.listar_vagas') }}" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background: #05186c; color: white; text-decoration: none; border-radius: 8px;">Limpar Filtros</a>
                 </div>

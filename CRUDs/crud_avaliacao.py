@@ -11,24 +11,35 @@ class AvaliacaoCRUD:
         try:
             cursor = conn.cursor()
             # Verifica se já existe avaliação deste contratante
+            print(tipo_contratante)
+            print(id_contratante)
+            print(id_freelancer)
+            print(nota)
+            print(comentario)
             cursor.execute("""
                 SELECT id_avaliacao
                 FROM avaliacoes
                 WHERE id_freelancer = ?
                 AND id_contratante = ?
-            """, (id_freelancer, id_contratante))
+                AND tipo_contratante = ?
+            """, (id_freelancer, id_contratante, tipo_contratante))
 
             avaliacao_existente = cursor.fetchone()
 
             if avaliacao_existente:
                 print("avaliacao existe")
             else:
+                print(tipo_contratante)
+                print(id_contratante)
+                print(id_freelancer)
+                print(nota)
+                print(comentario)
                 cursor.execute("""
                 INSERT INTO avaliacoes (
                     id_freelancer,
                     id_contratante,
                     tipo_contratante,
-                    nota,
+                    nota, 
                     comentario
                 )
                 VALUES (?, ?, ?, ?, ?)
@@ -62,6 +73,7 @@ class AvaliacaoCRUD:
 
         finally:
             conn.close()
+
 
     @staticmethod
     def calcular_media_avaliacoes(id_freelancer):

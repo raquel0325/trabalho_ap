@@ -66,10 +66,10 @@
                         Editar Vaga
                     </a>
                     <form action="{{ url_for('vagas.excluir_vaga', id_vaga=vaga.id_vaga) }}" method="POST" style="display: inline;">
-    <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir esta vaga? Esta ação não pode ser desfeita!')">
-     Excluir Vaga
-    </button>
-</form>
+                        <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir esta vaga? Esta ação não pode ser desfeita!')">
+                            Excluir Vaga
+                        </button>
+                    </form>
                 </div>
                 <a href="#" onclick="window.history.back(); return false;" class="btn-voltar">← Voltar</a>
             

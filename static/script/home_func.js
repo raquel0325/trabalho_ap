@@ -9,7 +9,7 @@ function confirmarExcluirPerfil() {
 
     if (!confirm(msg1)) {
         return;
-    }
+    } 
 
     if (!confirm("Última confirmação. Excluir perfil permanentemente?")) {
         return;

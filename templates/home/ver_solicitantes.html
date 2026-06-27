@@ -1,0 +1,139 @@
+{% extends "menu.html" %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home/ver_solicitantes.css') }}">
+<div class="solicitantes-page">
+
+   <div class="solicitantes-header">
+        <div class="solicitantes-titulo-bloco">
+            <div class="solicitantes-titulo">
+                <h1>Solicitantes</h1>
+                <p class="subtitulo">Freelance: <strong>{{ freelance.profissao }}</strong></p>
+            </div>
+            <span class="total-badge">{{ solicitantes|length }} solicitação(ões)</span>
+        </div>
+        
+        <a href="{{ url_for('home.home_pag') }}" class="btn-voltar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Voltar
+        </a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for categoria, mensagem in messages %}
+            <div class="flash-msg flash-{{ categoria }}">{{ mensagem }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% if solicitantes %}
+        <div class="solicitantes-lista">
+            {% for s in solicitantes if s.status != 'recusado' and s.status != 'cancelado' and s.status != 'concluido' %}
+            <div class="solicitante-card status-borda-{{ s.status }}">
+
+                <div class="solicitante-topo">
+                    <div class="solicitante-identidade">
+                        <span class="tipo-badge tipo-{{ s.tipo_contratante }}">
+                            {% if s.tipo_contratante == 'empresa' %}Empresa{% else %}Funcionário{% endif %}
+                        </span>
+                        <h3 class="solicitante-nome">{{ s.nome_contratante }}</h3>
+                        <div class="solicitante-contatos">
+                            <span class="solicitante-email">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                {{ s.email_contratante }}
+                            </span>
+                            <span class="solicitante-telefone">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                {{ s.telefone_contratante }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="solicitante-meta">
+                        <span class="status-pill status-{{ s.status }}">
+                            {% if s.status == 'pendente' %}Pendente
+                            {% elif s.status == 'aceito' %}Aceito
+                            {% endif %}
+                        </span>
+                        <span class="data-solicitacao">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="18" y2="10"/></svg>
+                            {{ s.data_contratacao[:10] }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="solicitante-acoes">
+                    <form method="POST"
+                          action="{{ url_for('solicitantes.atualizar_status', id_contratacao=s.id_contratacao) }}"
+                          class="form-status">
+
+                        <label class="label-status">Alterar status do pedido:</label>
+
+                        <div class="status-botoes">
+                            {% if s.status != 'aceito' %}
+                            <button type="submit" name="status" value="aceito" class="btn-status btn-aceitar">Aceitar</button>
+                            {% endif %}
+
+                            {% if s.status != 'recusado' %}
+                            <button type="submit" name="status" value="recusado" class="btn-status btn-recusar">Recusar</button>
+                            {% endif %}
+
+                            {% if s.status == 'aceito' %}
+                            <button type="submit" name="status" value="concluido" class="btn-status btn-concluir">Concluir </button>
+                            {% endif %}
+
+                            {% if s.status not in ('cancelado', 'concluido') %}
+                            <button type="submit" name="status" value="cancelado" class="btn-status btn-cancelar" onclick="return confirm('Cancelar esta contratação?')">Cancelar</button>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="sem-solicitantes">
+            <p>Nenhum solicitante ativo para este freelance no momento.</p>
+        </div>
+    {% endif %}
+
+    <div class="excluidos-secao">
+        <h2 class="excluidos-titulo">Visualizados recentemente & Histórico</h2>
+        <div class="excluidos-lista">
+            {% if solicitantes %}
+                {% for s in solicitantes if s.status in ('recusado', 'cancelado', 'concluido') %}
+                <div class="solicitante-card card-historico status-borda-{{ s.status }}">
+                    <div class="solicitante-topo">
+                        <div class="solicitante-identidade">
+                            <h3 class="solicitante-nome">{{ s.nome_contratante }}</h3>
+                            <div class="solicitante-contatos">
+                                <span class="solicitante-email">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                    {{ s.email_contratante }}
+                                </span>
+                                <span class="solicitante-telefone">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                    {{ s.telefone_contratante }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="solicitante-meta">
+                            <span class="status-pill status-{{ s.status }}">
+                                {% if s.status == 'recusado' %}Recusado
+                                {% elif s.status == 'cancelado' %}Cancelado
+                                {% elif s.status == 'concluido' %}Concluído
+                                {% endif %}
+                            </span>
+                            <span class="data-solicitacao">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="18" y2="10"/></svg>
+                                {{ s.data_contratacao[:10] }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

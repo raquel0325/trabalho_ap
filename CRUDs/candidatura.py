@@ -124,17 +124,17 @@ class CandidaturaCRUD:
             conn.close()
 #====================================================================================================
 
-@staticmethod
-def deletar(id_candidatura):
-    """Deleta uma candidatura"""
-    conn = get_connection()
-    try:
-        cursor = conn.cursor()
-        cursor.execute('DELETE FROM candidaturas WHERE id_candidatura = ?', (id_candidatura,))
-        conn.commit()
-        return cursor.rowcount > 0
-    finally:
-        conn.close()
+    @staticmethod
+    def deletar(id_candidatura):
+        """Deleta uma candidatura"""
+        conn = get_connection()
+        try:
+            cursor = conn.cursor()
+            cursor.execute('DELETE FROM candidaturas WHERE id_candidatura = ?', (id_candidatura,))
+            conn.commit()
+            return cursor.rowcount > 0
+        finally:
+            conn.close()
 
         
 #====================================================================================================

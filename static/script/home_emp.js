@@ -1,30 +1,3 @@
-function mostrarSecao(secao) {
-    // Esconde todas as seções
-    const secoes = [ 'contratados'];
-    secoes.forEach(sec => {
-        const elemento = document.getElementById(`secao-${sec}`);
-        if (elemento) elemento.style.display = 'none';
-    });
-    
-    // Mostra a seção selecionada
-    const secaoAtiva = document.getElementById(`secao-${secao}`);
-    if (secaoAtiva) secaoAtiva.style.display = 'block';
-
-
-    // Remove active de todos os itens do menu
-    const menuItems = document.querySelectorAll('.menu-item');
-    menuItems.forEach(item => {
-        item.classList.remove('active');
-    });
-    
-    // Adiciona active ao item clicado
-    menuItems.forEach(item => {
-        const texto = item.textContent.toLowerCase();
-        if (texto.includes(secao.toLowerCase())) {
-            item.classList.add('active');
-        }
-    });
-}
 function confirmarExcluirPerfil() {
 
     const msg1 =
@@ -77,4 +50,45 @@ function ativarEdicaoEmpresa() {
 function cancelarEdicaoEmpresa() {
     document.getElementById('view-mode-empresa').style.display = 'block';
     document.getElementById('edit-mode-empresa').style.display = 'none';
+}
+
+function mostrarSecao(secao) {
+    const secaoAtiva = document.getElementById(`secao-${secao}`);
+    if (secaoAtiva) {
+        // Se já estiver aparecendo, esconde. Se estiver escondido, mostra.
+        if (secaoAtiva.style.display === 'none' || secaoAtiva.style.display === '') {
+            secaoAtiva.style.display = 'block';
+            // Rola a tela suavemente até a seção surgir
+            secaoAtiva.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            secaoAtiva.style.display = 'none';
+        }
+    }
+}
+function mudarAba(aba) {
+    // Esconde todas as abas principais
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Mostra a aba selecionada
+    document.getElementById('aba-' + aba).classList.add('active');
+    
+    // Remove o estado 'active' de todos os botões da sidebar
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Adiciona 'active' ao botão clicado
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
+
+    // --- CORREÇÃO AQUI ---
+    // Força o fechamento das subseções do Dashboard ao mudar de aba
+    const secaoContratados = document.getElementById('secao-contratados');
+    const secaoNotificacoes = document.getElementById('secao-notificacoes');
+    
+    if (secaoContratados) secaoContratados.style.display = 'none';
+    if (secaoNotificacoes) secaoNotificacoes.style.display = 'none';
 }

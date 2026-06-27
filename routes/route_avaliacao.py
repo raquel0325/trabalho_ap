@@ -18,6 +18,7 @@ def avaliar_freelancer(id_freelancer):
     
     nota = request.form.get('nota')
     comentario = request.form.get('comentario', '').strip()
+    print(f'essa nota é de {id_freelancer} contratado por {id_contratante} que comentou {comentario}')
     
     # Valida nota
     try:
@@ -30,17 +31,15 @@ def avaliar_freelancer(id_freelancer):
         return redirect(request.referrer or url_for('home.home_pag'))
     
     # Verifica se o contratante já contratou este freelancer
-    contratacao = ContratacaoCRUD.buscar_por_freelancer_e_contratante(id_freelancer, id_contratante)
+    from models.model_contratar import Contratacao
+    contratacao = Contratacao.buscar_por_freelancer_e_contratante(id_freelancer, id_contratante, tipo_contratante)
     
     if not contratacao:
         flash("Você só pode avaliar freelancers que contratou!", "erro")
         return redirect(request.referrer or url_for('home.home_pag'))
     
     #verifica se o contratante já avaliou este freelancer
-    avaliado = AvaliacaoCRUD.adicionar_avaliacao(id_freelancer, id_contratante,tipo_contratante,nota,comentario)
-
-    if avaliado:
-        print('já avaliado ----')
+    
 
 
     # Adiciona a avaliação

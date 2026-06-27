@@ -39,10 +39,15 @@ def buscar_freelancer():
     freelancers_com_status = []
     for freelancer in resultado:
         freelancer_dict = dict(freelancer)
+        tipo_contratante = session['tipo']
         
         # Verifica se o usuário já contratou este freelancer
         if tipo_usuario == 'empresa' or tipo_usuario == 'funcionario':
-            contratacao = ContratacaoCRUD.buscar_por_freelancer_e_contratante(freelancer['id_freelancer'], id_usuario)
+            contratacao = ContratacaoCRUD.buscar_por_freelancer_e_contratante(
+                freelancer['id_freelancer'], 
+                id_usuario,
+                tipo_contratante
+                )
             freelancer_dict['ja_contratou'] = contratacao is not None
             
             # Se contratou, busca a média das avaliações

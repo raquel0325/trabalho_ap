@@ -246,7 +246,7 @@ select.select-custom {
 input {
   border: 1px solid #0055ff; /* Borda azul */
   border-radius: 8px; /* Cantos arredondados */
-}
+} 
 
 .btn-formato {
     padding: 5px 12px;
@@ -259,4 +259,43 @@ input {
 }
 .btn-formato:hover {
     background: #e0e0e0;
+}
+/* Lista de competências configurada para 5 por linha e máximo de 3 linhas com rolagem */
+.competencias-lista-sidebar {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr)); /* 5 colunas iguais */
+    gap: 10px;         
+    padding: 5px 5px 5px 0; /* Um pequeno padding na direita para a barra não colar nos cards */
+    
+    /* Define a altura máxima exata para 3 linhas */
+    max-height: calc((38px * 3) + (10px * 2)); 
+    
+    /* Habilita a rolagem vertical apenas se passar de 3 linhas */
+    overflow-y: auto; 
+    overflow-x: hidden; /* Evita qualquer rolagem para os lados */
+}
+
+/* Item de Competência (Tag) */
+.competencia-item {
+    display: flex; 
+    align-items: center;
+    background: #f8f9fa;
+    padding: 8px 10px;    
+    border-radius: 20px;
+    border: 1px solid #e9ecef;
+    transition: background-color 0.2s;
+    box-sizing: border-box;
+    width: 100%; 
+}
+
+/* Tratamento do texto */
+.competencia-item label {
+    margin: 0;
+    cursor: pointer;
+    font-size: 13px; 
+    user-select: none;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Se o nome for gigante, põe '...' para não quebrar as 5 colunas */
+    white-space: nowrap; 
 }

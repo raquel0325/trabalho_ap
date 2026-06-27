@@ -7,39 +7,40 @@
     <!-- SIDEBAR -->
     <div class="sidebar">
         <div class="perfil-resumo">
-            <div class="avatar">👤</div>
+            <!-- Ícone de usuário mais sutil -->
+            <div class="avatar"> 👤</div>
             <h3>{{ session.usuario_nome }}</h3>
             <p>{{ funcionario.email if funcionario else 'usuario@email.com' }}</p>
         </div>
         
-        <nav class="menu-lateral">
+    <nav class="menu-lateral">
     <a href="#" class="menu-item active" onclick="mostrarSecao('perfil'); return false;">
-        <span class="icone">📊</span> Perfil
+        <span class="icone">⚄</span> Perfil
     </a>
     <a href="#" class="menu-item" onclick="mostrarSecao('editar'); return false;">
-        <span class="icone">✏️</span> Editar
+        <span class="icone">✎</span> Editar
     </a>
     <a href="#" class="menu-item" onclick="mostrarSecao('freelance'); return false;">
-        <span class="icone">💼</span> Freelance
+        <span class="icone">⚏</span> Freelance
     </a>
     <a href="#" class="menu-item" onclick="mostrarSecao('contratados'); return false;">
-        <span class="icone">🤝</span> Contratados
-    </a>
-    <a href="#" class="menu-item excluir-perfil" onclick="confirmarExcluirPerfil(); return false;">
-        Excluir Perfil
+        <span class="icone">✓</span> Contratados
     </a>
 </nav>
     </div>
-<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
     <!-- CONTEÚDO CENTRAL -->
     <div class="conteudo-central">
-        <!-- SEÇÃO PERFIL====================================================================================================================================== -->
+        <!-- SEÇÃO PERFIL -->
         <div id="secao-perfil" class="secao-info">
-            <div class="info-usuario">
-                <div class="section-header">
-                    <h2>Informações Pessoais</h2>
-                    <button class="btn-editar" onclick="ativarEdicao()">✏️ Editar</button>
-                </div>
+    <div class="info-usuario">
+        <div class="section-header">
+            <h2>Informações Pessoais</h2>
+            <div class="botoes-header-acoes" style="display: flex; gap: 10px;">
+                <button class="btn-editar" onclick="ativarEdicao()">✎ Editar</button>
+                <a href="#" class="btn-excluir-perfil-header" onclick="confirmarExcluirPerfil(); return false;">✕ Excluir Perfil</a>
+            </div>
+        </div>
                 
                 <!-- MODO VISUALIZAÇÃO -->
                 <div id="view-mode">
@@ -66,7 +67,7 @@
                         {% endfor %}
                     </div>
                 </div>
-<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
                 <!-- MODO EDIÇÃO -->
                 <div id="edit-mode" style="display: none;">
                     <form method="POST" action="{{ url_for('atualizar_perfil.atualizar_perfil') }}">
@@ -85,153 +86,153 @@
                             <div class="campo"><label>Tempo de Experiência:</label>{{ select_experiencia(questionario.tempo_experiencia if questionario else '') }}</div>
                         </div>
                         <div class="botoes-edicao">
-                            <button type="submit" class="btn-salvar">💾 Salvar</button>
-                            <button type="button" class="btn-cancelar" onclick="cancelarEdicao()">❌ Cancelar</button>
+                            <button type="submit" class="btn-salvar"> Salvar</button>
+                            <button type="button" class="btn-cancelar" onclick="cancelarEdicao()"> Cancelar</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
 <!-- SEÇÃO FREELANCE -->
 <div id="secao-freelance" class="secao-info" style="display: none;">
     <div class="info-usuario">
         <div class="section-header">
             <h2>Meus Freelances</h2>
-            <button class="btn-editar" onclick="mostrarFormFreelance()"> + Novo Freelance</button>
+            <button class="btn-editar" onclick="mostrarFormFreelance()">+ Novo Freelance</button>
         </div>
-    
+
         <!-- Lista de freelances existentes -->
         {% if meus_freelances %}
-            <div class="freelances-lista">
-                {% for freelance in meus_freelances %}
-                <div class="freelance-card">
-                    <div class="freelance-header">
-                        <h3>{{ freelance.profissao }}</h3>
-                        <span class="status-badge {% if freelance.disponibilidade == 'disponivel' %}status-disponivel{% else %}status-indisponivel{% endif %}">
-                            {{ freelance.disponibilidade }}
-                        </span>
-                    </div>
-                    <p class="freelance-descricao">{{ freelance.servico_oferecido }}</p>
-                    <div class="freelance-info">
-                        <span class="freelance-preco">💰 R$ {{ "%.2f"|format(freelance.preco_medio) }}</span>
-                        <span class="freelance-avaliacoes">⭐ {{ freelance.total_avaliacoes }} avaliações</span>
-                        <span class="freelance-data">📅 {{ freelance.data_cadastro[:10] if freelance.data_cadastro else '' }}</span>
-                    </div>
-                    <div class="freelance-acoes">
-                        <button class="btn-editar-freelance" onclick="editarFreelance('{{ freelance.id_freelancer }}')">✏️ Editar</button>
-                        <button class="btn-excluir-freelance" onclick="excluirFreelance('{{ freelance.id_freelancer }}')">🗑️ Excluir</button>
-                        
-                    </div>
+        <div class="freelances-lista">
+            {% for freelance in meus_freelances %}
+            <div class="freelance-card">
+                <div class="freelance-header">
+                    <h3>{{ freelance.profissao }}</h3>
+                    <span class="status-badge {% if freelance.disponibilidade == 'disponivel' %}status-disponivel{% else %}status-indisponivel{% endif %}">
+                        {{ freelance.disponibilidade }}
+                    </span>
+                </div>
+                <p class="freelance-descricao">{{ freelance.servico_oferecido }}</p>
+                <div class="freelance-info">
+                    <span class="freelance-preco"> R$ {{ "%.2f"|format(freelance.preco_medio) }}</span>
+                    <span class="freelance-avaliacoes">★ {{ freelance.total_avaliacoes }} avaliações</span>
+                    <span class="freelance-data"> {{ freelance.data_cadastro[:10] if freelance.data_cadastro else '' }}</span>
+                </div>
+                <div class="freelance-acoes">
+                    <a href="{{ url_for('solicitantes.ver_solicitantes', id_freelancer=freelance.id_freelancer) }}" class="btn-solicitantes">
+                        Solicitantes
+                        {% if freelance.total_solicitantes_pendentes and freelance.total_solicitantes_pendentes > 0 %}
+                        <span class="badge-pendentes">{{ freelance.total_solicitantes_pendentes }}</span>
+                        {% endif %}
+                    </a>
+
+                    
+                    <button class="btn-editar-freelance" onclick="editarFreelance('{{ freelance.id_freelancer }}')">Editar</button>
+                    <button class="btn-excluir-freelance" onclick="excluirFreelance('{{ freelance.id_freelancer }}')">Excluir</button>
                 </div>
                 {% endfor %}
             </div>
-        {% else %}
+            {% else %}
             <div class="sem-freelances">
-                <p>😕 Você ainda não anunciou nenhum freelance.</p>
+                <p> Você ainda não anunciou nenhum freelance.</p>
                 <p>Clique em "Novo Freelance" para começar!</p>
             </div>
-        {% endif %}
-        
-        <!-- Formulário para novo freelance (inicialmente oculto) -->
-        <div id="form-freelance-container" style="display: none; margin-top: 30px;">
-            <div class="form-freelance">
-                <h3>Anunciar novo freelance</h3>
-                <form method="POST" action="{{ url_for('freelancer.cadastrar_freelance') }}">
-                    <div class="campo">
-                        <label>Profissão:</label>
-                        <input type="text" name="profissao" placeholder="Ex: Desenvolvedor Web" required>
+            {% endif %}
+
+            <!-- Formulário para novo freelance -->
+            <div id="form-freelance-container" class="form-freelance-wrapper" style="display: none;margin-top: 30px;">
+                <div class="form-freelance-card">
+                    <div class="form-freelance-header">
+                        <h3>Anunciar Novo Freelance</h3>
+                        <p>Preencha os detalhes do serviço que você deseja oferecer na plataforma.</p>
                     </div>
-                    <div class="campo">
-                        <label>Serviço Oferecido:</label>
-                        <textarea name="servico_oferecido" placeholder="Descreva o serviço que você oferece..." required></textarea>
-                    </div>
-                    <div class="campo">
-                        <label>Preço Médio (R$):</label>
-                        <input type="number" name="preco_medio" placeholder="0.00" step="0.01" required>
-                    </div>
-                    <div class="campo">
-                        <label>Disponibilidade:</label>
-                        <select name="disponibilidade">
-                            <option value="disponivel">Disponível</option>
-                            <option value="indisponivel">Indisponível</option>
-                            <option value="ocupado">Ocupado</option>
-                        </select>
-                    </div>
-                    <div class="botoes-edicao">
-                        <button type="submit" class="btn-salvar">💾 Salvar Freelance</button>
-                        <button type="button" class="btn-cancelar" onclick="fecharFormFreelance()">❌ Cancelar</button>
-                    </div>
-                </form>
+
+                    <form method="POST" action="{{ url_for('freelancer.cadastrar_freelance') }}" class="form-freelance-grid">
+                        <div class="campo col-full">
+                            <label for="profissao"> Profissão / Título do Anúncio</label>
+                            <input type="text" id="profissao" name="profissao" placeholder="Ex: Desenvolvedor Web Full Stack..." required>
+                        </div>
+
+                        <div class="campo col-half">
+                            <label for="preco_medio">Preço Médio cobrado (R$)</label>
+                            <div class="input-with-prefix">
+                                <span class="prefix">R$</span>
+                                <input type="number" id="preco_medio" name="preco_medio" placeholder="0,00" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="campo col-half">
+                            <label for="disponibilidade"> Disponibilidade Atual</label>
+                            <select id="disponibilidade" name="disponibilidade">
+                                <option value="disponivel">Disponível (Imediato)</option>
+                                <option value="ocupado">Ocupado (No momento)</option>
+                                <option value="indisponivel">Indisponível</option>
+                            </select>
+                        </div>
+
+                        <div class="campo col-full">
+                            <label for="servico_oferecido">Descrição Detalhada do Serviço</label>
+                            <textarea id="servico_oferecido" name="servico_oferecido" rows="5" placeholder="Descreva suas especialidades..." required></textarea>
+                        </div>
+
+                        <div class="botoes-edicao col-full">
+                            <button type="submit" class="btn-salvar-freelance">Publicar Freelance</button>
+                            <button type="button" class="btn-cancelar-freelance" onclick="fecharFormFreelance()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!-- SEÇÃO CONTRATADOS -->
 <div id="secao-contratados" class="secao-info" style="display:none;">
     <div class="info-usuario">
-
         <div class="section-header">
             <h2>Freelancers Contratados</h2>
         </div>
         {% if contratacoes %}
             <div class="freelances-lista">
-                {% for contrato in contratacoes %}
+                {% for contrato in contratacoes if contrato.status != 'cancelado' and contrato.status != 'recusado' %}
                 <div class="freelance-card">
                     <div class="freelance-header"><h3>{{ contrato.profissao }}</h3><span class="status-badge"> {{ contrato.status }} </span></div>
                     
-                    <p><strong>Freelancer:</strong>{{ contrato.nome_freelancer }}</p>
+                    <p><strong>Freelancer:</strong> {{ contrato.nome_freelancer }}</p>
                     <p class="freelance-descricao">{{ contrato.servico_oferecido }}</p>
 
                     <div class="freelance-info">
-
                         <span> R$ {{ "%.2f"|format(contrato.preco_medio) }}</span>
                         <span>{{ contrato.data_contratacao[:10] }}</span>
 
-                        <!-- Só mostra o formulário se NÃO foi avaliado -->
                         {% if contrato.id_freelancer and not contrato.avaliado %}
-
                             <form method="POST" action="{{ url_for('avaliacao.avaliar_freelancer', id_freelancer=contrato.id_freelancer) }}">
-
                                 <label>Nota</label>
-
                                 <select name="nota" required>
                                     <option value="">Selecione</option>
-                                    <option value="1">⭐</option>
-                                    <option value="2">⭐⭐</option>
-                                    <option value="3">⭐⭐⭐</option>
-                                    <option value="4">⭐⭐⭐⭐</option>
-                                    <option value="5">⭐⭐⭐⭐⭐</option>
+                                    <option value="1">★</option>
+                                    <option value="2">★★</option>
+                                    <option value="3">★★★</option>
+                                    <option value="4">★★★★</option>
+                                    <option value="5">★★★★★</option>
                                 </select>
-
-                                <textarea name="comentario"placeholder="Deixe um comentário"></textarea>
+                                <textarea name="comentario" placeholder="Deixe um comentário"></textarea>
                                 <button type="submit"> Enviar avaliação </button>
-
                             </form>
-
                         {% elif contrato.avaliado %}
-                            <p class="avaliado-msg">✅ Já avaliado</p>
+                            <p class="avaliado-msg">Já avaliado</p>
                         {% endif %}
-
                     </div>
-
                 </div>
-
                 {% endfor %}
-
             </div>
-
         {% else %}
-
-            <div class="sem-freelances"><p>😕 Você ainda não contratou nenhum freelancer.</p></div>
-
+            <div class="sem-freelances"><p>Você ainda não contratou nenhum freelancer.</p></div>
         {% endif %}
-
     </div>
 </div>
-<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
 <!-- SEÇÃO EDITAR COMPETÊNCIAS -->
 <div id="secao-editar" class="secao-info" style="display: none;">
     <div class="info-usuario">
@@ -258,7 +259,7 @@
                 <div class="nova-competencia-area">
                     <label>Adicionar nova competência:</label>
                     <div class="input-group">
-                        <input type="text" id="input_nova_comp" placeholder="Ex: Python, Gestão de Projetos, Inglês...">
+                        <input type="text" id="input_nova_comp" placeholder="Ex: Python, Gestão de Projetos...">
                         <button type="button" class="btn-add-comp" onclick="adicionarNovaCompetencia()">+ Adicionar</button>
                     </div>
                     <div id="novas-competencias-lista" class="novas-competencias-lista"></div>
@@ -266,13 +267,13 @@
             </div>
             
             <div class="botoes-edicao">
-                <button type="submit" class="btn-salvar">💾 Salvar Competências</button>
-                <button type="button" class="btn-cancelar" onclick="cancelarEdicaoCompetencias()">❌ Cancelar</button>
+                <button type="submit" class="btn-salvar">Salvar </button>
+                <button type="button" class="btn-cancelar" onclick="cancelarEdicaoCompetencias()">Cancelar</button>
             </div>
         </form>
     </div>
 </div>
-<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
         <!-- RECOMENDAÇÕES -->
         <div class="recomendacoes-section">
             <h2>Recomendações</h2>
@@ -294,36 +295,60 @@
             </div>
         </div>
     </div>
-<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-    <!-- VAGAS SALVAS -->
-    <div class="vagas-salvas-container">
-        <h2 class="titulo-direita">Vagas salvas</h2>
-        {% if candidaturas %}
-        <div class="candidaturas-scroll">
-            <div class="candidaturas-lista">
-                {% for c in candidaturas %}
-                <div class="candidatura-wrapper">
-                    <a href="{{ url_for('candidatar_se.detalhe_vaga', id_vaga=c.id_vaga) }}" class="candidatura-link">
-                        <div class="candidatura-card">
-                            <div class="candidatura-header">
-                                <span class="cargo">{{ c.titulo }}</span>
-                                <span class="data">{{ c.data_candidatura[:10] if c.data_candidatura else 'Data' }}</span>
-                            </div>
-                            <div class="empresa">{{ c.empresa_nome }}</div>
-                        </div>
-                    </a>
-                    <button class="btn-deletar" onclick="deletarCandidatura('{{ c.id_candidatura }}')" title="Cancelar candidatura">🗑️</button>
+<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+    <!-- BARRA LATERAL DIREITA: ACCORDION -->
+    <div class="sidebar-direita-accordion">
+        
+        <!-- GAVETA: NOTIFICAÇÕES -->
+        <details class="accordion-item" open>
+            <summary class="accordion-header">
+                <h2>Notificações</h2>
+                <span class="accordion-seta">▼</span>
+            </summary>
+            <div class="accordion-conteudo">
+                <div class="notification-box">   
+                    <p>Nenhuma notificação nova no momento.</p>
                 </div>
-                {% endfor %}
             </div>
-        </div>
-        {% else %}
-        <div class="sem-candidaturas"><p>Nenhuma vaga salva ainda.</p></div>
-        {% endif %}
+        </details>
+
+        <!-- GAVETA: VAGAS SALVAS -->
+        <details class="accordion-item" open>
+            <summary class="accordion-header">
+                <h2>Vagas Salvas</h2>
+                <span class="accordion-seta">▼</span>
+            </summary>
+            <div class="accordion-conteudo">
+                {% if candidaturas %}
+                <div class="candidaturas-scroll">
+                    <div class="candidaturas-lista">
+                        {% for c in candidaturas %}
+                        <div class="candidatura-wrapper">
+                            <a href="{{ url_for('candidatar_se.detalhe_vaga', id_vaga=c.id_vaga) }}" class="candidatura-link">
+                                <div class="candidatura-card">
+                                    <div class="candidatura-header">
+                                        <span class="cargo">{{ c.titulo }}</span>
+                                        <span class="data">{{ c.data_candidatura[:10] if c.data_candidatura else 'Data' }}</span>
+                                    </div>
+                                    <div class="empresa">{{ c.empresa_nome }}</div>
+                                </div>
+                            </a>
+                            <button class="btn-deletar" onclick="deletarCandidatura('{{ c.id_candidatura }}')" title="Cancelar candidatura">✕</button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="sem-candidaturas"><p>Nenhuma vaga salva ainda.</p></div>
+                {% endif %}
+            </div>
+        </details> 
+
     </div>
 </div>
-<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+ 
 
 <script src="{{ url_for('static', filename='script/home_func.js') }}"></script>
 {% endblock %}

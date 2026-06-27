@@ -263,7 +263,7 @@
     color: #64748b;
     font-size: 14px;
 }
-
+ 
 .action-buttons {
     display: flex;
     flex-direction: column;
@@ -377,4 +377,26 @@
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
+}
+/* Botão azul com efeito apagado/secundário */
+.action-buttons .btn-blue-muted {
+    background: #05186c;
+    opacity: 0.6; /* Deixa o azul original "apagado" */
+    transition: all 0.2s ease;
+}
+
+/* Efeito ao passar o mouse para dar feedback visual */
+.menu-item:hover .btn-blue-muted {
+    opacity: 0.85;
+    box-shadow: 0 4px 12px rgba(5, 24, 108, 0.15);
+}
+.menu-item{
+  background: #05186c;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s ease;
 }

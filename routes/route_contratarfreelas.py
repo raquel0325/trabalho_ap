@@ -14,10 +14,13 @@ def contratar(id_freelancer):
         return redirect('/')
 
     id_contratante = session['usuario_id']
+    tipo_contratante = session['tipo']
+
 
     sucesso = Contratacao.contratar_freelancer(
         id_freelancer,
-        id_contratante
+        id_contratante,
+        tipo_contratante,
     )
 
     if sucesso:
