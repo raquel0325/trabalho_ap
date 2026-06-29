@@ -4,45 +4,40 @@
 {% block content %}
 
 <div class="dashboard-container">
-    <!-- SIDEBAR -->
     <div class="sidebar">
         <div class="perfil-resumo">
-            <!-- Ícone de usuário mais sutil -->
             <div class="avatar"> 👤</div>
             <h3>{{ session.usuario_nome }}</h3>
             <p>{{ funcionario.email if funcionario else 'usuario@email.com' }}</p>
         </div>
         
-    <nav class="menu-lateral">
-    <a href="#" class="menu-item active" onclick="mostrarSecao('perfil'); return false;">
-        <span class="icone">⚄</span> Perfil
-    </a>
-    <a href="#" class="menu-item" onclick="mostrarSecao('editar'); return false;">
-        <span class="icone">✎</span> Editar
-    </a>
-    <a href="#" class="menu-item" onclick="mostrarSecao('freelance'); return false;">
-        <span class="icone">⚏</span> Freelance
-    </a>
-    <a href="#" class="menu-item" onclick="mostrarSecao('contratados'); return false;">
-        <span class="icone">✓</span> Contratados
-    </a>
-</nav>
+        <nav class="menu-lateral">
+            <a href="#" class="menu-item active" onclick="mostrarSecao('perfil'); return false;">
+                <span class="icone">⚄</span> Perfil
+            </a>
+            <a href="#" class="menu-item" onclick="mostrarSecao('editar'); return false;">
+                <span class="icone">✎</span> Editar
+            </a>
+            <a href="#" class="menu-item" onclick="mostrarSecao('freelance'); return false;">
+                <span class="icone">⚏</span> Freelance
+            </a>
+            <a href="#" class="menu-item" onclick="mostrarSecao('contratados'); return false;">
+                <span class="icone">✓</span> Contratados
+            </a>
+        </nav>
     </div>
 
-    <!-- CONTEÚDO CENTRAL -->
     <div class="conteudo-central">
-        <!-- SEÇÃO PERFIL -->
         <div id="secao-perfil" class="secao-info">
-    <div class="info-usuario">
-        <div class="section-header">
-            <h2>Informações Pessoais</h2>
-            <div class="botoes-header-acoes" style="display: flex; gap: 10px;">
-                <button class="btn-editar" onclick="ativarEdicao()">✎ Editar</button>
-                <a href="#" class="btn-excluir-perfil-header" onclick="confirmarExcluirPerfil(); return false;">✕ Excluir Perfil</a>
-            </div>
-        </div>
+            <div class="info-usuario">
+                <div class="section-header">
+                    <h2>Informações Pessoais</h2>
+                    <div class="botoes-header-acoes" style="display: flex; gap: 10px;">
+                        <button class="btn-editar" onclick="ativarEdicao()">✎ Editar</button>
+                        <a href="#" class="btn-excluir-perfil-header" onclick="confirmarExcluirPerfil(); return false;">✕ Excluir Perfil</a>
+                    </div>
+                </div>
                 
-                <!-- MODO VISUALIZAÇÃO -->
                 <div id="view-mode">
                     <div class="campos-info">
                         {% set campos = [
@@ -68,13 +63,12 @@
                     </div>
                 </div>
 
-                <!-- MODO EDIÇÃO -->
                 <div id="edit-mode" style="display: none;">
                     <form method="POST" action="{{ url_for('atualizar_perfil.atualizar_perfil') }}">
                         <div class="campos-info">
                             <div class="campo"><label>Nome:</label><input type="text" name="nome" value="{{ funcionario.nome if funcionario else '' }}"></div>
                             <div class="campo"><label>Email:</label><input type="email" name="email" value="{{ funcionario.email if funcionario else '' }}"></div>
-                            <div class="campo"><label>Telefone:</label><input type="text" name="telefone" value="{{ funcionario.telefone if funcionario else '' }}"> </div>
+                            <div class="campo"><label>Telefone:</label><input type="text" name="telefone" value="{{ funcionario.telefone if funcionario else '' }}"></div>
                             <div class="campo"><label>CPF:</label> <input type="text" name="cpf" value="{{ funcionario.cpf if funcionario else '' }}"></div>
                             <div class="campo"><label>Cidade:</label><input type="text" name="cidade" value="{{ questionario.cidade if questionario else '' }}"></div>
                             <div class="campo"><label>Estado:</label>{{ select_estado(questionario.estado if questionario else '') }}</div>  
@@ -94,119 +88,115 @@
             </div>
         </div>
 
-<!-- SEÇÃO FREELANCE -->
-<div id="secao-freelance" class="secao-info" style="display: none;">
-    <div class="info-usuario">
-        <div class="section-header">
-            <h2>Meus Freelances</h2>
-            <button class="btn-editar" onclick="mostrarFormFreelance()">+ Novo Freelance</button>
-        </div>
-
-        <!-- Lista de freelances existentes -->
-        {% if meus_freelances %}
-        <div class="freelances-lista">
-            {% for freelance in meus_freelances %}
-            <div class="freelance-card">
-                <div class="freelance-header">
-                    <h3>{{ freelance.profissao }}</h3>
-                    <span class="status-badge {% if freelance.disponibilidade == 'disponivel' %}status-disponivel{% else %}status-indisponivel{% endif %}">
-                        {{ freelance.disponibilidade }}
-                    </span>
+        <div id="secao-freelance" class="secao-info" style="display: none;">
+            <div class="info-usuario">
+                <div class="section-header">
+                    <h2>Meus Freelances</h2>
+                    <button class="btn-editar" onclick="mostrarFormFreelance()">+ Novo Freelance</button>
                 </div>
-                <p class="freelance-descricao">{{ freelance.servico_oferecido }}</p>
-                <div class="freelance-info">
-                    <span class="freelance-preco"> R$ {{ "%.2f"|format(freelance.preco_medio) }}</span>
-                    <span class="freelance-avaliacoes">★ {{ freelance.total_avaliacoes }} avaliações</span>
-                    <span class="freelance-data"> {{ freelance.data_cadastro[:10] if freelance.data_cadastro else '' }}</span>
+
+                {% if meus_freelances %}
+                <div class="freelances-lista">
+                    {% for freelance in meus_freelances %}
+                    <div class="freelance-card">
+                        <div class="freelance-header">
+                            <h3>{{ freelance.profissao }}</h3>
+                            <span class="status-badge {% if freelance.disponibilidade == 'disponivel' %}status-disponivel{% else %}status-indisponivel{% endif %}">
+                                {{ freelance.disponibilidade }}
+                            </span>
+                        </div>
+                        <p class="freelance-descricao">{{ freelance.servico_oferecido }}</p>
+                        <div class="freelance-info">
+                            <span class="freelance-preco"> R$ {{ "%.2f"|format(freelance.preco_medio) }}</span>
+                            <span class="freelance-avaliacoes">★ {{ freelance.total_avaliacoes }} avaliações</span>
+                            <span class="freelance-data"> {{ freelance.data_cadastro[:10] if freelance.data_cadastro else '' }}</span>
+                        </div>
+                        <div class="freelance-acoes">
+                            <a href="{{ url_for('solicitantes.ver_solicitantes', id_freelancer=freelance.id_freelancer) }}" class="btn-solicitantes">
+                                Solicitantes
+                                {% if freelance.total_solicitantes_pendentes and freelance.total_solicitantes_pendentes > 0 %}
+                                <span class="badge-pendentes">{{ freelance.total_solicitantes_pendentes }}</span>
+                                {% endif %}
+                            </a>
+                            <button class="btn-editar-freelance" onclick="editarFreelance('{{ freelance.id_freelancer }}')">Editar</button>
+                            <button class="btn-excluir-freelance" onclick="excluirFreelance('{{ freelance.id_freelancer }}')">Excluir</button>
+                        </div>
+                    </div> {% endfor %}
                 </div>
-                <div class="freelance-acoes">
-                    <a href="{{ url_for('solicitantes.ver_solicitantes', id_freelancer=freelance.id_freelancer) }}" class="btn-solicitantes">
-                        Solicitantes
-                        {% if freelance.total_solicitantes_pendentes and freelance.total_solicitantes_pendentes > 0 %}
-                        <span class="badge-pendentes">{{ freelance.total_solicitantes_pendentes }}</span>
-                        {% endif %}
-                    </a>
-
-                    
-                    <button class="btn-editar-freelance" onclick="editarFreelance('{{ freelance.id_freelancer }}')">Editar</button>
-                    <button class="btn-excluir-freelance" onclick="excluirFreelance('{{ freelance.id_freelancer }}')">Excluir</button>
+                {% else %}
+                <div class="sem-freelances">
+                    <p> Você ainda não anunciou nenhum freelance.</p>
+                    <p>Clique em "Novo Freelance" para começar!</p>
                 </div>
-                {% endfor %}
-            </div>
-            {% else %}
-            <div class="sem-freelances">
-                <p> Você ainda não anunciou nenhum freelance.</p>
-                <p>Clique em "Novo Freelance" para começar!</p>
-            </div>
-            {% endif %}
+                {% endif %}
 
-            <!-- Formulário para novo freelance -->
-            <div id="form-freelance-container" class="form-freelance-wrapper" style="display: none;margin-top: 30px;">
-                <div class="form-freelance-card">
-                    <div class="form-freelance-header">
-                        <h3>Anunciar Novo Freelance</h3>
-                        <p>Preencha os detalhes do serviço que você deseja oferecer na plataforma.</p>
-                    </div>
-
-                    <form method="POST" action="{{ url_for('freelancer.cadastrar_freelance') }}" class="form-freelance-grid">
-                        <div class="campo col-full">
-                            <label for="profissao"> Profissão / Título do Anúncio</label>
-                            <input type="text" id="profissao" name="profissao" placeholder="Ex: Desenvolvedor Web Full Stack..." required>
+                <div id="form-freelance-container" class="form-freelance-wrapper" style="display: none; margin-top: 30px;">
+                    <div class="form-freelance-card">
+                        <div class="form-freelance-header">
+                            <h3>Anunciar Novo Freelance</h3>
+                            <p>Preencha os detalhes do serviço que você deseja oferecer na plataforma.</p>
                         </div>
 
-                        <div class="campo col-half">
-                            <label for="preco_medio">Preço Médio cobrado (R$)</label>
-                            <div class="input-with-prefix">
-                                <span class="prefix">R$</span>
-                                <input type="number" id="preco_medio" name="preco_medio" placeholder="0,00" step="0.01" required>
+                        <form method="POST" action="{{ url_for('freelancer.cadastrar_freelance') }}" class="form-freelance-grid">
+                            <div class="campo col-full">
+                                <label for="profissao"> Profissão / Título do Anúncio</label>
+                                <input type="text" id="profissao" name="profissao" placeholder="Ex: Desenvolvedor Web Full Stack..." required>
                             </div>
-                        </div>
 
-                        <div class="campo col-half">
-                            <label for="disponibilidade"> Disponibilidade Atual</label>
-                            <select id="disponibilidade" name="disponibilidade">
-                                <option value="disponivel">Disponível (Imediato)</option>
-                                <option value="ocupado">Ocupado (No momento)</option>
-                                <option value="indisponivel">Indisponível</option>
-                            </select>
-                        </div>
+                            <div class="campo col-half">
+                                <label for="preco_medio">Preço Médio cobrado (R$)</label>
+                                <div class="input-with-prefix">
+                                    <span class="prefix">R$</span>
+                                    <input type="number" id="preco_medio" name="preco_medio" placeholder="0,00" step="0.01" required>
+                                </div>
+                            </div>
 
-                        <div class="campo col-full">
-                            <label for="servico_oferecido">Descrição Detalhada do Serviço</label>
-                            <textarea id="servico_oferecido" name="servico_oferecido" rows="5" placeholder="Descreva suas especialidades..." required></textarea>
-                        </div>
+                            <div class="campo col-half">
+                                <label for="disponibilidade"> Disponibilidade Atual</label>
+                                <select id="disponibilidade" name="disponibilidade">
+                                    <option value="disponivel">Disponível (Imediato)</option>
+                                    <option value="ocupado">Ocupado (No momento)</option>
+                                    <option value="indisponivel">Indisponível</option>
+                                </select>
+                            </div>
 
-                        <div class="botoes-edicao col-full">
-                            <button type="submit" class="btn-salvar-freelance">Publicar Freelance</button>
-                            <button type="button" class="btn-cancelar-freelance" onclick="fecharFormFreelance()">Cancelar</button>
-                        </div>
-                    </form>
+                            <div class="campo col-full">
+                                <label for="servico_oferecido">Descrição Detalhada do Serviço</label>
+                                <textarea id="servico_oferecido" name="servico_oferecido" rows="5" placeholder="Descreva suas especialidades..." required></textarea>
+                            </div>
+
+                            <div class="botoes-edicao col-full">
+                                <button type="submit" class="btn-salvar-freelance">Publicar Freelance</button>
+                                <button type="button" class="btn-cancelar-freelance" onclick="fecharFormFreelance()">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- SEÇÃO CONTRATADOS -->
-<div id="secao-contratados" class="secao-info" style="display:none;">
-    <div class="info-usuario">
-        <div class="section-header">
-            <h2>Freelancers Contratados</h2>
-        </div>
-        {% if contratacoes %}
-            <div class="freelances-lista">
-                {% for contrato in contratacoes if contrato.status != 'cancelado' and contrato.status != 'recusado' %}
-                <div class="freelance-card">
-                    <div class="freelance-header"><h3>{{ contrato.profissao }}</h3><span class="status-badge"> {{ contrato.status }} </span></div>
-                    
-                    <p><strong>Freelancer:</strong> {{ contrato.nome_freelancer }}</p>
-                    <p class="freelance-descricao">{{ contrato.servico_oferecido }}</p>
+        <div id="secao-contratados" class="secao-info" style="display:none;">
+            <div class="info-usuario">
+                <div class="section-header">
+                    <h2>Freelancers Contratados</h2>
+                </div>
+                {% if contratacoes %}
+                <div class="freelances-lista">
+                    {% for contrato in contratacoes if contrato.status != 'cancelado' and contrato.status != 'recusado' %}
+                    <div class="freelance-card">
+                        <div class="freelance-header">
+                            <h3>{{ contrato.profissao }}</h3>
+                            <span class="status-badge"> {{ contrato.status }} </span>
+                        </div>
+                        
+                        <p><strong>Freelancer:</strong> {{ contrato.nome_freelancer }}</p>
+                        <p class="freelance-descricao">{{ contrato.servico_oferecido }}</p>
 
-                    <div class="freelance-info">
-                        <span> R$ {{ "%.2f"|format(contrato.preco_medio) }}</span>
-                        <span>{{ contrato.data_contratacao[:10] }}</span>
+                        <div class="freelance-info">
+                            <span> R$ {{ "%.2f"|format(contrato.preco_medio) }}</span>
+                            <span>{{ contrato.data_contratacao[:10] }}</span>
 
-                        {% if contrato.id_freelancer and not contrato.avaliado %}
+                            {% if contrato.id_freelancer and not contrato.avaliado %}
                             <form method="POST" action="{{ url_for('avaliacao.avaliar_freelancer', id_freelancer=contrato.id_freelancer) }}">
                                 <label>Nota</label>
                                 <select name="nota" required>
@@ -220,61 +210,61 @@
                                 <textarea name="comentario" placeholder="Deixe um comentário"></textarea>
                                 <button type="submit"> Enviar avaliação </button>
                             </form>
-                        {% elif contrato.avaliado %}
+                            {% elif contrato.avaliado %}
                             <p class="avaliado-msg">Já avaliado</p>
-                        {% endif %}
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <div class="sem-freelances"><p>Você ainda não contratou nenhum freelancer.</p></div>
-        {% endif %}
-    </div>
-</div>
-
-<!-- SEÇÃO EDITAR COMPETÊNCIAS -->
-<div id="secao-editar" class="secao-info" style="display: none;">
-    <div class="info-usuario">
-        <div class="section-header">
-            <h2>Minhas Competências</h2>
-        </div>
-        
-        <form method="POST" action="{{ url_for('atualizar_perfil.atualizar_competencias') }}">
-            <div class="competencias-edit-container">
-                <p class="instrucao">Selecione suas principais habilidades e competências:</p>
-                
-                <div class="competencias-grid">
-                    {% for comp in todas_competencias %}
-                    <label class="competencia-checkbox">
-                        <input type="checkbox" name="competencias" value="{{ comp.id_competencia }}"
-                            {% if comp.id_competencia in competencias_usuario|map(attribute='id_competencia')|list %}
-                            checked
-                            {% endif %}>
-                        <span>{{ comp.nome }}</span>
-                    </label>
                     {% endfor %}
                 </div>
-                
-                <div class="nova-competencia-area">
-                    <label>Adicionar nova competência:</label>
-                    <div class="input-group">
-                        <input type="text" id="input_nova_comp" placeholder="Ex: Python, Gestão de Projetos...">
-                        <button type="button" class="btn-add-comp" onclick="adicionarNovaCompetencia()">+ Adicionar</button>
-                    </div>
-                    <div id="novas-competencias-lista" class="novas-competencias-lista"></div>
+                {% else %}
+                <div class="sem-freelances">
+                    <p>Você ainda não contratou nenhum freelancer.</p>
                 </div>
+                {% endif %}
             </div>
-            
-            <div class="botoes-edicao">
-                <button type="submit" class="btn-salvar">Salvar </button>
-                <button type="button" class="btn-cancelar" onclick="cancelarEdicaoCompetencias()">Cancelar</button>
-            </div>
-        </form>
-    </div>
-</div>
+        </div>
 
-        <!-- RECOMENDAÇÕES -->
+        <div id="secao-editar" class="secao-info" style="display: none;">
+            <div class="info-usuario">
+                <div class="section-header">
+                    <h2>Minhas Competências</h2>
+                </div>
+                
+                <form method="POST" action="{{ url_for('atualizar_perfil.atualizar_competencias') }}">
+                    <div class="competencias-edit-container">
+                        <p class="instrucao">Selecione suas principais habilidades e competências:</p>
+                        
+                        <div class="competencias-grid">
+                            {% for comp in todas_competencias %}
+                            <label class="competencia-checkbox">
+                                <input type="checkbox" name="competencias" value="{{ comp.id_competencia }}"
+                                    {% if comp.id_competencia in competencias_usuario|map(attribute='id_competencia')|list %}
+                                    checked
+                                    {% endif %}>
+                                <span>{{ comp.nome }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="nova-competencia-area">
+                            <label>Adicionar nova competência:</label>
+                            <div class="input-group">
+                                <input type="text" id="input_nova_comp" placeholder="Ex: Python, Gestão de Projetos...">
+                                <button type="button" class="btn-add-comp" onclick="adicionarNovaCompetencia()">+ Adicionar</button>
+                            </div>
+                            <div id="novas-competencias-lista" class="novas-competencias-lista"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="botoes-edicao">
+                        <button type="submit" class="btn-salvar">Salvar </button>
+                        <button type="button" class="btn-cancelar" onclick="cancelarEdicaoCompetencias()">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div class="recomendacoes-section">
             <h2>Recomendações</h2>
             <div class="recomendacoes-lista">
@@ -294,12 +284,8 @@
                 {% endif %}
             </div>
         </div>
-    </div>
-<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-    <!-- BARRA LATERAL DIREITA: ACCORDION -->
-    <div class="sidebar-direita-accordion">
+    </div> <div class="sidebar-direita-accordion">
         
-        <!-- GAVETA: NOTIFICAÇÕES --> 
         <details class="accordion-item" open>
             <summary class="accordion-header">
                 <h2>Notificações</h2>
@@ -308,23 +294,22 @@
             <div class="accordion-conteudo">
                 {% if notificacoes %}
                 <div class="notificacoes-lista">
-                        {% for notif in notificacoes %}
-                        <div class="freelance-card" style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); border-left: 4px solid #05186c;">
-                            <div class="freelance-header">
-                                <h3>{{ notif.titulo }}</h3>
-                                <span class="status-badge">{{ notif.data }}</span>
-                            </div>
-                            <p class="freelance-descricao">{{ notif.mensagem }}</p>
+                    {% for notif in notificacoes %}
+                    <div class="freelance-card" style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); border-left: 4px solid #05186c;">
+                        <div class="freelance-header">
+                            <h3>{{ notif.titulo }}</h3>
+                            <span class="status-badge">{{ notif.data }}</span>
                         </div>
-                        {% endfor %}
+                        <p class="freelance-descricao">{{ notif.mensagem }}</p>
                     </div>
+                    {% endfor %}
+                </div>
                 {% else %}
                     <div class="sem-freelances"><p>Nenhuma notificação por enquanto.</p></div>
                 {% endif %}
             </div>
         </details>
 
-        <!-- GAVETA: VAGAS SALVAS -->
         <details class="accordion-item" open>
             <summary class="accordion-header">
                 <h2>Vagas Salvas</h2>
@@ -356,11 +341,5 @@
             </div>
         </details> 
 
-    </div>
-</div>
-<!--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-
- 
-
-<script src="{{ url_for('static', filename='script/home_func.js') }}"></script>
+    </div> </div> <script src="{{ url_for('static', filename='script/home_func.js') }}"></script>
 {% endblock %}
