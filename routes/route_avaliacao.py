@@ -52,7 +52,7 @@ def avaliar_freelancer(id_freelancer):
     )
     
     if sucesso:
-        flash("Avaliação enviada com sucesso! ⭐", "sucesso")
+        flash("Avaliação enviada com sucesso! ", "sucesso")
     else:
         flash("Erro ao enviar avaliação.", "erro")
     

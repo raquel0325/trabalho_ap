@@ -2,11 +2,9 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from models import Vaga, Candidatura, Match, Competencia  
 from CRUDs import CandidaturaCRUD, MatchCRUD, CompetenciaCRUD  
 from CRUDs.candidatura import CandidaturaCRUD
+from database.connect import get_connection
 
 bp_candidatar_se = Blueprint('candidatar_se', __name__)
-
-
-
 
 @bp_candidatar_se.route('/vaga/<int:id_vaga>', methods=['GET', 'POST'])
 def detalhe_vaga(id_vaga):
@@ -62,8 +60,7 @@ def candidatar_vaga(id_vaga):
 @bp_candidatar_se.route('/cancelar_candidatura/<int:id_candidatura>', methods=['POST'])
 def cancelar_candidatura(id_candidatura):
     """Cancelar uma candidatura"""
-    from CRUDs.candidatura import CandidaturaCRUD
-    from database.connect import get_connection
+
     
     try:
         conn = get_connection()
@@ -80,32 +77,35 @@ def cancelar_candidatura(id_candidatura):
 
 
 #======================================================================================================================================
+# candidatar_se.py
 @bp_candidatar_se.route('/candidatura/<int:id_candidatura>/status', methods=['POST'])
 def alterar_status_candidatura(id_candidatura):
     """Altera o status de uma candidatura (empresa)"""
     if 'usuario_id' not in session or session.get('tipo') != 'empresa':
-        flash('Não autorizado', 'erro')
-        return redirect(url_for('vagas.listar_vagas'))
+        return {'success': False, 'error': 'Não autorizado'}, 401
     
     try:
-        novo_status = request.json.get('status')
+        data = request.get_json()
+        if not data or 'status' not in data:
+            return {'success': False, 'error': 'Status não fornecido'}, 400
+            
+        novo_status = data.get('status')
         
-        # Usa o model para atualizar (com validação)
-        sucesso = Candidatura.atualizar_status(id_candidatura, novo_status)
+        # Validar status permitidos
+        status_validos = ['pendente', 'aprovado', 'rejeitado']
+        if novo_status not in status_validos:
+            return {'success': False, 'error': 'Status inválido'}, 400
+        
+        # Usa o CRUD para atualizar
+        sucesso = CandidaturaCRUD.atualizar_status(id_candidatura, novo_status)
         
         if sucesso:
-            flash('Status da candidatura atualizado com sucesso!', 'sucesso')
-            return redirect(url_for('vagas.listar_vagas'))
+            return {'success': True, 'message': 'Status atualizado com sucesso!'}
         else:
-            flash('Candidatura não encontrada', 'erro')
-            return redirect(url_for('vagas.listar_vagas'))
+            return {'success': False, 'error': 'Candidatura não encontrada'}, 404
             
-    except ValueError as e:
-        flash(str(e), 'erro')
-        return redirect(url_for('vagas.listar_vagas'))
     except Exception as e:
-        flash('Ocorreu um erro ao atualizar o status da candidatura', 'erro')
-        return redirect(url_for('vagas.listar_vagas'))
+        return {'success': False, 'error': str(e)}, 500
 
 #======================================================================================================================================
 

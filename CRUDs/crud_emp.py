@@ -19,7 +19,7 @@ class EmpresaCRUD:
             ''', (nome, cnpj, email, senha, telefone, endereco))
             conn.commit()
             return cursor.lastrowid
-        except sqlite3.IntegrityError as e:
+        except Exception as e:
             raise Exception("E-mail ou CNPJ já cadastrado!") from e
         finally:
             conn.close()

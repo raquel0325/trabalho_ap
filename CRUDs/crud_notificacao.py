@@ -1,3 +1,4 @@
+
 from database.connect import get_connection
 
 
@@ -38,8 +39,6 @@ class NotificacaoCRUD:
             params.append(limite)
 
             cursor.execute(query, params)
-            return cursor.fetchall()
+            return cursor.fetchall()  # Retorna tuplas
         finally:
             conn.close()
-
-    

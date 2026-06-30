@@ -26,7 +26,7 @@ def home_pag():
     
     tipo = session.get('tipo')
     id_usuario = session.get('usuario_id')
-    notificacoes = Notificacao.listar_para_usuario(id_usuario, apenas_nao_lidas=False, limite=20)
+    notificacoes = Notificacao.listar_para_usuario(id_usuario, apenas_nao_lidas=False, limite=4)
     if tipo == 'funcionario':
         
         candidaturas = CandidaturaCRUD.listar_candidaturas_funcionario(id_usuario)# Busca candidaturas
@@ -71,7 +71,7 @@ def home_pag():
             contratados = ContratacaoCRUD.listar_contratados(id_usuario)
 
             # Notificações da empresa (id_usuario = id_empresa na sessão)
-            notificacoes = Notificacao.listar_para_usuario(id_usuario, apenas_nao_lidas=False, limite=20)
+            notificacoes = Notificacao.listar_para_usuario(id_usuario, apenas_nao_lidas=False, limite=4)
 
 
             # id_contratante = id_usuario
@@ -99,20 +99,7 @@ def home_pag():
                 contratados=contratados,
                 notificacoes=notificacoes
             )
-    
 
-
-
-
-
-
-
-
-
-
-
-
-    
 #======================================================================================================================================
 
 
@@ -151,3 +138,7 @@ def excluir_perfil():
     except Exception as e:
         flash(f'Erro ao excluir perfil: {str(e)}', 'erro')
         return redirect(url_for('home.home_pag'))
+#======================================================================================================================================
+
+
+#======================================================================================================================================

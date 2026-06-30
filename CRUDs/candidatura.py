@@ -5,12 +5,18 @@ from database.connect import get_connection
 class CandidaturaCRUD:
 #====================================================================================================
     """CRUD para operações com candidaturas"""
+
     @staticmethod
     def atualizar_status(id_candidatura, novo_status):
         """Atualiza o status de uma candidatura"""
         conn = get_connection()
         try:
             cursor = conn.cursor()
+            # Adicionei verificação se a candidatura existe
+            cursor.execute('SELECT id_candidatura FROM candidaturas WHERE id_candidatura = ?', (id_candidatura,))
+            if not cursor.fetchone():
+                return False
+                
             cursor.execute('''
                 UPDATE candidaturas 
                 SET status = ? 
@@ -18,6 +24,9 @@ class CandidaturaCRUD:
             ''', (novo_status, id_candidatura))
             conn.commit()
             return cursor.rowcount > 0
+        except sqlite3.Error as e:
+            print(f"Erro no banco de dados: {e}")
+            return False
         finally:
             conn.close()
 #====================================================================================================
@@ -70,7 +79,8 @@ class CandidaturaCRUD:
             return resultado['total'] if resultado else 0
         finally:
             conn.close()
-#====================================================================================================    @staticmethod
+#====================================================================================================    
+    @staticmethod
     def listar_candidatos_por_vaga(id_vaga):
         """Lista todos os funcionários que se candidataram a uma vaga"""
         conn = get_connection()
@@ -108,7 +118,8 @@ class CandidaturaCRUD:
             return cursor.fetchall()
         finally:
             conn.close()
-#====================================================================================================    @staticmethod
+#====================================================================================================    
+    @staticmethod
     def listar_candidatos_vaga(id_vaga):
         """Lista candidatos de uma vaga com match score"""
         conn = get_connection()

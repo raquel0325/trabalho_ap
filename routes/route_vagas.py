@@ -20,11 +20,9 @@ def listar_vagas():
     vagas = Vaga.listar_todas(
         busca=busca if busca else None,
         salario_min=salario_min_float,
-        empresa=empresa if empresa else None
-    )
+        empresa=empresa if empresa else None)
     
     id_funcionario = session['usuario_id']
-
     
     vagas_formatadas = []
     for vaga in vagas:
@@ -47,25 +45,14 @@ def empresa_criar_vaga():
         return redirect('/')
     
     if request.method == 'GET':
-        from database.connect import get_connection
-        conn = get_connection()
-        cursor = conn.cursor()
-        cursor.execute("SELECT DISTINCT titulo FROM vagas WHERE titulo IS NOT NULL ORDER BY titulo")
-        titulos = cursor.fetchall()
-        conn.close()
+
         return render_template('home/criar_vaga.html', 
-                             competencias=Competencia.listar_todas(),
-                             titulos=titulos
-                             )          
-            
+                             competencias=Competencia.listar_todas())          
     
     try:
         competencias_ids = request.form.getlist('competencias')
-        
         novas_competencias = request.form.getlist('competencias_novas_marcadas')
-        
-        print(f"IDs existentes (devem ser números): {competencias_ids}")
-        print(f"Nomes das novas (devem ser textos): {novas_competencias}")
+
         
         for nome_comp in novas_competencias:
             nome_comp = nome_comp.strip()
@@ -106,10 +93,9 @@ def empresa_criar_vaga():
             competencias_ids= competencias_ids
         )
         flash("Vaga criada com sucesso!", "sucesso")
-    except ValueError as e:
-        flash(str(e), "erro")
-    except Exception as e:
-        flash(f"Erro: {str(e)}", "erro")
+    
+    except ValueError:
+        flash( "erro")
     
     return redirect(url_for('vagas.empresa_vagas'))
 #======================================================================================================================================

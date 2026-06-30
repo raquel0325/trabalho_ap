@@ -400,3 +400,65 @@
     text-align: center;
     transition: all 0.2s ease;
 }
+/* Estilos básicos para notificações */
+.notificacoes-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.notificacao-card {
+    background: white;
+    padding: 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-left: 4px solid #05186c;
+}
+
+.notificacao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.notificacao-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: #1a1a2e;
+}
+
+.notificacao-data {
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+.notificacao-mensagem {
+    margin: 0 0 8px 0;
+    color: #374151;
+    font-size: 0.9rem;
+}
+
+.notificacao-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.notificacao-tipo {
+    font-size: 0.7rem;
+    padding: 2px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.tipo-info { background: #dbeafe; color: #1e40af; }
+.tipo-alerta { background: #fef3c7; color: #92400e; }
+.tipo-sucesso { background: #d1fae5; color: #065f46; }
+.tipo-aviso { background: #fee2e2; color: #991b1b; }
+
+.sem-notificacoes {
+    text-align: center;
+    padding: 20px;
+    color: #6b7280;
+}

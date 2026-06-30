@@ -2,8 +2,6 @@
 import sqlite3
 from database.connect import get_connection
 
-
-
 class FuncionarioCRUD:
     
     @staticmethod
@@ -55,21 +53,7 @@ class FuncionarioCRUD:
         finally:
             conn.close()
 
-#======================================================================================================================================
 
-
-#======================================================================================================================================
-    @staticmethod
-    def buscar_por_nome(nome):
-        conn = get_connection()
-        try:
-            cursor = conn.cursor()
-            cursor.execute('''
-                SELECT * FROM funcionarios WHERE nome = ?
-            ''', (nome,))
-            return cursor.fetchone()
-        finally:
-            conn.close()
 
 #======================================================================================================================================
 
@@ -102,9 +86,9 @@ class FuncionarioCRUD:
         conn = get_connection()
         try:
             cursor = conn.cursor()
-            campos = []
-            valores = []
-            
+            campos = []  # Guarda os nomes dos campos: ["nome = ?", "telefone = ?"]
+            valores = [] # Guarda os valores: ["João", "9999-9999"]
+            #verifica quais campos foram preenchidos e adiciona os valores para o update
             if nome:
                 campos.append("nome = ?")
                 valores.append(nome)
@@ -119,14 +103,14 @@ class FuncionarioCRUD:
                 valores.append(id_funcionario)
                 cursor.execute(f'''
                     UPDATE funcionarios 
-                    SET {', '.join(campos)}
+                    SET {', '.join(campos)} # junta os elementos da lista com ','
                     WHERE id_funcionario = ?
                 ''', valores)
                 conn.commit()
                 return True
             return False
-        except sqlite3.IntegrityError:
-            raise Exception("CPF já cadastrado!")
+        except ValueError:
+            raise Exception(f"CPF inválido")
         finally:
             conn.close()
 
@@ -172,10 +156,8 @@ class FuncionarioCRUD:
             conn.commit()
             return True
 
-        except Exception as e:
-            import traceback
-            traceback.print_exc()
-
+        except ValueError:
+            raise Exception(f"erro")
 
         finally:
             conn.close()

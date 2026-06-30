@@ -1,4 +1,4 @@
-
+// vercandidatos.js
 function alterarStatus(idCandidatura, novoStatus) {
     if (!confirm(`Tem certeza que deseja ${novoStatus === 'aprovado' ? 'APROVAR' : 'REJEITAR'} este candidato?`)) {
         return;
@@ -11,16 +11,24 @@ function alterarStatus(idCandidatura, novoStatus) {
         },
         body: JSON.stringify({ status: novoStatus })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(data.error || 'Erro no servidor');
+            });
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.success) {
-            alert('Status atualizado com sucesso!');
+            alert(data.message || 'Status atualizado com sucesso!');
             location.reload();
         } else {
-            alert('Erro ao atualizar status: ' + data.error);
+            alert('Erro ao atualizar status: ' + (data.error || 'Erro desconhecido'));
         }
     })
     .catch(error => {
-        alert('Erro ao atualizar status');
+        console.error('Erro:', error);
+        alert('Erro ao atualizar status: ' + error.message);
     });
 }

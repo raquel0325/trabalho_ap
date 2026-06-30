@@ -284,7 +284,8 @@
                 {% endif %}
             </div>
         </div>
-    </div> <div class="sidebar-direita-accordion">
+    </div>
+     <div class="sidebar-direita-accordion">
         
         <details class="accordion-item" open>
             <summary class="accordion-header">
@@ -297,10 +298,12 @@
                     {% for notif in notificacoes %}
                     <div class="freelance-card" style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); border-left: 4px solid #05186c;">
                         <div class="freelance-header">
-                            <h3>{{ notif.titulo }}</h3>
-                            <span class="status-badge">{{ notif.data }}</span>
-                        </div>
-                        <p class="freelance-descricao">{{ notif.mensagem }}</p>
+                           <h3>{{ notif.titulo }}</h3>
+                        <span class="notificacao-data">{{ notif.data_criacao[:10] }}</span>
+                    </div>
+                    <p class="notificacao-mensagem">{{ notif.mensagem }}</p>
+                    <div class="notificacao-footer">
+                        <span class="notificacao-tipo tipo-{{ notif.tipo }}">{{ notif.tipo }}</span>
                     </div>
                     {% endfor %}
                 </div>

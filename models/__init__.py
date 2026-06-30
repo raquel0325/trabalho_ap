@@ -22,5 +22,5 @@ __all__ = [
     'Match',
     'Freelancer',
     'Contratacao',
-    'Avaliacao'
+    'Avaliacao',
 ]

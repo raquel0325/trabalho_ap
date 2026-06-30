@@ -87,21 +87,26 @@
                 <div class="section-header">
                     <h2>Minhas Notificações</h2>
                 </div>
-                {% if notificacoes %}
-                    <div class="notificacoes-lista">
-                        {% for notif in notificacoes %}
-                        <div class="freelance-card" style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); border-left: 4px solid #05186c;">
-                            <div class="freelance-header">
-                                <h3>{{ notif.titulo }}</h3>
-                                <span class="status-badge">{{ notif.data }}</span>
-                            </div>
-                            <p class="freelance-descricao">{{ notif.mensagem }}</p>
-                        </div>
-                        {% endfor %}
+               {% if notificacoes %}
+            <div class="notificacoes-lista">
+                {% for notif in notificacoes %}
+                <div class="notificacao-card">
+                    <div class="notificacao-header">
+                        <h3>{{ notif.titulo }}</h3>
+                        <span class="notificacao-data">{{ notif.data_criacao[:10] }}</span>
                     </div>
-                {% else %}
-                    <div class="sem-freelances"><p>Nenhuma notificação por enquanto.</p></div>
-                {% endif %}
+                    <p class="notificacao-mensagem">{{ notif.mensagem }}</p>
+                    <div class="notificacao-footer">
+                        <span class="notificacao-tipo tipo-{{ notif.tipo }}">{{ notif.tipo }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="sem-notificacoes">
+                <p>Nenhuma notificação por enquanto.</p>
+            </div>
+        {% endif %}
             </div>
         </div>
 

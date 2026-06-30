@@ -148,6 +148,23 @@ def init_db():
         data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )''')
 
+    cursor.execute('''CREATE TABLE IF NOT EXISTS salas_chat (
+            id_sala INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_candidatura INTEGER NOT NULL,
+            criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (id_candidatura) REFERENCES candidaturas (id_candidatura) ON DELETE CASCADE,
+            UNIQUE(id_candidatura)
+     ) ''')
+    # Tabela mensagens do chat
+    cursor.execute('''CREATE TABLE IF NOT EXISTS mensagens_chat (
+        id_mensagem INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_candidatura INTEGER NOT NULL,
+        id_remetente INTEGER NOT NULL,
+        tipo_remetente TEXT NOT NULL CHECK(tipo_remetente IN ('empresa', 'funcionario')),
+        mensagem TEXT NOT NULL,
+        enviado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (id_candidatura) REFERENCES candidaturas (id_candidatura) ON DELETE CASCADE
+    )''')
 
     conn.commit()
     conn.close()

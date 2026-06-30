@@ -1,10 +1,6 @@
 from flask import Blueprint, url_for, redirect, session, flash
 from authlib.integrations.flask_client import OAuth
 import requests
-import sys
-import os
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import Config
 from models.model_fun import Funcionario

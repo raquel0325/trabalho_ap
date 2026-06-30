@@ -15,6 +15,8 @@ from routes.route_avaliacao import bp_avaliacao
 from routes.route_contratarfreelas import bp_contratar_frelas
 from routes.atualizar_perfil import bp_atualizar_perfil
 from routes.route_solicitante import bp_solicitantes
+
+
 __all__ = [
     'bp_auth',
     'bp_home', 

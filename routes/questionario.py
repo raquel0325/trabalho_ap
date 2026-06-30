@@ -1,6 +1,6 @@
 from flask import Blueprint, flash, render_template, request, redirect, url_for, session
-from models import Competencia, Questionario  # ← Importa do __init__.py
-from database import get_connection  # ← Importa do __init__.py
+from models import Competencia, Questionario  
+from database import get_connection  
 
 bp_questionario = Blueprint('questionario', __name__)
 
@@ -27,12 +27,12 @@ def questionario_pag(id_func):
 
 @bp_questionario.route('/salvar_questionario', methods=['POST'])
 def salvar_questionario():
-    """Salva as respostas do questionário"""
+
     id_func = request.form.get('id_func')
 
     # Verifica sessão
     if 'usuario_id' not in session or session['usuario_id'] != int(id_func):
-        flash("Sessão expirada. Faça login novamente!", "erro")
+        print("Sessão expirada. Faça login novamente!", "erro")
         return redirect('/')
 
     try:
@@ -60,13 +60,9 @@ def salvar_questionario():
             novas_competencias=novas_competencias
         )
 
-        flash("Questionário salvo com sucesso!", "sucesso")
         return redirect(url_for('home.home_pag'))
         
     except ValueError as e:
         flash(str(e), "erro")
-    except Exception as e:
-        print(f"Erro ao salvar questionário: {e}")
-        flash("Erro ao salvar o questionário!", "erro")
     
     return redirect('/')

@@ -13,7 +13,9 @@ class Notificacao:
         )
 
     @staticmethod
-    def listar_para_usuario(id_usuario: int, apenas_nao_lidas = False, limite: int = 20):
-        return NotificacaoCRUD.listar_por_usuario(id_usuario, apenas_nao_lidas=apenas_nao_lidas, limite=limite)
-
-    
+    def listar_para_usuario(id_usuario: int, apenas_nao_lidas=False, limite: int = 4):
+        return NotificacaoCRUD.listar_por_usuario(
+            id_usuario, 
+            apenas_nao_lidas=apenas_nao_lidas, 
+            limite=limite
+        )

@@ -8,8 +8,8 @@ class Vaga:
     def criar(titulo, descricao, salario, cidade, regime, id_empresa, competencias_ids):
         if not titulo or len(titulo) < 3:
             raise ValueError("Título deve ter pelo menos 3 caracteres")
-        if not descricao or len(descricao) < 50:
-            raise ValueError("Descrição deve ter pelo menos 50 caracteres")
+        if not descricao or len(descricao) < 10:
+            raise ValueError("Descrição deve ter pelo menos 10 caracteres")
         if salario and salario < 0:
             raise ValueError("Salário não pode ser negativo")
         if not competencias_ids:
@@ -26,7 +26,6 @@ class Vaga:
     
 
 #'''========================================================================='''
-
     @staticmethod
     def buscar(id_vaga):
         """Busca uma vaga específica"""
@@ -43,7 +42,7 @@ class Vaga:
             return vaga_dict
         
         return None
-    
+#'''========================================================================='''    
     @staticmethod
     def atualizar(id_vaga, titulo=None, descricao=None, salario=None):
         """Atualiza uma vaga"""

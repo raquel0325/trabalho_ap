@@ -30,8 +30,8 @@
                             <th>Email</th>
                             <th>Telefone</th>
                             <th>Formação</th>
-                            <th>Último Cargo</th>
-                            <th>Data da Candidatura</th>
+                            <th>experiencia</th>
+                            <th>Data</th>
                             <th>Status</th>
                             <th>Ações</th>
                         </tr>
@@ -41,9 +41,9 @@
                         <tr>
                             <td><strong>{{ candidato.nome }}</strong></td>
                             <td>{{ candidato.email }}</td>
-                            <td>{{ candidato.telefone if candidato.telefone else 'Não informado' }}</td>
-                            <td>{{ candidato.formacao if candidato.formacao else 'Não informada' }}</td>
-                            <td>{{ candidato.ultimo_cargo if candidato.ultimo_cargo else 'Não informado' }}</td>
+                            <td>{{ candidato.telefone if candidato.telefone else 'nulo' }}</td>
+                            <td>{{ candidato.formacao if candidato.formacao else 'Nulo' }}</td>
+                            <td>{{ candidato.ultimo_cargo if candidato.ultimo_cargo else 'Nulo' }}</td>
                             <td>{{ candidato.data_candidatura[:10] if candidato.data_candidatura else 'Data desconhecida' }}</td>
                             <td>
                                 <span class="status-badge {{ candidato.status if candidato.status else 'pendente' }}">
