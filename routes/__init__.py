@@ -16,10 +16,13 @@ from routes.route_contratarfreelas import bp_contratar_frelas
 from routes.atualizar_perfil import bp_atualizar_perfil
 from routes.route_solicitante import bp_solicitantes
 
+# Vitrine de autônomos
+from routes.route_vitrine import bp_vitrine
+
 
 __all__ = [
     'bp_auth',
-    'bp_home', 
+    'bp_home',
     'bp_questionario',
     'bp_vagas',
     'bp_google',
@@ -30,5 +33,6 @@ __all__ = [
     'bp_avaliacao',
     'bp_contratar_frelas',
     'bp_atualizar_perfil',
-    'bp_solicitantes'
+    'bp_solicitantes',
+    'bp_vitrine'
 ]
